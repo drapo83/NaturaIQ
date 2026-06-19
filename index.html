@@ -1,0 +1,2984 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="NaturaIQ">
+<meta name="theme-color" content="#1A3D2B">
+<meta name="description" content="Twój personalny asystent zdrowia — medycyna naturalna + dane biometryczne">
+<meta name="keywords" content="zdrowie, medycyna naturalna, zioła, HRV, biometria, wellness">
+<meta property="og:title" content="NaturaIQ — Naturalny Asystent Zdrowia">
+<meta property="og:description" content="Analiza parametrów biometrycznych + naturalne protokoły zdrowotne">
+<meta property="og:type" content="website">
+<title>NaturaIQ — Twój naturalny asystent zdrowia</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" sizes="512x512" href="icons/icon-512.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --forest:#1A3D2B;--forest-mid:#2A5C40;--forest-light:#3D7A56;--forest-xlight:#E8F4ED;
+  --cream:#F7F3EE;--cream-dark:#EDE7DC;--bg:#F0EDE8;
+  --gold:#C4873A;--gold-light:#E4A856;--gold-bg:#FDF3E3;
+  --white:#FFFFFF;
+  --text:#1A1A1A;--text-mid:#4A4A4A;--text-soft:#7A7A7A;--text-xsoft:#B0A898;
+  --red:#C0392B;--red-bg:#FDECEA;
+  --blue:#1A5A8E;--blue-bg:#E6F1FB;
+  --good:#27AE60;--good-bg:#E8F8EF;
+  --warn:#E67E22;--warn-bg:#FEF3E2;
+  --r-sm:8px;--r-md:14px;--r-lg:20px;--r-xl:28px;
+  --shadow:0 2px 16px rgba(0,0,0,0.08);
+  --shadow-lg:0 8px 32px rgba(0,0,0,0.12);
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+
+/* ─── NAVIGATION ─── */
+.nav{position:fixed;top:0;left:0;right:0;z-index:200;background:var(--forest);padding:0;box-shadow:0 2px 20px rgba(0,0,0,.25)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 20px}
+.nav-logo{font-family:'Fraunces',serif;font-size:20px;font-weight:400;color:var(--white);cursor:pointer}
+.nav-logo em{color:var(--gold-light);font-style:italic}
+.nav-tabs{display:flex;gap:2px;background:rgba(0,0,0,.2);border-radius:10px;padding:3px}
+.nav-tab{padding:7px 14px;border-radius:7px;font-size:12px;font-weight:500;color:rgba(255,255,255,.55);cursor:pointer;transition:all .18s;border:none;background:transparent;white-space:nowrap}
+.nav-tab.active{background:var(--white);color:var(--forest);font-weight:600}
+.nav-lang{font-size:11px;font-weight:500;color:rgba(255,255,255,.5);cursor:pointer;padding:6px 10px;border-radius:6px;border:1px solid rgba(255,255,255,.2)}
+.nav-lang:hover{color:var(--white)}
+
+/* ─── PAGES ─── */
+.page{display:none;padding:80px 20px 40px;min-height:100vh;animation:fadeIn .25s ease}
+.page.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.max-w{max-width:900px;margin:0 auto}
+
+/* ─── TYPOGRAPHY ─── */
+.page-title{font-family:'Fraunces',serif;font-size:28px;font-weight:300;color:var(--forest);margin-bottom:4px;line-height:1.2}
+.page-title em{font-style:italic;color:var(--gold)}
+.page-sub{font-size:13px;color:var(--text-soft);margin-bottom:24px}
+.section-label{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-xsoft);margin:24px 0 10px}
+
+/* ─── CARDS ─── */
+.card{background:var(--white);border-radius:var(--r-lg);padding:18px;box-shadow:var(--shadow);margin-bottom:12px}
+.card-sm{background:var(--white);border-radius:var(--r-md);padding:14px;box-shadow:var(--shadow)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+
+/* ─── DASHBOARD ─── */
+.hero-card{background:var(--forest);border-radius:var(--r-xl);padding:24px;margin-bottom:20px;position:relative;overflow:hidden}
+.hero-card::before{content:'';position:absolute;top:-40px;right:-40px;width:180px;height:180px;border-radius:50%;background:rgba(196,135,58,.12);pointer-events:none}
+.hero-card::after{content:'';position:absolute;bottom:-60px;left:-30px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.04);pointer-events:none}
+.hero-greeting{font-size:12px;color:rgba(255,255,255,.5);letter-spacing:.04em;margin-bottom:2px}
+.hero-name{font-family:'Fraunces',serif;font-size:26px;font-weight:300;color:var(--white);margin-bottom:18px}
+.hero-name em{color:var(--gold-light);font-style:italic}
+
+.bioscore-wrap{display:flex;align-items:center;gap:20px}
+.bioscore-ring{position:relative;width:100px;height:100px;flex-shrink:0}
+.bioscore-ring svg{transform:rotate(-90deg)}
+.bioscore-ring .ring-bg{fill:none;stroke:rgba(255,255,255,.1);stroke-width:8}
+.bioscore-ring .ring-fill{fill:none;stroke:var(--gold-light);stroke-width:8;stroke-linecap:round;stroke-dasharray:251;stroke-dashoffset:65;transition:stroke-dashoffset 1s ease}
+.bioscore-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.bioscore-num{font-family:'Fraunces',serif;font-size:32px;font-weight:300;color:var(--white);line-height:1}
+.bioscore-lbl{font-size:9px;color:rgba(255,255,255,.5);letter-spacing:.06em;text-transform:uppercase;margin-top:2px}
+
+.hero-vitals{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.vital-pill{background:rgba(255,255,255,.1);border-radius:10px;padding:9px 11px}
+.vital-pill-val{font-size:17px;font-weight:600;color:var(--white);line-height:1}
+.vital-pill-unit{font-size:10px;color:rgba(255,255,255,.45);font-weight:400}
+.vital-pill-name{font-size:10px;color:rgba(255,255,255,.5);margin-top:2px}
+.vital-pill-trend{font-size:10px;margin-top:2px}
+.trend-ok{color:#6FD98F}
+.trend-warn{color:var(--gold-light)}
+.trend-bad{color:#FF8A80}
+
+.insight-strip{background:rgba(255,255,255,.08);border-radius:12px;padding:14px;margin-top:16px;cursor:pointer}
+.insight-strip-label{font-size:10px;color:rgba(255,255,255,.4);letter-spacing:.06em;text-transform:uppercase;margin-bottom:5px}
+.insight-strip-text{font-family:'Fraunces',serif;font-size:15px;font-weight:300;color:var(--white);font-style:italic;line-height:1.45}
+.insight-strip-text em{color:var(--gold-light);font-style:normal;font-weight:500}
+.insight-strip-cta{font-size:11px;color:rgba(255,255,255,.5);margin-top:8px}
+
+/* ─── SIGNAL CARDS ─── */
+.signal-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:20px}
+.signal-card{border-radius:var(--r-md);padding:14px;cursor:pointer;transition:all .2s;border:2px solid transparent;position:relative;overflow:hidden}
+.signal-card.ok{background:var(--good-bg);border-color:rgba(39,174,96,.2)}
+.signal-card.warn{background:var(--warn-bg);border-color:rgba(230,126,34,.25)}
+.signal-card.alert{background:var(--red-bg);border-color:rgba(192,57,43,.25)}
+.signal-card.neutral{background:var(--white);border-color:rgba(0,0,0,.06)}
+.signal-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+.signal-card.selected{border-width:2px}
+.signal-card.ok.selected{border-color:var(--good)}
+.signal-card.warn.selected{border-color:var(--warn)}
+.signal-card.alert.selected{border-color:var(--red)}
+.signal-icon{font-size:24px;margin-bottom:8px}
+.signal-name{font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px}
+.signal-val{font-size:18px;font-weight:700;margin-bottom:2px}
+.signal-val.ok{color:var(--good)}
+.signal-val.warn{color:var(--warn)}
+.signal-val.alert{color:var(--red)}
+.signal-val.neutral{color:var(--text-soft)}
+.signal-status{font-size:10px;font-weight:500;letter-spacing:.04em;text-transform:uppercase}
+.signal-status.ok{color:var(--good)}
+.signal-status.warn{color:var(--warn)}
+.signal-status.alert{color:var(--red)}
+.signal-status.neutral{color:var(--text-xsoft)}
+
+/* ─── PROTOCOL PANEL ─── */
+.protocol-panel{background:var(--white);border-radius:var(--r-xl);padding:22px;box-shadow:var(--shadow-lg);margin-bottom:20px;border-left:4px solid var(--forest)}
+.protocol-header{display:flex;align-items:flex-start;gap:14px;margin-bottom:18px}
+.protocol-emoji{font-size:36px;flex-shrink:0}
+.protocol-title{font-family:'Fraunces',serif;font-size:22px;font-weight:400;color:var(--forest);margin-bottom:4px;line-height:1.2}
+.protocol-desc{font-size:12px;color:var(--text-soft);line-height:1.5}
+.protocol-urgency{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:700;padding:3px 10px;border-radius:99px;margin-top:6px;letter-spacing:.04em;text-transform:uppercase}
+.urg-now{background:var(--red-bg);color:var(--red)}
+.urg-today{background:var(--warn-bg);color:var(--warn)}
+.urg-week{background:var(--forest-xlight);color:var(--forest)}
+
+.protocol-steps{display:grid;gap:10px}
+.protocol-step{background:var(--bg);border-radius:var(--r-md);padding:14px;display:flex;gap:12px;align-items:flex-start}
+.step-time{min-width:52px;flex-shrink:0}
+.step-time-lbl{font-size:9px;font-weight:700;color:var(--text-xsoft);text-transform:uppercase;letter-spacing:.05em}
+.step-time-val{font-size:12px;font-weight:600;color:var(--text-soft)}
+.step-content{flex:1}
+.step-emoji{font-size:20px;float:left;margin:2px 8px 0 0}
+.step-name{font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px}
+.step-detail{font-size:12px;color:var(--text-mid);line-height:1.55}
+.step-dose{display:inline-block;background:var(--forest-xlight);color:var(--forest);font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px;margin-top:5px}
+
+.escalate-box{background:var(--red-bg);border-radius:var(--r-md);padding:14px;display:flex;gap:12px;align-items:flex-start;margin-top:12px}
+.escalate-icon{font-size:22px;flex-shrink:0}
+.escalate-text{font-size:12px;color:var(--red);line-height:1.55}
+.escalate-text strong{font-weight:700;display:block;margin-bottom:3px}
+.btn-112{display:inline-flex;align-items:center;gap:6px;margin-top:10px;background:var(--red);color:var(--white);padding:9px 18px;border-radius:99px;font-size:12px;font-weight:700;cursor:pointer;border:none}
+.btn-doctor{display:inline-flex;align-items:center;gap:6px;margin-top:10px;margin-left:8px;background:var(--blue-bg);color:var(--blue);padding:9px 18px;border-radius:99px;font-size:12px;font-weight:700;cursor:pointer;border:none}
+
+/* ─── WATER TRACKER ─── */
+.water-card{background:linear-gradient(135deg,#D6EEFF,#C0DFFE);border-radius:var(--r-lg);padding:18px;margin-bottom:12px}
+.water-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.water-title{font-size:14px;font-weight:600;color:#1A4A6E}
+.water-pct{font-family:'Fraunces',serif;font-size:28px;font-weight:300;color:#1A4A6E}
+.water-bar-bg{height:10px;background:rgba(255,255,255,.5);border-radius:99px;overflow:hidden;margin-bottom:12px}
+.water-bar-fill{height:100%;background:#1A5A8E;border-radius:99px;transition:width .6s ease}
+.water-cups{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.water-cup{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;transition:all .15s;background:rgba(255,255,255,.4)}
+.water-cup.filled{background:#1A5A8E}
+.water-cup:hover{transform:scale(1.15)}
+.water-btns{display:flex;gap:8px}
+.water-btn{flex:1;padding:10px;border-radius:10px;border:none;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s}
+.water-btn-add{background:#1A5A8E;color:var(--white)}
+.water-btn-add:hover{background:#154875}
+.water-btn-reset{background:rgba(255,255,255,.5);color:#1A4A6E}
+.water-reminder{font-size:11px;color:#2A6A9E;margin-top:10px;font-style:italic}
+
+/* ─── SYMPTOM CHECKER ─── */
+.symptom-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:20px}
+.symptom-btn{background:var(--white);border:2px solid rgba(0,0,0,.08);border-radius:var(--r-md);padding:12px 8px;text-align:center;cursor:pointer;transition:all .18s}
+.symptom-btn:hover{border-color:var(--forest-light);background:var(--forest-xlight)}
+.symptom-btn.selected{border-color:var(--forest);background:var(--forest-xlight)}
+.symptom-icon{font-size:24px;margin-bottom:5px}
+.symptom-name{font-size:11px;font-weight:500;color:var(--text-mid)}
+
+/* ─── REMEDY CARDS ─── */
+.remedy-card{background:var(--white);border-radius:var(--r-lg);padding:16px;box-shadow:var(--shadow);margin-bottom:10px;display:flex;gap:14px;align-items:flex-start;cursor:pointer;transition:all .2s}
+.remedy-card:hover{transform:translateX(4px);box-shadow:var(--shadow-lg)}
+.remedy-emoji{font-size:32px;flex-shrink:0}
+.remedy-body{flex:1}
+.remedy-name{font-size:14px;font-weight:600;color:var(--text);margin-bottom:2px}
+.remedy-latin{font-size:11px;color:var(--text-soft);font-style:italic;margin-bottom:6px}
+.remedy-dose{font-size:12px;color:var(--text-mid);line-height:1.5;margin-bottom:6px}
+.remedy-tags{display:flex;flex-wrap:wrap;gap:4px}
+.remedy-tag{font-size:10px;padding:2px 8px;border-radius:99px;background:var(--bg);color:var(--text-mid)}
+.remedy-ev{font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px}
+.ev-high{background:var(--forest-xlight);color:var(--forest)}
+.ev-good{background:var(--blue-bg);color:var(--blue)}
+.ev-mod{background:var(--warn-bg);color:var(--warn)}
+.ev-trad{background:var(--bg);color:var(--text-soft)}
+
+/* ─── TRACKER ─── */
+.tracker-card{background:var(--white);border-radius:var(--r-lg);padding:18px;box-shadow:var(--shadow);margin-bottom:12px}
+.tracker-title{font-size:14px;font-weight:600;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.day-dots{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
+.day-dot{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;cursor:pointer;transition:all .18s;border:2px solid transparent}
+.day-dot.empty{background:var(--bg);color:var(--text-xsoft)}
+.day-dot.done{background:var(--forest);color:var(--white)}
+.day-dot.today{border-color:var(--forest);background:var(--forest-xlight);color:var(--forest)}
+.day-dot:hover{transform:scale(1.1)}
+.habit-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--bg)}
+.habit-row:last-child{border-bottom:none}
+.habit-check{width:22px;height:22px;border-radius:50%;border:2px solid var(--cream-dark);cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .18s}
+.habit-check.checked{background:var(--forest);border-color:var(--forest)}
+.habit-check.checked::after{content:'✓';color:white;font-size:12px;font-weight:700}
+.habit-label{font-size:13px;color:var(--text-mid);flex:1}
+.habit-streak{font-size:11px;font-weight:600;color:var(--gold)}
+
+/* ─── JOURNAL ─── */
+.mood-row{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.mood-btn{padding:8px 14px;border-radius:99px;border:2px solid rgba(0,0,0,.08);background:var(--white);cursor:pointer;font-size:14px;transition:all .18s;display:flex;align-items:center;gap:5px}
+.mood-btn span{font-size:11px;font-weight:500;color:var(--text-mid)}
+.mood-btn.selected{border-color:var(--forest);background:var(--forest-xlight)}
+.journal-input{width:100%;padding:14px;border:2px solid var(--cream-dark);border-radius:var(--r-md);font-size:13px;font-family:'Inter',sans-serif;resize:vertical;min-height:80px;outline:none;color:var(--text);background:var(--bg);transition:border-color .18s;line-height:1.6}
+.journal-input:focus{border-color:var(--forest-light);background:var(--white)}
+.journal-input::placeholder{color:var(--text-xsoft)}
+.save-btn{background:var(--forest);color:var(--white);border:none;border-radius:var(--r-md);padding:12px 24px;font-size:13px;font-weight:600;cursor:pointer;width:100%;margin-top:10px;transition:all .18s;font-family:'Inter',sans-serif}
+.save-btn:hover{background:var(--forest-mid)}
+.journal-entries{margin-top:16px;display:flex;flex-direction:column;gap:8px}
+.journal-entry{background:var(--bg);border-radius:var(--r-md);padding:12px 14px;border-left:3px solid var(--forest-light)}
+.entry-meta{font-size:10px;color:var(--text-xsoft);margin-bottom:4px;display:flex;gap:8px}
+.entry-mood{font-size:14px}
+.entry-text{font-size:12px;color:var(--text-mid);line-height:1.55}
+
+/* ─── PROFILE / SETUP ─── */
+.setup-field{margin-bottom:16px}
+.setup-label{font-size:12px;font-weight:600;color:var(--text-mid);margin-bottom:6px;display:block}
+.setup-input{width:100%;padding:11px 14px;border:2px solid var(--cream-dark);border-radius:var(--r-md);font-size:13px;font-family:'Inter',sans-serif;outline:none;color:var(--text);background:var(--bg)}
+.setup-input:focus{border-color:var(--forest-light);background:var(--white)}
+.setup-select{width:100%;padding:11px 14px;border:2px solid var(--cream-dark);border-radius:var(--r-md);font-size:13px;font-family:'Inter',sans-serif;outline:none;color:var(--text);background:var(--bg);appearance:none}
+.device-option{display:flex;align-items:center;gap:10px;padding:12px 14px;border:2px solid rgba(0,0,0,.08);border-radius:var(--r-md);cursor:pointer;margin-bottom:8px;background:var(--white);transition:all .18s}
+.device-option.selected{border-color:var(--forest);background:var(--forest-xlight)}
+.device-option input[type=radio]{accent-color:var(--forest)}
+.device-emoji{font-size:20px}
+.device-name{font-size:13px;font-weight:500;color:var(--text)}
+.device-sub{font-size:11px;color:var(--text-soft)}
+.profile-avatar{width:72px;height:72px;border-radius:50%;background:var(--forest);display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-size:28px;font-weight:400;color:var(--white);margin-bottom:16px;cursor:pointer}
+.disclaimer{background:var(--warn-bg);border-radius:var(--r-md);padding:14px;font-size:11px;color:var(--warn);line-height:1.6;margin-top:20px;border-left:3px solid var(--warn)}
+
+/* ─── MANUAL VITALS FORM ─── */
+.vitals-form{background:var(--white);border-radius:var(--r-lg);padding:18px;box-shadow:var(--shadow);margin-bottom:16px}
+.vital-input-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.vital-input-group{display:flex;flex-direction:column;gap:5px}
+.vital-input-label{font-size:11px;font-weight:600;color:var(--text-soft)}
+.vital-input{padding:10px 12px;border:2px solid var(--cream-dark);border-radius:var(--r-sm);font-size:15px;font-weight:600;color:var(--text);background:var(--bg);outline:none;text-align:center;font-family:'Inter',sans-serif}
+.vital-input:focus{border-color:var(--forest-light);background:var(--white)}
+.calculate-btn{background:var(--forest);color:var(--white);border:none;border-radius:var(--r-md);padding:12px;font-size:13px;font-weight:600;cursor:pointer;width:100%;font-family:'Inter',sans-serif}
+
+/* ─── BADGES ─── */
+.badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;padding:3px 9px;border-radius:99px;letter-spacing:.03em}
+.badge-green{background:var(--good-bg);color:var(--good)}
+.badge-amber{background:var(--warn-bg);color:var(--warn)}
+.badge-red{background:var(--red-bg);color:var(--red)}
+.badge-blue{background:var(--blue-bg);color:var(--blue)}
+.badge-forest{background:var(--forest-xlight);color:var(--forest)}
+
+/* ─── TOAST ─── */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--forest);color:var(--white);padding:12px 22px;border-radius:99px;font-size:13px;font-weight:500;z-index:500;transition:transform .3s ease;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:600px){
+  .nav-inner{padding:12px 16px}
+  .nav-tabs{display:none}
+  .page{padding:80px 16px 100px}
+  .grid2,.grid3{grid-template-columns:1fr}
+  .signal-grid{grid-template-columns:1fr 1fr}
+  .symptom-grid{grid-template-columns:repeat(3,1fr)}
+  .vital-input-row{grid-template-columns:1fr 1fr}
+  .bottom-nav{display:flex}
+}
+.bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--white);border-top:1px solid rgba(0,0,0,.08);padding:8px 0 16px;z-index:200;box-shadow:0 -4px 20px rgba(0,0,0,.08)}
+.bottom-nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:4px}
+.bottom-nav-icon{font-size:22px;line-height:1}
+.bottom-nav-lbl{font-size:9px;font-weight:500;color:var(--text-xsoft);letter-spacing:.03em;text-transform:uppercase}
+.bottom-nav-item.active .bottom-nav-icon{filter:none}
+.bottom-nav-item.active .bottom-nav-lbl{color:var(--forest);font-weight:700}
+</style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-logo" onclick="showPage('dashboard')">Natura<em>IQ</em></div>
+    <div class="nav-tabs">
+      <button class="nav-tab active" onclick="showPage('dashboard',this)">🏠 Dziś</button>
+      <button class="nav-tab" onclick="showPage('signals',this)">⌚ Sygnały</button>
+      <button class="nav-tab" onclick="showPage('remedies',this)">🌿 Apteczka</button>
+      <button class="nav-tab" onclick="showPage('tracker',this)">📊 Tracker</button>
+      <button class="nav-tab" onclick="showPage('journal',this)">📓 Dziennik</button>
+      <button class="nav-tab" onclick="showPage('profile',this)">⚙️ Profil</button>
+    </div>
+    <div class="nav-lang" onclick="toggleLang()">🇵🇱 PL</div>
+  </div>
+</nav>
+
+<!-- MOBILE BOTTOM NAV -->
+<div class="bottom-nav">
+  <div class="bottom-nav-item active" onclick="showPage('dashboard')">
+    <div class="bottom-nav-icon">🏠</div>
+    <div class="bottom-nav-lbl">Dziś</div>
+  </div>
+  <div class="bottom-nav-item" onclick="showPage('signals')">
+    <div class="bottom-nav-icon">⌚</div>
+    <div class="bottom-nav-lbl">Sygnały</div>
+  </div>
+  <div class="bottom-nav-item" onclick="showPage('remedies')">
+    <div class="bottom-nav-icon">🌿</div>
+    <div class="bottom-nav-lbl">Apteczka</div>
+  </div>
+  <div class="bottom-nav-item" onclick="showPage('tracker')">
+    <div class="bottom-nav-icon">📊</div>
+    <div class="bottom-nav-lbl">Tracker</div>
+  </div>
+  <div class="bottom-nav-item" onclick="showPage('journal')">
+    <div class="bottom-nav-icon">📓</div>
+    <div class="bottom-nav-lbl">Dziennik</div>
+  </div>
+  <div class="bottom-nav-item" onclick="showPage('notifications')">
+    <div class="bottom-nav-icon">🔔</div>
+    <div class="bottom-nav-lbl">Push</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- PAGE 1: DASHBOARD -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="page active" id="page-dashboard">
+<div class="max-w">
+
+  <div class="hero-card">
+    <div class="hero-greeting" id="hero-greeting">Dobry wieczór</div>
+    <div class="hero-name">Witaj, <em id="hero-name">wpisz swoje imię →</em></div>
+    <div class="bioscore-wrap">
+      <div class="bioscore-ring">
+        <svg viewBox="0 0 100 100" width="100" height="100">
+          <circle class="ring-bg" cx="50" cy="50" r="40"/>
+          <circle class="ring-fill" cx="50" cy="50" r="40" id="bioscore-ring-fill"/>
+        </svg>
+        <div class="bioscore-center">
+          <div class="bioscore-num" id="bioscore-num">—</div>
+          <div class="bioscore-lbl">BioScore</div>
+        </div>
+      </div>
+      <div class="hero-vitals">
+        <div class="vital-pill">
+          <div class="vital-pill-val" id="dash-hr">— <span class="vital-pill-unit">bpm</span></div>
+          <div class="vital-pill-name">❤️ Tętno</div>
+          <div class="vital-pill-trend trend-ok" id="dash-hr-trend">—</div>
+        </div>
+        <div class="vital-pill">
+          <div class="vital-pill-val" id="dash-hrv">— <span class="vital-pill-unit">ms</span></div>
+          <div class="vital-pill-name">🧠 HRV</div>
+          <div class="vital-pill-trend" id="dash-hrv-trend">—</div>
+        </div>
+        <div class="vital-pill">
+          <div class="vital-pill-val" id="dash-sleep">— <span class="vital-pill-unit">h</span></div>
+          <div class="vital-pill-name">💤 Sen</div>
+          <div class="vital-pill-trend" id="dash-sleep-trend">—</div>
+        </div>
+        <div class="vital-pill">
+          <div class="vital-pill-val" id="dash-spo2">— <span class="vital-pill-unit">%</span></div>
+          <div class="vital-pill-name">💨 SpO2</div>
+          <div class="vital-pill-trend" id="dash-spo2-trend">—</div>
+        </div>
+      </div>
+    </div>
+    <div class="insight-strip" onclick="showPage('signals')">
+      <div class="insight-strip-label">Dzisiejsza prognoza</div>
+      <div class="insight-strip-text" id="dash-insight">Wpisz swoje dane, aby zobaczyć personalizowaną prognozę.</div>
+      <div class="insight-strip-cta">⌚ Zaktualizuj parametry →</div>
+    </div>
+    <div id="dash-notif-banner" style="background:rgba(196,135,58,.18);border-radius:10px;padding:10px 14px;margin-top:10px;cursor:pointer;display:flex;align-items:center;gap:10px" onclick="showPage('notifications')">
+      <span style="font-size:18px">🔔</span>
+      <span style="font-size:11px;color:rgba(255,255,255,.85);flex:1">Włącz powiadomienia — woda, zioła, alerty biometryczne</span>
+      <span style="font-size:11px;color:var(--gold-light);white-space:nowrap;font-weight:600">Włącz →</span>
+    </div>
+  </div>
+
+  <!-- WATER -->
+  <div class="water-card">
+    <div class="water-top">
+      <div>
+        <div class="water-title">💧 Nawodnienie</div>
+        <div style="font-size:12px;color:#2A6A9E;margin-top:2px">Cel: <span id="water-goal-lbl">2.5L</span> dziennie</div>
+      </div>
+      <div class="water-pct"><span id="water-pct">0</span>%</div>
+    </div>
+    <div class="water-bar-bg"><div class="water-bar-fill" id="water-bar" style="width:0%"></div></div>
+    <div class="water-cups" id="water-cups"></div>
+    <div class="water-btns">
+      <button class="water-btn water-btn-add" onclick="addWater(250)">＋ 250ml</button>
+      <button class="water-btn water-btn-add" onclick="addWater(500)" style="background:#154875">＋ 500ml</button>
+      <button class="water-btn water-btn-reset" onclick="resetWater()">↺ Reset</button>
+    </div>
+    <div class="water-reminder" id="water-reminder">💡 Pamiętaj o piciu wody regularnie przez cały dzień.</div>
+  </div>
+
+  <!-- TODAY HABITS -->
+  <div class="section-label">Dzisiejsze nawyki</div>
+  <div class="tracker-card">
+    <div id="today-habits"></div>
+  </div>
+
+  <!-- QUICK SYMPTOMS -->
+  <div class="section-label">Jak się czujesz? Wybierz objawy</div>
+  <div class="symptom-grid" id="dash-symptom-grid"></div>
+  <button class="save-btn" onclick="findRemediesFromDash()" style="margin-bottom:20px">🌿 Pokaż naturalne środki</button>
+
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- PAGE 2: SIGNALS -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="page" id="page-signals">
+<div class="max-w">
+  <div class="page-title">⌚ Sygnały <em>zegarka</em></div>
+  <div class="page-sub">Wpisz lub zaktualizuj swoje dzisiejsze parametry biometryczne</div>
+
+  <!-- MANUAL INPUT -->
+  <div class="vitals-form">
+    <div style="font-size:13px;font-weight:600;color:var(--text-soft);margin-bottom:14px">📥 Wpisz parametry ręcznie (lub połącz zegarek)</div>
+    <div class="vital-input-row">
+      <div class="vital-input-group">
+        <label class="vital-input-label">❤️ Tętno spoczynkowe (bpm)</label>
+        <input class="vital-input" type="number" id="input-hr" placeholder="62" min="30" max="200">
+      </div>
+      <div class="vital-input-group">
+        <label class="vital-input-label">🧠 HRV (ms)</label>
+        <input class="vital-input" type="number" id="input-hrv" placeholder="45" min="5" max="200">
+      </div>
+    </div>
+    <div class="vital-input-row">
+      <div class="vital-input-group">
+        <label class="vital-input-label">💤 Sen (godziny)</label>
+        <input class="vital-input" type="number" id="input-sleep" placeholder="7.5" min="0" max="24" step="0.5">
+      </div>
+      <div class="vital-input-group">
+        <label class="vital-input-label">💨 SpO2 (%)</label>
+        <input class="vital-input" type="number" id="input-spo2" placeholder="97" min="70" max="100">
+      </div>
+    </div>
+    <div class="vital-input-row">
+      <div class="vital-input-group">
+        <label class="vital-input-label">🚶 Kroki</label>
+        <input class="vital-input" type="number" id="input-steps" placeholder="6200" min="0" max="100000">
+      </div>
+      <div class="vital-input-group">
+        <label class="vital-input-label">🌡️ Temp. ciała (°C)</label>
+        <input class="vital-input" type="number" id="input-temp" placeholder="36.6" min="34" max="42" step="0.1">
+      </div>
+    </div>
+    <button class="calculate-btn" onclick="analyzeSignals()">🔍 Analizuj i oblicz BioScore</button>
+  </div>
+
+  <!-- SIGNAL CARDS -->
+  <div class="section-label">Status parametrów</div>
+  <div class="signal-grid" id="signal-cards-grid"></div>
+
+  <!-- PROTOCOL PANEL -->
+  <div id="protocol-container"></div>
+
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- PAGE 3: REMEDIES -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="page" id="page-remedies">
+<div class="max-w">
+  <div class="page-title">🌿 Naturalna <em>Apteczka</em></div>
+  <div class="page-sub">Wybierz objawy lub stan zdrowia, aby znaleźć naturalne środki</div>
+
+  <div class="section-label">Wybierz swój stan</div>
+  <div class="symptom-grid" id="remedy-symptom-grid"></div>
+
+  <div id="remedy-results" style="margin-top:8px"></div>
+
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- PAGE 4: TRACKER -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="page" id="page-tracker">
+<div class="max-w">
+  <div class="page-title">📊 Twój <em>Tracker</em></div>
+  <div class="page-sub">Śledź codzienne nawyki zdrowotne i obserwuj postępy</div>
+
+  <div class="section-label">Ten tydzień</div>
+  <div class="tracker-card">
+    <div class="tracker-title">📅 Dni z dobrymi nawykami</div>
+    <div class="day-dots" id="week-dots"></div>
+  </div>
+
+  <div class="section-label">Dzisiaj — lista nawyków</div>
+  <div class="tracker-card">
+    <div id="habit-list"></div>
+  </div>
+
+  <div class="section-label">Statystyki tygodnia</div>
+  <div class="grid2">
+    <div class="card-sm" style="text-align:center">
+      <div style="font-family:'Fraunces',serif;font-size:36px;font-weight:300;color:var(--forest)" id="stat-streak">0</div>
+      <div style="font-size:11px;color:var(--text-soft);margin-top:2px">dni z rzędu 🔥</div>
+    </div>
+    <div class="card-sm" style="text-align:center">
+      <div style="font-family:'Fraunces',serif;font-size:36px;font-weight:300;color:var(--gold)" id="stat-water">0</div>
+      <div style="font-size:11px;color:var(--text-soft);margin-top:2px">ml wody dziś 💧</div>
+    </div>
+    <div class="card-sm" style="text-align:center">
+      <div style="font-family:'Fraunces',serif;font-size:36px;font-weight:300;color:var(--blue)" id="stat-habits">0/8</div>
+      <div style="font-size:11px;color:var(--text-soft);margin-top:2px">nawyków dziś ✅</div>
+    </div>
+    <div class="card-sm" style="text-align:center">
+      <div style="font-family:'Fraunces',serif;font-size:36px;font-weight:300;color:var(--good)" id="stat-bioscore">—</div>
+      <div style="font-size:11px;color:var(--text-soft);margin-top:2px">BioScore dziś 💚</div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- PAGE 5: JOURNAL -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="page" id="page-journal">
+<div class="max-w">
+  <div class="page-title">📓 Dziennik <em>zdrowia</em></div>
+  <div class="page-sub">Zapisuj samopoczucie i obserwuj wzorce w czasie</div>
+
+  <div class="card">
+    <div class="section-label" style="margin-top:0">Jak się czujesz dziś?</div>
+    <div class="mood-row" id="mood-row"></div>
+    <div class="section-label">Zapisz notatkę</div>
+    <textarea class="journal-input" id="journal-text" placeholder="Opisz swoje samopoczucie, objawy, co jadłeś, jak spałeś... Wszystko co może pomóc w śledzeniu wzorców zdrowotnych."></textarea>
+    <button class="save-btn" onclick="saveJournalEntry()">💾 Zapisz wpis</button>
+  </div>
+
+  <div class="section-label">Poprzednie wpisy</div>
+  <div class="journal-entries" id="journal-entries">
+    <div style="text-align:center;padding:30px;color:var(--text-xsoft);font-size:13px">Brak wpisów. Zacznij śledzić swoje zdrowie!</div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- PAGE 6: PROFILE -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="page" id="page-profile">
+<div class="max-w">
+  <div class="page-title">⚙️ Twój <em>Profil</em></div>
+  <div class="page-sub">Skonfiguruj NaturaIQ pod swoje potrzeby</div>
+
+  <div class="card">
+    <div class="profile-avatar" id="profile-avatar" onclick="changeAvatar()">🌿</div>
+
+    <div class="setup-field">
+      <label class="setup-label">Imię</label>
+      <input class="setup-input" id="setup-name" placeholder="Wpisz imię..." oninput="saveProfile()">
+    </div>
+    <div class="setup-field">
+      <label class="setup-label">Wiek</label>
+      <input class="setup-input" id="setup-age" type="number" placeholder="35" min="10" max="100" oninput="saveProfile()">
+    </div>
+    <div class="setup-field">
+      <label class="setup-label">Płeć</label>
+      <select class="setup-select" id="setup-gender" onchange="saveProfile()">
+        <option value="">Wybierz...</option>
+        <option value="m">Mężczyzna</option>
+        <option value="f">Kobieta</option>
+        <option value="o">Inna</option>
+      </select>
+    </div>
+    <div class="setup-field">
+      <label class="setup-label">Masa ciała (kg)</label>
+      <input class="setup-input" id="setup-weight" type="number" placeholder="75" oninput="saveProfile()">
+    </div>
+    <div class="setup-field">
+      <label class="setup-label">Język interfejsu</label>
+      <select class="setup-select" id="setup-lang" onchange="saveProfile()">
+        <option value="pl">🇵🇱 Polski</option>
+        <option value="en">🇬🇧 English</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="section-label">Podłączone urządzenie</div>
+  <div class="card">
+    <div class="device-option selected" onclick="selectDevice(this,'apple')">
+      <input type="radio" name="device" value="apple" checked>
+      <div class="device-emoji">⌚</div>
+      <div><div class="device-name">Apple Watch / iPhone</div><div class="device-sub">HealthKit — pełna integracja</div></div>
+    </div>
+    <div class="device-option" onclick="selectDevice(this,'samsung')">
+      <input type="radio" name="device" value="samsung">
+      <div class="device-emoji">🌀</div>
+      <div><div class="device-name">Samsung Galaxy Watch</div><div class="device-sub">Health Connect — pełna integracja</div></div>
+    </div>
+    <div class="device-option" onclick="selectDevice(this,'huawei')">
+      <input type="radio" name="device" value="huawei">
+      <div class="device-emoji">🔴</div>
+      <div><div class="device-name">Huawei Watch (GT2 Pro+)</div><div class="device-sub">Huawei HMS Health Kit — wymagana rejestracja</div></div>
+    </div>
+    <div class="device-option" onclick="selectDevice(this,'garmin')">
+      <input type="radio" name="device" value="garmin">
+      <div class="device-emoji">🟢</div>
+      <div><div class="device-name">Garmin / Fitbit / Oura</div><div class="device-sub">REST API — najdokładniejszy HRV</div></div>
+    </div>
+    <div class="device-option" onclick="selectDevice(this,'phone')">
+      <input type="radio" name="device" value="phone">
+      <div class="device-emoji">📱</div>
+      <div><div class="device-name">Tylko telefon</div><div class="device-sub">Akcelerometr, GPS, czas ekranu — bez zegarka</div></div>
+    </div>
+  </div>
+
+  <div class="section-label">Powiadomienia push</div>
+  <div class="card" style="margin-bottom:12px;cursor:pointer" onclick="showPage('notifications')">
+    <div style="display:flex;align-items:center;gap:14px">
+      <div style="width:44px;height:44px;background:var(--forest-xlight);border-radius:var(--r-md);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">🔔</div>
+      <div style="flex:1">
+        <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px">Zarządzaj przypomnieniami</div>
+        <div id="profile-notif-status" style="font-size:11px;color:var(--text-soft)">Kliknij aby skonfigurować</div>
+      </div>
+      <div style="font-size:20px;color:var(--text-xsoft)">›</div>
+    </div>
+  </div>
+
+  <div class="disclaimer">
+    ⚕️ <strong>Ważne:</strong> NaturaIQ to aplikacja wellness — nie jest urządzeniem medycznym i nie zastępuje porady lekarskiej. Wszystkie rekomendacje mają charakter informacyjny. Przy poważnych objawach zawsze skonsultuj się z lekarzem.
+  </div>
+
+</div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════
+let state = {
+  name:'', age:0, gender:'', weight:0, lang:'pl', device:'apple',
+  vitals:{hr:0, hrv:0, sleep:0, spo2:0, steps:0, temp:0},
+  bioscore:0,
+  water:0, waterGoal:2500,
+  habits:{}, habitStreak:0,
+  journal:[],
+  selectedMood:'',
+  selectedSymptoms:[],
+  avatarEmoji:'🌿'
+};
+
+// Load from localStorage
+try {
+  const saved = localStorage.getItem('naturaiq_state');
+  if(saved) state = {...state, ...JSON.parse(saved)};
+} catch(e){}
+
+function save() {
+  try { localStorage.setItem('naturaiq_state', JSON.stringify(state)); } catch(e){}
+}
+
+// ═══════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════
+function showPage(id, btn) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.bottom-nav-item').forEach(t=>t.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  const pages = ['dashboard','signals','remedies','tracker','journal','profile'];
+  const idx = pages.indexOf(id);
+  const mobileItems = document.querySelectorAll('.bottom-nav-item');
+  if(idx >= 0 && idx < mobileItems.length) mobileItems[idx].classList.add('active');
+  if(id==='dashboard') updateDashboard();
+  if(id==='tracker') updateTracker();
+  if(id==='journal') renderJournal();
+  if(id==='profile') loadProfile();
+  if(id==='signals') renderSignalCards();
+  if(id==='remedies') initRemedyPage();
+}
+
+function toggleLang() {
+  state.lang = state.lang==='pl'?'en':'pl';
+  document.querySelector('.nav-lang').textContent = state.lang==='pl'?'🇵🇱 PL':'🇬🇧 EN';
+  save();
+  showToast(state.lang==='pl'?'Język: Polski':'Language: English');
+}
+
+// ═══════════════════════════════════════
+// GREETING
+// ═══════════════════════════════════════
+function getGreeting() {
+  const h = new Date().getHours();
+  if(h<6) return 'Dobranoc';
+  if(h<12) return 'Dzień dobry';
+  if(h<18) return 'Dobre południe';
+  return 'Dobry wieczór';
+}
+
+// ═══════════════════════════════════════
+// BIOSCORE CALCULATION
+// ═══════════════════════════════════════
+function calcBioScore(v) {
+  let score = 50; let factors = 0;
+  if(v.hr>0){
+    factors++;
+    if(v.hr>=55&&v.hr<=72) score+=12;
+    else if(v.hr>=73&&v.hr<=85) score+=6;
+    else if(v.hr>100) score-=10;
+    else if(v.hr<45) score-=5;
+  }
+  if(v.hrv>0){
+    factors++;
+    if(v.hrv>=45) score+=15;
+    else if(v.hrv>=30) score+=8;
+    else if(v.hrv>=20) score+=3;
+    else score-=8;
+  }
+  if(v.sleep>0){
+    factors++;
+    if(v.sleep>=7&&v.sleep<=9) score+=12;
+    else if(v.sleep>=6&&v.sleep<7) score+=5;
+    else if(v.sleep<6) score-=10;
+    else if(v.sleep>9) score+=3;
+  }
+  if(v.spo2>0){
+    factors++;
+    if(v.spo2>=97) score+=10;
+    else if(v.spo2>=95) score+=5;
+    else if(v.spo2<93) score-=15;
+  }
+  if(v.steps>0){
+    factors++;
+    if(v.steps>=10000) score+=8;
+    else if(v.steps>=7000) score+=5;
+    else if(v.steps>=3000) score+=2;
+    else score-=3;
+  }
+  if(factors===0) return 0;
+  return Math.min(100, Math.max(10, Math.round(score)));
+}
+
+// ═══════════════════════════════════════
+// DASHBOARD
+// ═══════════════════════════════════════
+function updateDashboard() {
+  document.getElementById('hero-greeting').textContent = getGreeting();
+  const name = state.name || 'wpisz swoje imię →';
+  document.getElementById('hero-name').textContent = name;
+  document.getElementById('profile-avatar').textContent = state.avatarEmoji||'🌿';
+
+  const v = state.vitals;
+  const bs = state.bioscore;
+
+  // BioScore ring
+  const ring = document.getElementById('bioscore-ring-fill');
+  const numEl = document.getElementById('bioscore-num');
+  if(bs>0){
+    const offset = 251 - (251 * bs / 100);
+    ring.style.strokeDashoffset = offset;
+    numEl.textContent = bs;
+    ring.style.stroke = bs>=70?'#6FD98F':bs>=50?'#E4A856':'#FF8A80';
+  }
+
+  // Vitals
+  const setVital = (id, val, unit, trend, trendClass) => {
+    if(val>0){
+      document.getElementById('dash-'+id).innerHTML = val+' <span class="vital-pill-unit">'+unit+'</span>';
+      const tel = document.getElementById('dash-'+id+'-trend');
+      if(tel){tel.textContent=trend;tel.className='vital-pill-trend '+trendClass;}
+    }
+  };
+  setVital('hr', v.hr, 'bpm', v.hr>85?'↑ wysoki':v.hr<55?'↓ niski':'✓ dobry', v.hr>85||v.hr<45?'trend-warn':'trend-ok');
+  setVital('hrv', v.hrv, 'ms', v.hrv<30?'↓ niskie':v.hrv<45?'↔ ok':'↑ dobre', v.hrv<30?'trend-bad':v.hrv<45?'trend-warn':'trend-ok');
+  setVital('sleep', v.sleep, 'h', v.sleep<6?'↓ za mało':v.sleep>9?'↑ dużo':'✓ dobry', v.sleep<6?'trend-warn':'trend-ok');
+  setVital('spo2', v.spo2, '%', v.spo2<95?'⚠ niskie':v.spo2>=97?'✓ dobre':'↔ ok', v.spo2<95?'trend-bad':'trend-ok');
+
+  // Insight
+  const insight = generateInsight();
+  document.getElementById('dash-insight').innerHTML = insight;
+
+  // Water
+  updateWaterUI();
+
+  // Today habits
+  renderTodayHabits();
+
+  // Symptom grid
+  renderSymptomGrid('dash-symptom-grid');
+}
+
+function generateInsight() {
+  const v = state.vitals;
+  if(!v.hr && !v.hrv && !v.sleep) return 'Wpisz swoje dane, aby zobaczyć personalizowaną prognozę zdrowotną.';
+  const insights = [];
+  if(v.hrv>0&&v.hrv<30) insights.push('Twoje HRV jest <em>niskie</em> — ciało jest w trybie stresu. Wieczorem: ashwagandha + magnez.');
+  if(v.sleep>0&&v.sleep<6) insights.push('Zbyt mało snu — <em>'+v.sleep+'h</em>. Melatonina 1mg lub melisa przed jutrzejszą nocą.');
+  if(v.hr>0&&v.hr>85) insights.push('Tętno spoczynkowe <em>'+v.hr+' bpm</em> jest podwyższone. Sprawdź nawodnienie i poziom stresu.');
+  if(v.spo2>0&&v.spo2<95) insights.push('<em>SpO2 '+v.spo2+'%</em> — poniżej normy. Ćwiczenia oddechowe i burak ćwikłowy mogą pomóc.');
+  if(insights.length===0){
+    if(state.bioscore>=75) return 'Twoje parametry są <em>w świetnym stanie</em> — utrzymaj nawyki i pij wystarczająco wody.';
+    if(state.bioscore>=55) return 'Parametry <em>w normie</em> — małe usprawnienia (sen, ruch) mogą podnieść BioScore.';
+    return 'Parametry wymagają <em>uwagi</em> — sprawdź protokoły naturalnych środków.';
+  }
+  return insights[0];
+}
+
+// ═══════════════════════════════════════
+// WATER TRACKER
+// ═══════════════════════════════════════
+function addWater(ml) {
+  const w = state.weight||75;
+  state.waterGoal = w*33;
+  state.water = Math.min(state.waterGoal, (state.water||0)+ml);
+  save();
+  updateWaterUI();
+  showToast('💧 +'+(ml<1000?ml+'ml':(ml/1000).toFixed(1)+'L') + ' dodane!');
+}
+
+function resetWater() {
+  state.water=0; save(); updateWaterUI();
+}
+
+function updateWaterUI() {
+  const goal = state.waterGoal||2500;
+  const current = state.water||0;
+  const pct = Math.round((current/goal)*100);
+  const cups = Math.ceil(goal/250);
+  const filledCups = Math.floor(current/250);
+
+  const pctEl = document.getElementById('water-pct');
+  const barEl = document.getElementById('water-bar');
+  const cupsEl = document.getElementById('water-cups');
+  const goalEl = document.getElementById('water-goal-lbl');
+  const reminderEl = document.getElementById('water-reminder');
+
+  if(pctEl) pctEl.textContent = pct;
+  if(barEl) barEl.style.width = pct+'%';
+  if(goalEl) goalEl.textContent = (goal/1000).toFixed(1)+'L';
+  if(cupsEl){
+    cupsEl.innerHTML = '';
+    for(let i=0;i<Math.min(cups,12);i++){
+      const div = document.createElement('div');
+      div.className = 'water-cup'+(i<filledCups?' filled':'');
+      div.textContent = '🥤';
+      div.title = (i+1)*250+'ml';
+      div.onclick = ()=>{state.water=(i+1)*250;save();updateWaterUI();}
+      cupsEl.appendChild(div);
+    }
+  }
+  if(reminderEl){
+    const remaining = goal-current;
+    if(remaining<=0) reminderEl.textContent = '🎉 Cel nawodnienia osiągnięty! Świetna robota!';
+    else reminderEl.textContent = '💡 Pozostało '+Math.ceil(remaining/250)+' szklanek do celu ('+Math.round(remaining/100)/10+'L).';
+  }
+  // Update tracker stat
+  const statWater = document.getElementById('stat-water');
+  if(statWater) statWater.textContent = current+'ml';
+}
+
+// ═══════════════════════════════════════
+// SIGNAL ANALYSIS
+// ═══════════════════════════════════════
+const SIGNAL_DEFS = [
+  {id:'hr', icon:'❤️', name:'Tętno spoczynkowe', unit:'bpm',
+   getStatus:(v)=> v<=0?{s:'neutral',label:'Brak danych',val:'—'}: v<=54?{s:'ok',label:'Sportowe',val:v}: v<=72?{s:'ok',label:'Optymalne',val:v}: v<=85?{s:'warn',label:'Podwyższone',val:v}: {s:'alert',label:'Wysokie',val:v}},
+  {id:'hrv', icon:'🧠', name:'HRV', unit:'ms',
+   getStatus:(v)=> v<=0?{s:'neutral',label:'Brak danych',val:'—'}: v>=50?{s:'ok',label:'Świetny',val:v}: v>=35?{s:'ok',label:'Dobry',val:v}: v>=20?{s:'warn',label:'Niski',val:v}: {s:'alert',label:'Bardzo niski',val:v}},
+  {id:'sleep', icon:'💤', name:'Sen', unit:'h',
+   getStatus:(v)=> v<=0?{s:'neutral',label:'Brak danych',val:'—'}: v>=7&&v<=9?{s:'ok',label:'Optymalny',val:v}: v>=6?{s:'warn',label:'Niewystarczający',val:v}: {s:'alert',label:'Za mało',val:v}},
+  {id:'spo2', icon:'💨', name:'SpO2', unit:'%',
+   getStatus:(v)=> v<=0?{s:'neutral',label:'Brak danych',val:'—'}: v>=97?{s:'ok',label:'Doskonałe',val:v}: v>=95?{s:'ok',label:'Dobre',val:v}: v>=93?{s:'warn',label:'Obniżone',val:v}: {s:'alert',label:'Niskie!',val:v}},
+  {id:'steps', icon:'🚶', name:'Kroki', unit:'',
+   getStatus:(v)=> v<=0?{s:'neutral',label:'Brak danych',val:'—'}: v>=10000?{s:'ok',label:'Cel osiągnięty',val:v.toLocaleString()}: v>=7000?{s:'ok',label:'Dobry',val:v.toLocaleString()}: v>=3000?{s:'warn',label:'Mało',val:v.toLocaleString()}: {s:'alert',label:'Bardzo mało',val:v.toLocaleString()}},
+  {id:'temp', icon:'🌡️', name:'Temperatura', unit:'°C',
+   getStatus:(v)=> v<=0?{s:'neutral',label:'Brak danych',val:'—'}: v>=36.1&&v<=37.2?{s:'ok',label:'Normalna',val:v}: v>=37.3&&v<=38?{s:'warn',label:'Podgorączkowa',val:v}: v>38?{s:'alert',label:'Gorączka',val:v}: {s:'neutral',label:'Niska',val:v}},
+];
+
+function renderSignalCards() {
+  const grid = document.getElementById('signal-cards-grid');
+  if(!grid) return;
+  grid.innerHTML = SIGNAL_DEFS.map(def=>{
+    const val = state.vitals[def.id]||0;
+    const st = def.getStatus(val);
+    return `<div class="signal-card ${st.s}" onclick="selectSignal('${def.id}')">
+      <div class="signal-icon">${def.icon}</div>
+      <div class="signal-name">${def.name}</div>
+      <div class="signal-val ${st.s}">${st.val}${val>0?' '+def.unit:''}</div>
+      <div class="signal-status ${st.s}">${st.label}</div>
+    </div>`;
+  }).join('');
+}
+
+function analyzeSignals() {
+  const v = {
+    hr: parseFloat(document.getElementById('input-hr').value)||0,
+    hrv: parseFloat(document.getElementById('input-hrv').value)||0,
+    sleep: parseFloat(document.getElementById('input-sleep').value)||0,
+    spo2: parseFloat(document.getElementById('input-spo2').value)||0,
+    steps: parseFloat(document.getElementById('input-steps').value)||0,
+    temp: parseFloat(document.getElementById('input-temp').value)||0,
+  };
+  state.vitals = v;
+  state.bioscore = calcBioScore(v);
+  save();
+  renderSignalCards();
+  renderProtocol();
+  showToast('✅ BioScore: '+state.bioscore+'/100 — parametry zapisane!');
+  // Update tracker stat
+  const statBio = document.getElementById('stat-bioscore');
+  if(statBio) statBio.textContent = state.bioscore;
+}
+
+function selectSignal(signalId) {
+  document.querySelectorAll('.signal-card').forEach(c=>c.classList.remove('selected'));
+  event.currentTarget.classList.add('selected');
+  renderProtocol(signalId);
+}
+
+// ═══════════════════════════════════════
+// PROTOCOLS
+// ═══════════════════════════════════════
+const PROTOCOLS = {
+  hrv: {
+    title:'Protokół niskiego HRV — Odbudowa układu nerwowego',
+    emoji:'🧠', urgency:'week', urgencyLabel:'Protokół tygodniowy',
+    desc:'Niskie HRV oznacza, że układ nerwowy jest przeciążony. Ciało potrzebuje adaptogenów, dobrego snu i spokoju.',
+    steps:[
+      {time:'Rano',emoji:'🔴',name:'Ashwagandha',detail:'Adaptogen obniżający kortyzol o 27–36%. Poprawia HRV-RMSSD po 14 dniach.',dose:'300–600mg ekstraktu'},
+      {time:'Rano',emoji:'🐟',name:'Omega-3 EPA+DHA',detail:'Meta-analiza 884 RCT: zmniejsza śmiertelność CV, poprawia funkcję autonomiczną serca.',dose:'1–2g dziennie'},
+      {time:'Wieczór',emoji:'🌿',name:'Melisa + Waleriana',detail:'Kombinacja: melisa hamuje GABA-transaminazę, waleriana stymuluje receptory GABA-A. Bez uzależnienia.',dose:'300mg + 300mg przed snem'},
+      {time:'Wieczór',emoji:'🌾',name:'Magnez (cytrynian)',detail:'Kofaktor 600+ enzymów. Niedobór = arytmia i słabe HRV. Aktywuje GABA — głębszy sen.',dose:'300–400mg'},
+      {time:'Cały dzień',emoji:'🫐',name:'Borówki + Gorzka czekolada',detail:'Antocyjany i flawanole kakao: ↑ BDNF, ↑ neuroplastyczność, ↓ stan zapalny. Polyphenols study TwinsUK.',dose:'150g + 20–30g dziennie'},
+      {time:'Cały dzień',emoji:'💧',name:'Nawodnienie',detail:'Odwodnienie już na poziomie 1–2% masy ciała powoduje ↑ kortyzol i ↓ HRV.',dose:'Min. 2–2.5L wody'},
+    ],
+    escalate:false
+  },
+  hr: {
+    title:'Protokół wysokiego tętna — Uspokojenie układu sercowego',
+    emoji:'❤️‍🔥', urgency:'today', urgencyLabel:'Zadbaj dziś',
+    desc:'Podwyższone tętno spoczynkowe może wskazywać na stres, odwodnienie, niedobory lub nadchodzącą infekcję.',
+    steps:[
+      {time:'Teraz',emoji:'💧',name:'Nawodnienie — priorytet',detail:'Odwodnienie bezpośrednio podnosi tętno. Szklanka wody z szczyptą soli morskiej i limonką.',dose:'500ml natychmiast'},
+      {time:'Dziś',emoji:'🌺',name:'Hibiskus',detail:'Antocyjany hamują ACE i kanały wapniowe. ↓ ciśnienie o 7–8mmHg. RCT Meksyk — porównywalny z kaptoprylem.',dose:'Napar 2 razy dziennie'},
+      {time:'Dziś',emoji:'🍵',name:'L-teanina + zielona herbata',detail:'L-teanina ↑ fale alfa w mózgu — skupiona relaksacja. Z kofeiną: skupienie bez nerwowości.',dose:'100–200mg lub 3 filiżanki zielonej herbaty'},
+      {time:'Wieczór',emoji:'🌸',name:'Passiflora (Marakuja)',detail:'45 drops = tak skuteczna jak oksazepam w GAD (RCT). Chrysyna moduluje receptory GABA-A.',dose:'45–90ml ekstraktu'},
+      {time:'Wieczór',emoji:'🌾',name:'Magnez',detail:'Niedobór magnezu → skurcze naczyń → ↑ HR i ↑ ciśnienie. Nocna uzupełnianie.',dose:'300–400mg glicynianu'},
+      {time:'Cały dzień',emoji:'🧄',name:'Czosnek',detail:'Allicyna hamuje ACE → ↓ ciśnienie. 1–2 ząbki dziennie. Rozgnieść i odczekać 10 min.',dose:'1–2 ząbki lub 600–1200mg AGE'},
+    ],
+    escalate: true, escalateMsg:'Jeśli tętno spoczynkowe przekracza 100 bpm regularnie lub czujesz kołatanie serca — skonsultuj kardiologa.'
+  },
+  sleep: {
+    title:'Protokół słabego snu — Rytm i regeneracja',
+    emoji:'😴', urgency:'today', urgencyLabel:'Zadbaj dziś wieczór',
+    desc:'Jakość snu jest fundamentem zdrowia. Wpływa na HRV, odporność, pamięć i metabolizm.',
+    steps:[
+      {time:'16:00',emoji:'☀️',name:'Ostatnia kawa/herbata',detail:'Kofeina ma okres półtrwania 5–6h. Ostatnia kawa nie później niż 14–16:00 dla dobrego snu o 22.',dose:'Zakończ kofeinę o 16:00'},
+      {time:'20:00',emoji:'🥝',name:'Kiwi',detail:'RCT (n=24): 2 kiwi na 1h przed snem → ↓ latencja zasypiania o 35%, ↑ czas snu o 13%. Serotonina + foliany.',dose:'2 owoce kiwi'},
+      {time:'21:00',emoji:'🌸',name:'Magnez + L-teanina',detail:'Magnez aktywuje GABA → relaks mięśni. L-teanina ↑ fale alfa bez sedacji. Kombinacja idealna.',dose:'300mg magnez + 100mg L-teanina'},
+      {time:'21:30',emoji:'🫖',name:'Napar z melisy i chmielu',detail:'Melisa hamuje GABA-transaminazę. Chmiel (Humulus lupulus) — tradycyjny środek na bezsenność, synergistyczny z melisą.',dose:'1.5–3g melisy + 1g chmielu w naparze'},
+      {time:'22:00',emoji:'💜',name:'Aromaterapia z lawendą',detail:'Linalol w lawendzie moduluje VDCC. Silexan (80mg) = tak skuteczny jak lorazepam w badaniach klinicznych.',dose:'2–4 krople olejku na poduszkę'},
+      {time:'22:30',emoji:'🌡️',name:'Chłodna sypialnia',detail:'Optymalna temperatura snu: 18–20°C. Temperatura ciała spada naturalnie przed snem — chłód przyspiesza ten proces.',dose:'18–20°C w sypialni'},
+    ],
+    escalate:false
+  },
+  spo2: {
+    title:'Protokół niskiego SpO2 — Poprawa natlenienia',
+    emoji:'💨', urgency:'now', urgencyLabel:'Działaj teraz',
+    desc:'SpO2 poniżej 95% wymaga natychmiastowej uwagi. Poniżej 90% — dzwoń po pomoc.',
+    steps:[
+      {time:'Teraz',emoji:'🌬️',name:'Ćwiczenia oddechowe (4-7-8)',detail:'Wdech 4 sekundy, zatrzymaj 7, wydech 8. Aktywuje nerw błędny, ↑ oksygenację. Powtórz 4 cykle.',dose:'4 cykle, co 2h'},
+      {time:'Teraz',emoji:'🫀',name:'Burak ćwikłowy',detail:'Azotany → tlenek azotu → rozszerzenie naczyń → ↑ efektywność transportu O2 o 16%. Działanie w 2–3h.',dose:'250ml soku z buraka'},
+      {time:'Dziś',emoji:'🌊',name:'Spirulina',detail:'Fikojanina: ↑ produkcja erytrocytów, ↑ hemoglobina, ↑ transport tlenu. Certyfikowany produkt.',dose:'3–5g w smoothie'},
+      {time:'Dziś',emoji:'🥬',name:'Szpinak + Witamina C',detail:'Żelazo ze szpinaku + witamina C (3x lepsza biodostępność) = ↑ produkcja hemoglobiny.',dose:'200g szpinaku + 500mg wit.C'},
+      {time:'Dziś',emoji:'🍄',name:'Kordyceps',detail:'↑ ATP w mitochondriach, ↑ VO2max, ↑ przepływ krwi. Stosowany przez sportowców w wysokogórzu.',dose:'1–3g proszku'},
+    ],
+    escalate:true, escalateMsg:'SpO2 poniżej 93% przez >20 minut lub przy bólu w klatce piersiowej i duszności — ZADZWOŃ 112 natychmiast.'
+  },
+  steps: {
+    title:'Protokół małej aktywności — Naturalne pobudzenie',
+    emoji:'🚶', urgency:'week', urgencyLabel:'Plan tygodniowy',
+    desc:'Regularny ruch to jeden z najmocniejszych naturalnych "leków" — poprawia HRV, sen, nastrój i metabolizm.',
+    steps:[
+      {time:'Rano',emoji:'🔴',name:'Różeniec górski',detail:'Salidrozyd i rozawiny: ↑ dopamina i serotonina, ↑ wytrzymałość fizyczna. Stosowany przez sportowców olimpijskich. Adaptogen — działa rano.',dose:'400–600mg na czczo'},
+      {time:'Rano',emoji:'🍄',name:'Kordyceps',detail:'↑ produkcja ATP w mitochondriach, ↑ VO2max o 7–9% (badania na starszych). Naturalna "energia do ćwiczeń".',dose:'1–3g proszku'},
+      {time:'Po aktywności',emoji:'🍌',name:'Banan + orzechy włoskie',detail:'Węglowodany (energia) + magnez + tryptofan (nastrój) + ALA omega-3 (regeneracja). Idealny posiłek po ruchu.',dose:'1 banan + garść orzechów'},
+      {time:'Cały dzień',emoji:'💧',name:'Nawodnienie sportowe',detail:'Na każde 500ml potu: +500ml wody z elektrolitami. Szczypnięta sól morska + cytryna to naturalne isotonicum.',dose:'2.5L+ dziennie'},
+    ],
+    escalate:false
+  },
+  temp: {
+    title:'Protokół gorączki / stanu zapalnego — Naturalne wsparcie',
+    emoji:'🌡️', urgency:'today', urgencyLabel:'Zadbaj teraz',
+    desc:'Gorączka to mechanizm obronny — nie zawsze warto ją zbijać. Ale warto wspierać organizm.',
+    steps:[
+      {time:'Teraz',emoji:'🌼',name:'Kwiat lipy — napar',detail:'Działanie napotne przy gorączce — jedna z najstarszych europejskich roślin leczniczych. Tradycja słowiańska i germańska od wieków.',dose:'2g na 250ml gorącej wody, 3x dziennie'},
+      {time:'Teraz',emoji:'🫐',name:'Czarny bez (syrop)',detail:'Antocyjany blokują adhezję wirusów do komórek. Skraca czas grypy o 4 dni (meta-analiza). Przy infekcji: maksymalna dawka.',dose:'15ml syropu co 4–6h'},
+      {time:'Teraz',emoji:'🧄',name:'Czosnek + imbir',detail:'Allicyna: aktywność przeciwwirusowa i przeciwbakteryjna. Imbir: hamuje COX-1, COX-2 → ↓ stan zapalny.',dose:'2 ząbki + 2cm świeżego imbiru w napoju'},
+      {time:'Dziś',emoji:'🍵',name:'NAC (N-acetylocysteina)',detail:'↑ glutation → detoksykacja. Mukolotyk — rozrzedza śluz. ↓ długość grypy (FDA zatwierdzone przy COVID).',dose:'600mg 3x dziennie'},
+      {time:'Dziś',emoji:'💊',name:'Witamina C + D3 + Cynk',detail:'Synergistyczna triada: C ↑ limfocyty, D3 aktywuje katelicydynę, cynk (pastylki!) hamuje replikację wirusa w gardle.',dose:'1000mg C + 4000IU D3 + cynk pastylki co 2h (pierwsze 24h)'},
+    ],
+    escalate:true, escalateMsg:'Temperatura powyżej 39.5°C nieznizpanna przez 3 dni, lub pojawienie się duszności, bólu w klatce, wysypki — idź do lekarza.'
+  }
+};
+
+function renderProtocol(signalId) {
+  const container = document.getElementById('protocol-container');
+  if(!container) return;
+
+  // Auto-detect worst signal if no signalId
+  if(!signalId) {
+    const v = state.vitals;
+    if(v.spo2>0&&v.spo2<93) signalId='spo2';
+    else if(v.hr>0&&v.hr>100) signalId='hr';
+    else if(v.temp>0&&v.temp>37.5) signalId='temp';
+    else if(v.sleep>0&&v.sleep<6) signalId='sleep';
+    else if(v.hrv>0&&v.hrv<25) signalId='hrv';
+    else if(v.spo2>0&&v.spo2<95) signalId='spo2';
+    else if(v.steps>0&&v.steps<3000) signalId='steps';
+    else if(v.hrv>0&&v.hrv<35) signalId='hrv';
+    else if(v.sleep>0&&v.sleep<7) signalId='sleep';
+    else if(v.hr>0&&v.hr>85) signalId='hr';
+  }
+
+  const proto = PROTOCOLS[signalId];
+  if(!proto){ container.innerHTML=''; return; }
+
+  const urgColors = {now:'urg-now',today:'urg-today',week:'urg-week'};
+  const borderColors = {now:'var(--red)',today:'var(--warn)',week:'var(--forest)'};
+
+  container.innerHTML = `
+    <div class="protocol-panel" style="border-left-color:${borderColors[proto.urgency]}">
+      <div class="protocol-header">
+        <div class="protocol-emoji">${proto.emoji}</div>
+        <div>
+          <div class="protocol-title">${proto.title}</div>
+          <div class="protocol-desc">${proto.desc}</div>
+          <span class="protocol-urgency ${urgColors[proto.urgency]}">${proto.urgencyLabel}</span>
+        </div>
+      </div>
+      <div class="protocol-steps">
+        ${proto.steps.map(s=>`
+          <div class="protocol-step">
+            <div class="step-time">
+              <div class="step-time-lbl">Kiedy</div>
+              <div class="step-time-val">${s.time}</div>
+            </div>
+            <div class="step-content">
+              <div class="step-emoji">${s.emoji}</div>
+              <div class="step-name">${s.name}</div>
+              <div class="step-detail">${s.detail}</div>
+              <span class="step-dose">${s.dose}</span>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+      ${proto.escalate?`
+        <div class="escalate-box">
+          <div class="escalate-icon">⚕️</div>
+          <div class="escalate-text">
+            <strong>Kiedy iść do lekarza?</strong>
+            ${proto.escalateMsg}
+          </div>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;padding:0 0 4px">
+          <button class="btn-112">📞 Zadzwoń 112</button>
+          <button class="btn-doctor">🏥 Znajdź lekarza</button>
+        </div>
+      `:''}
+      <div style="font-size:10px;color:var(--text-xsoft);margin-top:12px;padding-top:10px;border-top:1px solid var(--bg)">
+        ℹ️ NaturaIQ nie jest urządzeniem medycznym. Rekomendacje mają charakter informacyjny — nie są diagnozą lekarską.
+      </div>
+    </div>
+  `;
+}
+
+// ═══════════════════════════════════════
+// REMEDIES
+// ═══════════════════════════════════════
+const REMEDY_DB = [
+  {emoji:'🌿',name:'Ashwagandha',latin:'Withania somnifera',en:'Indian Ginseng',evidence:'high',
+   states:['zmęczenie','stres','sen'],
+   dose:'300–600mg wieczorem. Efekty po 14 dniach.',
+   mech:'↓ kortyzol o 27–36%, ↑ HRV. Adaptogen na oś HPA.'},
+  {emoji:'💛',name:'Kurkuma + Piperyna',latin:'Curcuma longa',en:'Turmeric',evidence:'high',
+   states:['stan zapalny','ból','gorączka','trawienie'],
+   dose:'500–1000mg + piperyna 2x dziennie z posiłkiem.',
+   mech:'Hamuje NF-κB i COX — działanie jak ibuprofen bez gastropatii.'},
+  {emoji:'🫖',name:'Melisa lekarska',latin:'Melissa officinalis',en:'Lemon Balm',evidence:'good',
+   states:['sen','stres','niepokój'],
+   dose:'300–600mg lub napar z 2g liści przed snem.',
+   mech:'Hamuje GABA-transaminazę → naturalny środek uspokajający bez uzależnienia.'},
+  {emoji:'🌾',name:'Magnez (cytrynian)',latin:'Magnesium citrate',en:'Magnesium',evidence:'high',
+   states:['stres','sen','serce','zmęczenie','skurcze'],
+   dose:'300–400mg wieczorem (cytrynian lub glicynian).',
+   mech:'Kofaktor 600+ enzymów. ↓ arytmia, ↑ GABA, ↓ kortyzol.'},
+  {emoji:'🧄',name:'Czosnek',latin:'Allium sativum',en:'Garlic',evidence:'good',
+   states:['przeziębienie','ciśnienie','odporność','infekcja'],
+   dose:'1–2 ząbki (rozgnieść, odczekać 10 min). Lub 600mg AGE.',
+   mech:'Allicyna: przeciwwirusowy, obniża ciśnienie (hamuje ACE), stymuluje NK-komórki.'},
+  {emoji:'🫚',name:'Imbir',latin:'Zingiber officinale',en:'Ginger',evidence:'good',
+   states:['trawienie','ból','stan zapalny','nudności','przeziębienie'],
+   dose:'2–4cm świeżego w naparze lub 1–3g suszonego.',
+   mech:'Gingerole hamują COX-1 i COX-2. Silny efekt przeciwzapalny bez uszkodzenia żołądka.'},
+  {emoji:'🍵',name:'L-teanina',latin:'L-Theaninum',en:'L-Theanine',evidence:'good',
+   states:['stres','niepokój','skupienie','zmęczenie'],
+   dose:'100–200mg. Z kofeiną 1:2 dla skupienia bez nerwowości.',
+   mech:'↑ fale alfa w mózgu (skupiona relaksacja). Analogicznie do GABA.'},
+  {emoji:'💜',name:'Lawenda',latin:'Lavandula angustifolia',en:'Lavender',evidence:'good',
+   states:['sen','stres','ból głowy'],
+   dose:'Aromaterapia 2–4 krople lub Silexan 80mg (kapsułki).',
+   mech:'Linalol moduluje kanały VDCC. Silexan = lorazepam w RCT.'},
+  {emoji:'🫐',name:'Czarny bez (syrop)',latin:'Sambucus nigra',en:'Elderberry',evidence:'good',
+   states:['przeziębienie','infekcja','odporność','gorączka'],
+   dose:'15ml syropu 4x dziennie. Przy infekcji: pierwsze 24h kluczowe.',
+   mech:'Antocyjany blokują adhezję wirusa. Skraca grypę o 4 dni (meta-analiza).'},
+  {emoji:'🍃',name:'Mięta pieprzowa',latin:'Mentha piperita',en:'Peppermint',evidence:'good',
+   states:['ból głowy','trawienie','wzdęcia','zmęczenie'],
+   dose:'Olejek na skronie (2–3 krople rozcieńczone) lub kapsułki jelitopowlekane 200mg.',
+   mech:'Mentol aktywuje TRPM8 → ↓ ból. Tak skuteczna jak paracetamol w napięciowych bólach głowy.'},
+  {emoji:'🫀',name:'Burak ćwikłowy',latin:'Beta vulgaris',en:'Beetroot',evidence:'good',
+   states:['ciśnienie','zmęczenie','energi'],
+   dose:'250–500ml soku lub 500mg ekstraktu dziennie.',
+   mech:'Azotany → tlenek azotu → ↓ ciśnienie o 4–10 mmHg. ↑ efektywność mięśni o 16%.'},
+  {emoji:'🍌',name:'Banan + Orzechy',latin:'Musa + Juglans',en:'Banana + Walnuts',evidence:'moderate',
+   states:['stres','sen','zmęczenie','nastrój'],
+   dose:'1–2 banany + garść orzechów wieczorem.',
+   mech:'Tryptofan → serotonina → melatonina. Magnez. ALA omega-3 (orzechy). Naturalny pakiet regeneracyjny.'},
+  {emoji:'🌼',name:'Rumianek',latin:'Matricaria chamomilla',en:'Chamomile',evidence:'good',
+   states:['trawienie','stres','sen','skurcze'],
+   dose:'Napar z 2–3g suszu, wieczorem lub po jedzeniu.',
+   mech:'Apigenina wiąże receptory BZD. ↓ skurcze jelit. ↓ epizody lękowe (GAD RCT).'},
+  {emoji:'🔴',name:'Różeniec górski',latin:'Rhodiola rosea',en:'Rhodiola',evidence:'good',
+   states:['zmęczenie','stres','wypalenie'],
+   dose:'400–600mg rano. Standaryzowany 3% rozawin + 1% salidrozyd.',
+   mech:'↓ zmęczenie o 20–30%. ↓ wypalenie zawodowe (RCT, 576 pracowników).'},
+  {emoji:'🟡',name:'Astragalus',latin:'Astragalus membranaceus',en:'Astragalus',evidence:'moderate',
+   states:['odporność','zmęczenie'],
+   dose:'250–500mg ekstraktu 3x dziennie.',
+   mech:'Beta-glukany i polisacharydy: ↑ interferony, ↑ NK-komórki. 2000 lat w TCM.'},
+  {emoji:'🌊',name:'Spirulina',latin:'Arthrospira platensis',en:'Spirulina',evidence:'moderate',
+   states:['zmęczenie','odporność','anemia'],
+   dose:'3–10g proszku dziennie (zacznij od 1g).',
+   mech:'Fikojanina: ↓ IL-6, ↓ stres oksydacyjny. Żelazo, B-witaminy, pełne białko (60%).'},
+  {emoji:'🌼',name:'Ostropest plamisty',latin:'Silybum marianum',en:'Milk Thistle',evidence:'good',
+   states:['wątroba','trawienie','zmęczenie','kac'],
+   dose:'140–210mg sylimaryny 3x dziennie.',
+   mech:'Sylimaryna: ↑ glutation w wątrobie, hepatoprotekcja. Jedyny naturalny środek regenerujący wątrobę — stosowany przy zatruciu muchomorem.'},
+  {emoji:'🦁',name:"Lion's Mane (Soplówka)",latin:'Hericium erinaceus',en:"Lion's Mane",evidence:'moderate',
+   states:['skupienie','pamięć','mgła mózgowa'],
+   dose:'500–3000mg dziennie. Efekty po 4–12 tygodniach.',
+   mech:'Hericenony i erinacyny: ↑ NGF (Nerve Growth Factor). RCT 2025: ↑ funkcje kognitywne u zdrowych dorosłych.'},
+  {emoji:'☀️',name:'Witamina D3 + K2',latin:'Cholecalciferol + Menaquinone',en:'Vitamin D3+K2',evidence:'high',
+   states:['odporność','zmęczenie','nastrój','depresja'],
+   dose:'2000–4000 IU D3 + 100–200mcg K2-MK7 z posiłkiem.',
+   mech:'Reguluje 200+ genów. ↑ katelicydyna (odporność wrodzona). Niedobór koreluje z depresją i arytmią.'},
+  {emoji:'🫙',name:'Probiotyki',latin:'Lactobacillus / Bifidobacterium',en:'Probiotics',evidence:'good',
+   states:['trawienie','odporność','nastrój'],
+   dose:'Min. 10 mld CFU. Kefir, kiszonki, jogurt naturalny.',
+   mech:'Oś jelito-mózg: 95% serotoniny produkowanej przez mikrobioty. L. rhamnosus ↓ lęk (RCT).'},
+];
+
+const SYMPTOMS = [
+  {icon:'😴',name:'Zmęczenie',key:'zmęczenie'},
+  {icon:'🤕',name:'Ból głowy',key:'ból głowy'},
+  {icon:'😰',name:'Stres/Lęk',key:'stres'},
+  {icon:'🤒',name:'Przeziębienie',key:'przeziębienie'},
+  {icon:'🫄',name:'Trawienie',key:'trawienie'},
+  {icon:'😶‍🌫️',name:'Mgła mózgowa',key:'mgła mózgowa'},
+  {icon:'💤',name:'Zły sen',key:'sen'},
+  {icon:'🔥',name:'Stan zapalny',key:'stan zapalny'},
+  {icon:'❤️',name:'Serce/Ciśnienie',key:'ciśnienie'},
+  {icon:'🛡️',name:'Odporność',key:'odporność'},
+  {icon:'🧠',name:'Pamięć/Skupienie',key:'skupienie'},
+  {icon:'😔',name:'Nastrój',key:'nastrój'},
+];
+
+function renderSymptomGrid(containerId) {
+  const container = document.getElementById(containerId);
+  if(!container) return;
+  container.innerHTML = SYMPTOMS.map(s=>`
+    <div class="symptom-btn" onclick="toggleSymptom('${s.key}','${containerId}',this)">
+      <div class="symptom-icon">${s.icon}</div>
+      <div class="symptom-name">${s.name}</div>
+    </div>
+  `).join('');
+}
+
+function toggleSymptom(key, gridId, el) {
+  el.classList.toggle('selected');
+  if(el.classList.contains('selected')){
+    if(!state.selectedSymptoms.includes(key)) state.selectedSymptoms.push(key);
+  } else {
+    state.selectedSymptoms = state.selectedSymptoms.filter(s=>s!==key);
+  }
+}
+
+function findRemediesFromDash() {
+  if(state.selectedSymptoms.length===0){ showToast('Wybierz przynajmniej jeden objaw'); return; }
+  showPage('remedies');
+  // sync selections
+  state.selectedSymptoms.forEach(sym=>{
+    const btns = document.querySelectorAll('#remedy-symptom-grid .symptom-btn');
+    btns.forEach(btn=>{ if(btn.querySelector('.symptom-name').textContent===SYMPTOMS.find(s=>s.key===sym)?.name) btn.classList.add('selected'); });
+  });
+  showRemedyResults();
+}
+
+function initRemedyPage() {
+  renderSymptomGrid('remedy-symptom-grid');
+  // Restore selections
+  state.selectedSymptoms.forEach(sym=>{
+    const btns = document.querySelectorAll('#remedy-symptom-grid .symptom-btn');
+    btns.forEach(btn=>{ if(btn.querySelector('.symptom-name').textContent===SYMPTOMS.find(s=>s.key===sym)?.name) btn.classList.add('selected'); });
+  });
+  if(state.selectedSymptoms.length>0) showRemedyResults();
+}
+
+document.addEventListener('click', function(e) {
+  const btn = e.target.closest('#remedy-symptom-grid .symptom-btn');
+  if(btn) {
+    const nameEl = btn.querySelector('.symptom-name');
+    const sym = SYMPTOMS.find(s=>s.name===nameEl?.textContent);
+    if(sym) {
+      btn.classList.toggle('selected');
+      if(btn.classList.contains('selected')){ if(!state.selectedSymptoms.includes(sym.key)) state.selectedSymptoms.push(sym.key); }
+      else { state.selectedSymptoms = state.selectedSymptoms.filter(s=>s!==sym.key); }
+      showRemedyResults();
+    }
+  }
+});
+
+function showRemedyResults() {
+  const container = document.getElementById('remedy-results');
+  if(!container) return;
+  const syms = state.selectedSymptoms;
+  if(syms.length===0){ container.innerHTML=''; return; }
+
+  const scored = REMEDY_DB.map(r=>({
+    ...r, score: r.states.filter(s=>syms.some(sym=>s.includes(sym)||sym.includes(s))).length
+  })).filter(r=>r.score>0).sort((a,b)=>b.score-a.score || (a.evidence==='high'?-1:1));
+
+  if(!scored.length){ container.innerHTML='<div class="card" style="text-align:center;color:var(--text-soft);padding:30px">Brak wyników dla wybranych objawów</div>'; return; }
+
+  const evMap = {high:['ev-high','Wysoki poziom dowodów'],good:['ev-good','Dobry'],moderate:['ev-mod','Umiarkowany'],traditional:['ev-trad','Tradycyjny']};
+
+  container.innerHTML = `
+    <div style="font-size:12px;font-weight:600;color:var(--text-soft);margin-bottom:12px">Znaleziono <strong style="color:var(--forest)">${scored.length}</strong> środków dla wybranych objawów</div>
+    ${scored.map(r=>{
+      const [evCls,evLbl] = evMap[r.evidence]||evMap.moderate;
+      return `<div class="remedy-card">
+        <div class="remedy-emoji">${r.emoji}</div>
+        <div class="remedy-body">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px">
+            <div>
+              <div class="remedy-name">${r.name}</div>
+              <div class="remedy-latin">${r.latin} · ${r.en}</div>
+            </div>
+            <span class="remedy-ev ${evCls}">${evLbl}</span>
+          </div>
+          <div class="remedy-dose">💊 ${r.dose}</div>
+          <div style="font-size:11px;color:var(--text-soft);line-height:1.5;margin-bottom:6px">${r.mech}</div>
+          <div class="remedy-tags">${r.states.map(s=>`<span class="remedy-tag">${s}</span>`).join('')}</div>
+        </div>
+      </div>`;
+    }).join('')}
+    <div class="disclaimer">⚕️ Przed stosowaniem ziół i suplementów przy przyjmowaniu leków — skonsultuj się z lekarzem lub farmaceutą.</div>
+  `;
+}
+
+// ═══════════════════════════════════════
+// TRACKER & HABITS
+// ═══════════════════════════════════════
+const HABITS_DEF = [
+  {id:'water',emoji:'💧',label:'Wypiłem 2L+ wody'},
+  {id:'move',emoji:'🚶',label:'Min. 20 min ruchu'},
+  {id:'sleep',emoji:'💤',label:'Planuję 7–9h snu'},
+  {id:'herbs',emoji:'🌿',label:'Ziołowe suplementy'},
+  {id:'veg',emoji:'🥦',label:'5 porcji warzyw/owoców'},
+  {id:'no_coffee',emoji:'☕',label:'Brak kawy po 16:00'},
+  {id:'breathe',emoji:'🌬️',label:'Ćwiczenia oddechowe'},
+  {id:'nature',emoji:'🌳',label:'Czas na świeżym powietrzu'},
+];
+
+const today = new Date().toISOString().slice(0,10);
+if(!state.habits[today]) state.habits[today]={};
+
+function renderTodayHabits() {
+  const container = document.getElementById('today-habits');
+  if(!container) return;
+  const todayHabits = state.habits[today]||{};
+  container.innerHTML = HABITS_DEF.map(h=>`
+    <div class="habit-row">
+      <div class="habit-check${todayHabits[h.id]?' checked':''}" onclick="toggleHabit('${h.id}')"></div>
+      <span class="habit-label">${h.emoji} ${h.label}</span>
+      ${todayHabits[h.id]?'<span class="habit-streak">✓</span>':''}
+    </div>
+  `).join('');
+}
+
+function toggleHabit(id) {
+  if(!state.habits[today]) state.habits[today]={};
+  state.habits[today][id] = !state.habits[today][id];
+  save();
+  renderTodayHabits();
+  updateHabitStats();
+  renderHabitList();
+}
+
+function updateHabitStats() {
+  const todayHabits = state.habits[today]||{};
+  const done = Object.values(todayHabits).filter(Boolean).length;
+  const statHabits = document.getElementById('stat-habits');
+  if(statHabits) statHabits.textContent = done+'/'+HABITS_DEF.length;
+
+  // Streak calculation
+  let streak = 0;
+  let d = new Date();
+  for(let i=0;i<30;i++){
+    const key = d.toISOString().slice(0,10);
+    const h = state.habits[key]||{};
+    if(Object.values(h).filter(Boolean).length >= 4) streak++;
+    else if(key!==today) break;
+    d.setDate(d.getDate()-1);
+  }
+  state.habitStreak = streak;
+  const statStreak = document.getElementById('stat-streak');
+  if(statStreak) statStreak.textContent = streak;
+}
+
+function updateTracker() {
+  renderHabitList();
+  renderWeekDots();
+  updateHabitStats();
+  updateWaterUI();
+  const statBio = document.getElementById('stat-bioscore');
+  if(statBio) statBio.textContent = state.bioscore||'—';
+}
+
+function renderHabitList() {
+  const container = document.getElementById('habit-list');
+  if(!container) return;
+  const todayHabits = state.habits[today]||{};
+  container.innerHTML = HABITS_DEF.map(h=>`
+    <div class="habit-row">
+      <div class="habit-check${todayHabits[h.id]?' checked':''}" onclick="toggleHabit('${h.id}')"></div>
+      <span class="habit-label">${h.emoji} ${h.label}</span>
+      ${todayHabits[h.id]?'<span class="habit-streak">✓ Zrobione</span>':''}
+    </div>
+  `).join('');
+}
+
+function renderWeekDots() {
+  const container = document.getElementById('week-dots');
+  if(!container) return;
+  const days = ['Pon','Wt','Śr','Czw','Pt','Sob','Nie'];
+  const dots = [];
+  for(let i=6;i>=0;i--){
+    const d = new Date(); d.setDate(d.getDate()-i);
+    const key = d.toISOString().slice(0,10);
+    const h = state.habits[key]||{};
+    const done = Object.values(h).filter(Boolean).length;
+    const isToday = key===today;
+    const cls = isToday?'today':done>=4?'done':'empty';
+    dots.push(`<div class="day-dot ${cls}" title="${key}: ${done} nawyków">${days[d.getDay()===0?6:d.getDay()-1]}</div>`);
+  }
+  container.innerHTML = dots.join('');
+}
+
+// ═══════════════════════════════════════
+// JOURNAL
+// ═══════════════════════════════════════
+const MOODS = [
+  {emoji:'😊',label:'Dobrze'},
+  {emoji:'😐',label:'Średnio'},
+  {emoji:'😔',label:'Źle'},
+  {emoji:'😤',label:'Stres'},
+  {emoji:'🤒',label:'Chory'},
+  {emoji:'⚡',label:'Energia'},
+];
+
+function renderJournal() {
+  const moodRow = document.getElementById('mood-row');
+  if(moodRow) {
+    moodRow.innerHTML = MOODS.map(m=>`
+      <button class="mood-btn${state.selectedMood===m.emoji?' selected':''}" onclick="selectMood('${m.emoji}')">
+        ${m.emoji} <span>${m.label}</span>
+      </button>
+    `).join('');
+  }
+  renderJournalEntries();
+}
+
+function selectMood(emoji) {
+  state.selectedMood = emoji;
+  document.querySelectorAll('.mood-btn').forEach(b=>b.classList.remove('selected'));
+  event.currentTarget.classList.add('selected');
+}
+
+function saveJournalEntry() {
+  const text = document.getElementById('journal-text').value.trim();
+  if(!text){ showToast('Napisz coś przed zapisaniem'); return; }
+  const entry = {
+    date: new Date().toLocaleString('pl-PL'),
+    mood: state.selectedMood||'😐',
+    text,
+    bioscore: state.bioscore||0
+  };
+  state.journal.unshift(entry);
+  if(state.journal.length>50) state.journal = state.journal.slice(0,50);
+  save();
+  document.getElementById('journal-text').value='';
+  state.selectedMood='';
+  renderJournal();
+  showToast('✅ Wpis zapisany!');
+}
+
+function renderJournalEntries() {
+  const container = document.getElementById('journal-entries');
+  if(!container) return;
+  if(!state.journal.length){
+    container.innerHTML='<div style="text-align:center;padding:30px;color:var(--text-xsoft);font-size:13px">Brak wpisów. Zacznij śledzić swoje zdrowie!</div>';
+    return;
+  }
+  container.innerHTML = state.journal.map(e=>`
+    <div class="journal-entry">
+      <div class="entry-meta">
+        <span class="entry-mood">${e.mood}</span>
+        <span>${e.date}</span>
+        ${e.bioscore?'<span>BioScore: '+e.bioscore+'</span>':''}
+      </div>
+      <div class="entry-text">${e.text}</div>
+    </div>
+  `).join('');
+}
+
+// ═══════════════════════════════════════
+// PROFILE
+// ═══════════════════════════════════════
+function loadProfile() {
+  // Notification status badge
+  const pns = document.getElementById('profile-notif-status');
+  if(pns && 'Notification' in window) {
+    const perm = Notification.permission;
+    const labels = {granted:'✅ Aktywne — powiadomienia działają', denied:'🚫 Zablokowane — zmień w ustawieniach', default:'🔔 Kliknij aby włączyć'};
+    pns.textContent = labels[perm] || labels.default;
+    pns.style.color = perm==='granted'?'var(--good)':perm==='denied'?'var(--red)':'var(--text-soft)';
+  }
+  // Dashboard banner
+  const banner = document.getElementById('dash-notif-banner');
+  if(banner && 'Notification' in window) {
+    banner.style.display = Notification.permission==='granted'?'none':'flex';
+  }
+  const n = document.getElementById('setup-name');
+  const a = document.getElementById('setup-age');
+  const g = document.getElementById('setup-gender');
+  const w = document.getElementById('setup-weight');
+  const l = document.getElementById('setup-lang');
+  if(n) n.value = state.name||'';
+  if(a) a.value = state.age||'';
+  if(g) g.value = state.gender||'';
+  if(w) w.value = state.weight||'';
+  if(l) l.value = state.lang||'pl';
+  const avEl = document.getElementById('profile-avatar');
+  if(avEl) avEl.textContent = state.avatarEmoji||'🌿';
+}
+
+function saveProfile() {
+  const n = document.getElementById('setup-name');
+  const a = document.getElementById('setup-age');
+  const g = document.getElementById('setup-gender');
+  const w = document.getElementById('setup-weight');
+  const l = document.getElementById('setup-lang');
+  if(n) state.name = n.value;
+  if(a) state.age = parseFloat(a.value)||0;
+  if(g) state.gender = g.value;
+  if(w) state.weight = parseFloat(w.value)||0;
+  if(l) state.lang = l.value;
+  if(state.weight>0) state.waterGoal = Math.round(state.weight*33);
+  save();
+}
+
+function selectDevice(el, device) {
+  document.querySelectorAll('.device-option').forEach(o=>o.classList.remove('selected'));
+  el.classList.add('selected');
+  state.device = device;
+  save();
+  showToast('Urządzenie: '+device);
+}
+
+const AVATARS = ['🌿','🍀','🌸','🌺','🌻','🌱','🍃','🎋','🌾','🍁'];
+let avatarIdx = 0;
+function changeAvatar() {
+  avatarIdx = (avatarIdx+1)%AVATARS.length;
+  state.avatarEmoji = AVATARS[avatarIdx];
+  save();
+  document.getElementById('profile-avatar').textContent = state.avatarEmoji;
+}
+
+// ═══════════════════════════════════════
+// TOAST
+// ═══════════════════════════════════════
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2500);
+}
+
+// ═══════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════
+function init() {
+  document.getElementById('hero-greeting').textContent = getGreeting();
+  updateDashboard();
+  renderSignalCards();
+  initRemedyPage();
+  renderSymptomGrid('dash-symptom-grid');
+  updateTracker();
+  renderJournal();
+  loadProfile();
+
+  // Restore vitals inputs
+  const v = state.vitals;
+  if(v.hr) document.getElementById('input-hr').value = v.hr;
+  if(v.hrv) document.getElementById('input-hrv').value = v.hrv;
+  if(v.sleep) document.getElementById('input-sleep').value = v.sleep;
+  if(v.spo2) document.getElementById('input-spo2').value = v.spo2;
+  if(v.steps) document.getElementById('input-steps').value = v.steps;
+  if(v.temp) document.getElementById('input-temp').value = v.temp;
+
+  // Reset water daily
+  const lastWaterDate = localStorage.getItem('naturaiq_water_date');
+  const todayStr = new Date().toDateString();
+  if(lastWaterDate !== todayStr) {
+    state.water = 0;
+    localStorage.setItem('naturaiq_water_date', todayStr);
+    save();
+  }
+
+  // Auto-render protocol if we have vitals
+  if(state.bioscore>0) renderProtocol();
+}
+
+window.addEventListener('load', init);
+</script>
+
+
+<!-- EXTENSIONS LOADED DYNAMICALLY -->
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- PAGE 7: TRENDY -->
+<!-- ══════════════════════════════════════════════ -->
+<style>
+/* TRENDS */
+.trend-chart-wrap{background:var(--white);border-radius:var(--r-lg);padding:18px;box-shadow:var(--shadow);margin-bottom:14px}
+.trend-chart-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:14px;display:flex;align-items:center;justify-content:space-between}
+.chart-canvas-wrap{position:relative;height:120px;width:100%}
+.chart-svg{width:100%;height:100%}
+.chart-line{fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.chart-area{opacity:0.12}
+.chart-dot{r:4;stroke:var(--white);stroke-width:2}
+.chart-label{font-size:9px;fill:var(--text-soft);font-family:Inter,sans-serif}
+.chart-grid{stroke:var(--cream-dark);stroke-width:1;stroke-dasharray:3,4}
+
+/* MINI STATS ROW */
+.mini-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}
+.mini-stat{background:var(--white);border-radius:var(--r-md);padding:12px 8px;text-align:center;box-shadow:var(--shadow)}
+.mini-stat-val{font-family:'Fraunces',serif;font-size:22px;font-weight:300;color:var(--forest)}
+.mini-stat-lbl{font-size:9px;color:var(--text-xsoft);margin-top:2px;text-transform:uppercase;letter-spacing:.05em}
+
+/* ALERT MODULE */
+.alert-card{border-radius:var(--r-lg);padding:16px;margin-bottom:10px;display:flex;gap:14px;align-items:flex-start}
+.alert-card.alert-critical{background:#FDECEA;border-left:4px solid var(--red)}
+.alert-card.alert-warn{background:var(--warn-bg);border-left:4px solid var(--warn)}
+.alert-card.alert-info{background:var(--blue-bg);border-left:4px solid var(--blue)}
+.alert-card.alert-ok{background:var(--good-bg);border-left:4px solid var(--good)}
+.alert-icon{font-size:28px;flex-shrink:0}
+.alert-body{}
+.alert-title{font-size:14px;font-weight:700;margin-bottom:4px}
+.alert-critical .alert-title{color:var(--red)}
+.alert-warn .alert-title{color:var(--warn)}
+.alert-info .alert-title{color:var(--blue)}
+.alert-ok .alert-title{color:var(--good)}
+.alert-desc{font-size:12px;line-height:1.55;color:var(--text-mid)}
+.alert-actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.alert-btn{font-size:11px;font-weight:700;padding:7px 14px;border-radius:99px;border:none;cursor:pointer}
+.btn-red{background:var(--red);color:#fff}
+.btn-amber{background:var(--warn);color:#fff}
+.btn-forest{background:var(--forest);color:#fff}
+
+/* SEASON CARD */
+.season-card{border-radius:var(--r-xl);padding:22px;margin-bottom:14px;color:#fff;position:relative;overflow:hidden}
+.season-winter{background:linear-gradient(135deg,#1a3a5c,#2a5a8c)}
+.season-spring{background:linear-gradient(135deg,#1a5c2a,#3d9e56)}
+.season-summer{background:linear-gradient(135deg,#8c5a1a,#c4873a)}
+.season-autumn{background:linear-gradient(135deg,#5c3a1a,#8c5a1a)}
+.season-emoji{font-size:48px;margin-bottom:12px;display:block}
+.season-title{font-family:'Fraunces',serif;font-size:22px;font-weight:300;margin-bottom:6px}
+.season-desc{font-size:12px;opacity:.8;line-height:1.6;margin-bottom:16px}
+.season-items{display:flex;flex-wrap:wrap;gap:8px}
+.season-item{background:rgba(255,255,255,.15);border-radius:99px;padding:5px 12px;font-size:11px;font-weight:500}
+
+/* DOSE CALCULATOR */
+.dose-calc{background:var(--white);border-radius:var(--r-lg);padding:18px;box-shadow:var(--shadow);margin-bottom:14px}
+.dose-calc-title{font-size:14px;font-weight:600;color:var(--text);margin-bottom:14px}
+.dose-slider-wrap{margin-bottom:14px}
+.dose-slider-label{display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px}
+.dose-slider-label span:first-child{color:var(--text-mid)}
+.dose-slider-label span:last-child{font-weight:700;color:var(--forest)}
+input[type=range]{width:100%;accent-color:var(--forest);height:4px}
+.dose-result{background:var(--forest-xlight);border-radius:var(--r-md);padding:14px;font-size:12px;color:var(--forest);line-height:1.6}
+.dose-result strong{display:block;font-size:14px;margin-bottom:6px;color:var(--forest)}
+
+/* EXPORT BTN */
+.export-btn{background:var(--forest);color:#fff;border:none;border-radius:var(--r-md);padding:12px 20px;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:8px;font-family:Inter,sans-serif;margin-bottom:14px}
+.export-btn:hover{background:var(--forest-mid)}
+
+/* FULL DB CARD in Apteczka */
+.db-search-wrap{position:relative;margin-bottom:14px}
+.db-search-wrap input{width:100%;padding:11px 16px 11px 38px;border-radius:var(--r-md);border:2px solid var(--cream-dark);font-size:13px;background:var(--white);outline:none;font-family:Inter,sans-serif;color:var(--text)}
+.db-search-wrap input:focus{border-color:var(--forest-light)}
+.db-search-wrap::before{content:'🔍';position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:14px}
+.db-filter-row{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:10px}
+.db-filter-row::-webkit-scrollbar{display:none}
+.db-filter-btn{font-size:11px;font-weight:500;padding:5px 12px;border-radius:99px;border:1.5px solid rgba(0,0,0,.12);background:var(--white);color:var(--text-soft);cursor:pointer;white-space:nowrap;flex-shrink:0}
+.db-filter-btn.active{background:var(--forest);color:#fff;border-color:var(--forest)}
+</style>
+
+<!-- PAGE 7: TRENDY (wstrzyknięta do nawigacji) -->
+<div class="page" id="page-trends">
+<div class="max-w">
+  <div class="page-title">📈 Twoje <em>Trendy</em></div>
+  <div class="page-sub">Wizualizacja parametrów biometrycznych w czasie</div>
+
+  <div class="mini-stats" id="mini-stats-row"></div>
+
+  <div class="trend-chart-wrap">
+    <div class="trend-chart-title">
+      <span>❤️ Tętno spoczynkowe — 7 dni</span>
+      <span style="font-size:11px;color:var(--text-soft)" id="hr-trend-label"></span>
+    </div>
+    <div class="chart-canvas-wrap">
+      <svg class="chart-svg" id="chart-hr" viewBox="0 0 400 110" preserveAspectRatio="none"></svg>
+    </div>
+  </div>
+
+  <div class="trend-chart-wrap">
+    <div class="trend-chart-title">
+      <span>🧠 HRV — 7 dni</span>
+      <span style="font-size:11px;color:var(--text-soft)" id="hrv-trend-label"></span>
+    </div>
+    <div class="chart-canvas-wrap">
+      <svg class="chart-svg" id="chart-hrv" viewBox="0 0 400 110" preserveAspectRatio="none"></svg>
+    </div>
+  </div>
+
+  <div class="trend-chart-wrap">
+    <div class="trend-chart-title">
+      <span>💤 Sen — 7 nocy</span>
+      <span style="font-size:11px;color:var(--text-soft)" id="sleep-trend-label"></span>
+    </div>
+    <div class="chart-canvas-wrap">
+      <svg class="chart-svg" id="chart-sleep" viewBox="0 0 400 110" preserveAspectRatio="none"></svg>
+    </div>
+  </div>
+
+  <div class="trend-chart-wrap">
+    <div class="trend-chart-title">
+      <span>💚 BioScore — 7 dni</span>
+    </div>
+    <div class="chart-canvas-wrap">
+      <svg class="chart-svg" id="chart-bioscore" viewBox="0 0 400 110" preserveAspectRatio="none"></svg>
+    </div>
+  </div>
+
+  <div class="section-label">Kalkulator dawek</div>
+  <div class="dose-calc">
+    <div class="dose-calc-title">⚖️ Oblicz dawkę dla Twojej wagi</div>
+    <div class="dose-slider-wrap">
+      <div class="dose-slider-label"><span>Twoja waga</span><span id="weight-val">70 kg</span></div>
+      <input type="range" id="weight-slider" min="40" max="150" value="70" oninput="calcDose()">
+    </div>
+    <div class="dose-slider-wrap">
+      <div class="dose-slider-label"><span>Wiek</span><span id="age-val">35 lat</span></div>
+      <input type="range" id="age-slider" min="15" max="85" value="35" oninput="calcDose()">
+    </div>
+    <div id="dose-result-box" class="dose-result"></div>
+  </div>
+
+  <div class="section-label">Eksport danych</div>
+  <button class="export-btn" onclick="exportJournal()">📄 Eksportuj dziennik zdrowia (TXT)</button>
+  <button class="export-btn" style="background:var(--blue)" onclick="printSummary()">🖨️ Podsumowanie dla lekarza</button>
+
+</div>
+</div>
+
+<!-- PAGE 8: ALERTY -->
+<div class="page" id="page-alerts">
+<div class="max-w">
+  <div class="page-title">⚠️ Centrum <em>Alertów</em></div>
+  <div class="page-sub">Analiza sygnałów wymagających uwagi</div>
+  <div id="alerts-container"></div>
+  <div class="section-label">Protokół ratunkowy</div>
+  <div class="card" style="background:var(--red-bg);border-left:4px solid var(--red)">
+    <div style="font-size:14px;font-weight:700;color:var(--red);margin-bottom:8px">🚨 Kiedy dzwonić 112?</div>
+    <div style="font-size:12px;color:#8B1A1A;line-height:1.7">
+      ✗ Ból w klatce piersiowej promieniujący do ramienia lub szczęki<br>
+      ✗ Nagłe silne duszności w spoczynku<br>
+      ✗ SpO2 poniżej 90% przez więcej niż 10 minut<br>
+      ✗ Omdlenie lub utrata przytomności<br>
+      ✗ Nagła jednostronna słabość twarzy, ramienia lub nogi<br>
+      ✗ Nagłe zaburzenia mowy lub widzenia<br>
+      ✗ Tętno powyżej 150 bpm w spoczynku przez 30+ min
+    </div>
+    <button class="btn-red alert-btn" style="margin-top:14px;font-size:14px;padding:12px 28px" onclick="alert('Zadzwoń: 112')">📞 ZADZWOŃ 112</button>
+  </div>
+</div>
+</div>
+
+<!-- PAGE 9: SEZON -->
+<div class="page" id="page-season">
+<div class="max-w">
+  <div class="page-title">🌿 Protokoły <em>Sezonowe</em></div>
+  <div class="page-sub">Medycyna naturalna dostosowana do rytmu roku</div>
+  <div id="season-container"></div>
+</div>
+</div>
+
+<script>
+// ─── Extend nav ───
+(function(){
+  const navTabs = document.querySelector('.nav-tabs');
+  if(navTabs){
+    navTabs.innerHTML += `
+      <button class="nav-tab" onclick="showPage('trends',this)">📈 Trendy</button>
+      <button class="nav-tab" onclick="showPage('alerts',this)">⚠️ Alerty</button>
+      <button class="nav-tab" onclick="showPage('season',this)">🌿 Sezon</button>
+    `;
+  }
+
+  // Override showPage to handle new pages
+  const origShow = window.showPage;
+  window.showPage = function(id, btn){
+    origShow && origShow(id, btn);
+    if(id==='trends') renderTrends();
+    if(id==='alerts') renderAlerts();
+    if(id==='season') renderSeason();
+    // Also expand remedy page with full db
+    if(id==='remedies') setTimeout(renderFullDB, 50);
+  };
+
+  // Add bottom nav items
+  const bottomNav = document.querySelector('.bottom-nav');
+  if(bottomNav){
+    bottomNav.innerHTML += `
+      <div class="bottom-nav-item" onclick="showPage('trends')">
+        <div class="bottom-nav-icon">📈</div>
+        <div class="bottom-nav-lbl">Trendy</div>
+      </div>
+    `;
+  }
+})();
+
+// ═══════════════════════════════════════
+// TREND DATA — localStorage history
+// ═══════════════════════════════════════
+function saveTodayHistory(){
+  if(!state.bioscore) return;
+  const hist = JSON.parse(localStorage.getItem('naturaiq_history')||'{}');
+  const key = new Date().toISOString().slice(0,10);
+  hist[key] = {
+    hr: state.vitals.hr||0,
+    hrv: state.vitals.hrv||0,
+    sleep: state.vitals.sleep||0,
+    spo2: state.vitals.spo2||0,
+    steps: state.vitals.steps||0,
+    bioscore: state.bioscore||0
+  };
+  // Keep last 30 days
+  const keys = Object.keys(hist).sort().slice(-30);
+  const trimmed = {};
+  keys.forEach(k=>trimmed[k]=hist[k]);
+  localStorage.setItem('naturaiq_history', JSON.stringify(trimmed));
+}
+
+function getHistory(){
+  const hist = JSON.parse(localStorage.getItem('naturaiq_history')||'{}');
+  const today = new Date().toISOString().slice(0,10);
+  // Always include today if we have vitals
+  if(state.bioscore>0) hist[today] = {
+    hr:state.vitals.hr||0, hrv:state.vitals.hrv||0,
+    sleep:state.vitals.sleep||0, spo2:state.vitals.spo2||0,
+    steps:state.vitals.steps||0, bioscore:state.bioscore||0
+  };
+  // Generate demo history if empty (first time)
+  const keys = Object.keys(hist).sort();
+  if(keys.length < 2){
+    const base = {hr:68,hrv:42,sleep:7.2,spo2:97,steps:7800,bioscore:72};
+    for(let i=6;i>=1;i--){
+      const d = new Date(); d.setDate(d.getDate()-i);
+      const k = d.toISOString().slice(0,10);
+      if(!hist[k]) hist[k]={
+        hr: base.hr + Math.round((Math.random()-0.5)*12),
+        hrv: base.hrv + Math.round((Math.random()-0.5)*14),
+        sleep: Math.round((base.sleep + (Math.random()-0.5)*2)*10)/10,
+        spo2: base.spo2 + Math.round((Math.random()-0.5)*2),
+        steps: base.steps + Math.round((Math.random()-0.5)*4000),
+        bioscore: base.bioscore + Math.round((Math.random()-0.5)*20)
+      };
+    }
+  }
+  return hist;
+}
+
+// ═══════════════════════════════════════
+// SVG CHART ENGINE
+// ═══════════════════════════════════════
+function drawChart(svgId, data, color, unit, goodRange){
+  const svg = document.getElementById(svgId);
+  if(!svg || !data.length) return;
+  const W=400, H=110, PAD={t:12,b:24,l:28,r:12};
+  const vals = data.map(d=>d.v).filter(v=>v>0);
+  if(!vals.length){ svg.innerHTML='<text x="200" y="55" text-anchor="middle" font-size="12" fill="#B0A898" font-family="Inter,sans-serif">Brak danych</text>'; return; }
+  const mn = Math.min(...vals)*0.9, mx = Math.max(...vals)*1.1;
+  const cx = i => PAD.l + i*(W-PAD.l-PAD.r)/(data.length-1||1);
+  const cy = v => PAD.t + (1-(v-mn)/(mx-mn||1))*(H-PAD.t-PAD.b);
+
+  const pts = data.map((d,i)=>({x:cx(i),y:d.v>0?cy(d.v):null,v:d.v,lbl:d.lbl}));
+  const validPts = pts.filter(p=>p.y!==null);
+  if(!validPts.length) return;
+
+  // Grid lines
+  let out = '';
+  [0.25,0.5,0.75].forEach(pct=>{
+    const y = PAD.t + pct*(H-PAD.t-PAD.b);
+    out += `<line class="chart-grid" x1="${PAD.l}" y1="${y}" x2="${W-PAD.r}" y2="${y}"/>`;
+    const v = mx - pct*(mx-mn);
+    out += `<text class="chart-label" x="${PAD.l-2}" y="${y+3}" text-anchor="end">${Math.round(v)}</text>`;
+  });
+
+  // Good range band
+  if(goodRange){
+    const y1 = cy(Math.min(goodRange[1],mx));
+    const y2 = cy(Math.max(goodRange[0],mn));
+    out += `<rect x="${PAD.l}" y="${y1}" width="${W-PAD.l-PAD.r}" height="${y2-y1}" fill="${color}" opacity="0.06" rx="2"/>`;
+  }
+
+  // Area fill
+  const pathPts = validPts.map((p,i)=>`${i===0?'M':'L'}${p.x},${p.y}`).join(' ');
+  const first = validPts[0], last = validPts[validPts.length-1];
+  out += `<path d="${pathPts} L${last.x},${H-PAD.b} L${first.x},${H-PAD.b} Z" fill="${color}" class="chart-area"/>`;
+
+  // Line
+  const linePts = validPts.map((p,i)=>`${i===0?'M':'L'}${p.x},${p.y}`).join(' ');
+  out += `<path d="${linePts}" class="chart-line" stroke="${color}"/>`;
+
+  // Dots + labels
+  pts.forEach((p,i)=>{
+    if(p.y===null) return;
+    const isLast = i===pts.length-1;
+    out += `<circle class="chart-dot" cx="${p.x}" cy="${p.y}" r="${isLast?5:3.5}" fill="${color}"/>`;
+    if(isLast || data.length<=7){
+      out += `<text class="chart-label" x="${p.x}" y="${H-8}" text-anchor="middle">${p.lbl}</text>`;
+    }
+    if(isLast){
+      out += `<text x="${p.x+6}" y="${p.y-6}" font-size="10" font-weight="700" fill="${color}" font-family="Inter,sans-serif">${p.v}${unit}</text>`;
+    }
+  });
+
+  svg.innerHTML = out;
+}
+
+function renderTrends(){
+  const hist = getHistory();
+  const keys = Object.keys(hist).sort().slice(-7);
+  const days = ['N','P','W','Ś','C','Pt','S'];
+  const mkData = field => keys.map(k=>({v:hist[k][field]||0, lbl:new Date(k).toLocaleDateString('pl',{day:'2-digit',month:'2-digit'}).slice(0,5)}));
+
+  drawChart('chart-hr', mkData('hr'), '#C0392B', 'bpm', [55,72]);
+  drawChart('chart-hrv', mkData('hrv'), '#534AB7', 'ms', [35,60]);
+  drawChart('chart-sleep', mkData('sleep'), '#185FA5', 'h', [7,9]);
+  drawChart('chart-bioscore', mkData('bioscore'), '#1A3D2B', '', [70,90]);
+
+  // Mini stats
+  const allHr = keys.map(k=>hist[k].hr).filter(v=>v>0);
+  const allHrv = keys.map(k=>hist[k].hrv).filter(v=>v>0);
+  const allSleep = keys.map(k=>hist[k].sleep).filter(v=>v>0);
+  const allScore = keys.map(k=>hist[k].bioscore).filter(v=>v>0);
+  const avg = arr => arr.length ? Math.round(arr.reduce((a,b)=>a+b,0)/arr.length*10)/10 : '—';
+
+  document.getElementById('mini-stats-row').innerHTML = `
+    <div class="mini-stat"><div class="mini-stat-val">${avg(allHr)}</div><div class="mini-stat-lbl">HR śr.</div></div>
+    <div class="mini-stat"><div class="mini-stat-val">${avg(allHrv)}</div><div class="mini-stat-lbl">HRV śr.</div></div>
+    <div class="mini-stat"><div class="mini-stat-val">${avg(allSleep)}h</div><div class="mini-stat-lbl">Sen śr.</div></div>
+    <div class="mini-stat"><div class="mini-stat-val" style="color:var(--gold)">${avg(allScore)}</div><div class="mini-stat-lbl">BioScore</div></div>
+  `;
+
+  // Trend labels
+  const trendLabel = (arr, unit, goodLo, goodHi) => {
+    if(arr.length<2) return '';
+    const diff = arr[arr.length-1]-arr[0];
+    const inRange = arr[arr.length-1]>=goodLo && arr[arr.length-1]<=goodHi;
+    return (diff>0?'↑ +':diff<0?'↓ ':'')+Math.abs(Math.round(diff*10)/10)+unit+(inRange?' ✓ norma':' ⚠ poza normą');
+  };
+  const el = id => document.getElementById(id);
+  if(allHr.length>1 && el('hr-trend-label')) el('hr-trend-label').textContent = trendLabel(allHr,'bpm',55,72);
+  if(allHrv.length>1 && el('hrv-trend-label')) el('hrv-trend-label').textContent = trendLabel(allHrv,'ms',35,60);
+  if(allSleep.length>1 && el('sleep-trend-label')) el('sleep-trend-label').textContent = trendLabel(allSleep,'h',7,9);
+
+  // Dose calculator
+  const wSlider = document.getElementById('weight-slider');
+  const aSlider = document.getElementById('age-slider');
+  if(state.weight>0 && wSlider) wSlider.value = state.weight;
+  if(state.age>0 && aSlider) aSlider.value = state.age;
+  calcDose();
+
+  // Save today to history
+  saveTodayHistory();
+}
+
+function calcDose(){
+  const w = parseFloat(document.getElementById('weight-slider')?.value||70);
+  const a = parseFloat(document.getElementById('age-slider')?.value||35);
+  const wEl = document.getElementById('weight-val');
+  const aEl = document.getElementById('age-val');
+  if(wEl) wEl.textContent = w+' kg';
+  if(aEl) aEl.textContent = a+' lat';
+
+  const waterGoal = Math.round(w*33/100)/10;
+  const magGoal = w>80?400:w>60?350:300;
+  const d3Goal = a>50?4000:2000;
+  const omegaGoal = w>90?'2–4g':w>70?'1–2g':'1g';
+
+  const box = document.getElementById('dose-result-box');
+  if(box) box.innerHTML = `
+    <strong>Dawki spersonalizowane dla ${w}kg / ${a} lat:</strong>
+    💧 Woda: <b>${waterGoal}L/dzień</b> (${w}kg × 33ml)<br>
+    🌾 Magnez: <b>${magGoal}mg/dzień</b> (cytrynian lub glicynian)<br>
+    ☀️ Witamina D3: <b>${d3Goal} IU/dzień</b> ${a>50?'(dawka dla 50+)':''}<br>
+    🐟 Omega-3: <b>${omegaGoal} EPA+DHA/dzień</b><br>
+    🌿 Ashwagandha: <b>${w>80?'600':'300'}mg/dzień</b> (wieczorem)<br>
+    💊 Koenzym Q10: <b>${a>40?'200':'100'}mg/dzień</b> ${a>40?'(ubiquinol po 40. roku)':''}<br>
+    <span style="font-size:10px;color:var(--text-xsoft);margin-top:6px;display:block">⚕️ Dawki orientacyjne — skonsultuj z lekarzem przy przyjmowaniu leków.</span>
+  `;
+}
+
+// ═══════════════════════════════════════
+// EXPORT
+// ═══════════════════════════════════════
+function exportJournal(){
+  const hist = getHistory();
+  const keys = Object.keys(hist).sort();
+  let txt = '═══════════════════════════════════════\n';
+  txt += '   NaturaIQ — Dziennik Zdrowia\n';
+  txt += '   Eksport: '+new Date().toLocaleString('pl-PL')+'\n';
+  txt += '   Pacjent: '+(state.name||'Anonim')+', '+state.age+' lat\n';
+  txt += '═══════════════════════════════════════\n\n';
+  txt += '── PARAMETRY BIOMETRYCZNE (ostatnie 30 dni) ──\n\n';
+  keys.forEach(k=>{
+    const d = hist[k];
+    txt += `${k}:\n`;
+    if(d.hr) txt += `  Tętno: ${d.hr} bpm\n`;
+    if(d.hrv) txt += `  HRV: ${d.hrv} ms\n`;
+    if(d.sleep) txt += `  Sen: ${d.sleep}h\n`;
+    if(d.spo2) txt += `  SpO2: ${d.spo2}%\n`;
+    if(d.steps) txt += `  Kroki: ${d.steps}\n`;
+    if(d.bioscore) txt += `  BioScore: ${d.bioscore}/100\n`;
+    txt += '\n';
+  });
+  txt += '── DZIENNIK NOTATEK ──\n\n';
+  (state.journal||[]).forEach(e=>{
+    txt += `[${e.date}] ${e.mood}\n${e.text}\n\n`;
+  });
+  txt += '─────────────────────────────────────\n';
+  txt += 'NaturaIQ nie jest urządzeniem medycznym.\n';
+  txt += 'Ten raport ma charakter informacyjny.\n';
+  const blob = new Blob([txt],{type:'text/plain;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href=url; a.download='NaturaIQ_Dziennik_'+new Date().toISOString().slice(0,10)+'.txt';
+  a.click(); URL.revokeObjectURL(url);
+  showToast('✅ Dziennik wyeksportowany!');
+}
+
+function printSummary(){
+  const v = state.vitals;
+  const hist = getHistory();
+  const keys = Object.keys(hist).sort().slice(-7);
+  let html = `<html><head><title>NaturaIQ — Podsumowanie dla lekarza</title>
+  <style>body{font-family:Arial,sans-serif;max-width:700px;margin:40px auto;color:#1A1A1A;font-size:13px}
+  h1{color:#1A3D2B;font-size:20px;margin-bottom:4px}h2{color:#2A5C40;font-size:14px;margin:20px 0 8px;border-bottom:1px solid #EDE7DC;padding-bottom:4px}
+  table{width:100%;border-collapse:collapse;margin-bottom:16px}td,th{padding:7px 10px;border:1px solid #EDE7DC;font-size:12px}
+  th{background:#F7F3EE;font-weight:600;color:#2A5C40}.note{background:#FEF3E2;border-left:3px solid #C4873A;padding:10px;font-size:11px;margin-top:20px}</style>
+  </head><body>
+  <h1>🌿 NaturaIQ — Podsumowanie zdrowia</h1>
+  <p style="color:#7A7A7A;font-size:12px">Pacjent: <strong>${state.name||'—'}</strong> | Wiek: ${state.age||'—'} | Data: ${new Date().toLocaleDateString('pl-PL')}</p>
+  <h2>Dzisiejsze parametry biometryczne</h2>
+  <table><tr><th>Parametr</th><th>Wartość</th><th>Norma</th><th>Status</th></tr>
+  <tr><td>Tętno spoczynkowe</td><td>${v.hr||'—'} bpm</td><td>55–72 bpm</td><td>${v.hr?(v.hr<=72&&v.hr>=55?'✓ Norma':v.hr<=85?'⚠ Podwyższone':'⚠ Wysokie'):'—'}</td></tr>
+  <tr><td>HRV</td><td>${v.hrv||'—'} ms</td><td>>35 ms</td><td>${v.hrv?(v.hrv>=35?'✓ Dobry':v.hrv>=20?'⚠ Niski':'⚠ Bardzo niski'):'—'}</td></tr>
+  <tr><td>Sen</td><td>${v.sleep||'—'} h</td><td>7–9 h</td><td>${v.sleep?(v.sleep>=7&&v.sleep<=9?'✓ Optymalny':v.sleep>=6?'⚠ Niewystarczający':'⚠ Za mało'):'—'}</td></tr>
+  <tr><td>SpO2</td><td>${v.spo2||'—'} %</td><td>≥95%</td><td>${v.spo2?(v.spo2>=97?'✓ Doskonałe':v.spo2>=95?'✓ Dobre':v.spo2>=93?'⚠ Obniżone':'⚠ Niskie!'):'—'}</td></tr>
+  <tr><td>Kroki</td><td>${v.steps||'—'}</td><td>≥7000</td><td>${v.steps?(v.steps>=7000?'✓ Dobry':'⚠ Mało'):'—'}</td></tr>
+  <tr><td>BioScore</td><td><strong>${state.bioscore||'—'}/100</strong></td><td>≥70</td><td>${state.bioscore?(state.bioscore>=70?'✓ Dobry':state.bioscore>=50?'⚠ Przeciętny':'⚠ Wymaga uwagi'):'—'}</td></tr>
+  </table>
+  <h2>Trend 7-dniowy</h2>
+  <table><tr><th>Data</th><th>HR</th><th>HRV</th><th>Sen</th><th>SpO2</th><th>BioScore</th></tr>
+  ${keys.map(k=>`<tr><td>${k}</td><td>${hist[k].hr||'—'}</td><td>${hist[k].hrv||'—'}</td><td>${hist[k].sleep||'—'}</td><td>${hist[k].spo2||'—'}</td><td>${hist[k].bioscore||'—'}</td></tr>`).join('')}
+  </table>
+  <h2>Dziennik notatek (ostatnie 5)</h2>
+  ${(state.journal||[]).slice(0,5).map(e=>`<p style="margin-bottom:8px"><strong>${e.date}</strong> ${e.mood}: ${e.text}</p>`).join('')}
+  <div class="note">⚕️ Ten dokument został wygenerowany przez aplikację wellness NaturaIQ i ma charakter wyłącznie informacyjny. Nie stanowi dokumentacji medycznej ani diagnozy lekarskiej. Wszystkie dane są samodzielnie wprowadzone przez użytkownika.</div>
+  </body></html>`;
+  const w = window.open('','_blank');
+  w.document.write(html);
+  w.document.close();
+  setTimeout(()=>w.print(),500);
+}
+
+// ═══════════════════════════════════════
+// ALERTS ENGINE
+// ═══════════════════════════════════════
+function renderAlerts(){
+  const v = state.vitals;
+  const alerts = [];
+
+  if(v.spo2>0&&v.spo2<93) alerts.push({type:'alert-critical',icon:'🚨',title:'SpO2 krytycznie niskie: '+v.spo2+'%',desc:'SpO2 poniżej 93% wymaga natychmiastowej oceny lekarskiej. Możliwe przyczyny: astma, zapalenie płuc, zatorowość płucna. Nie czekaj — zadzwoń 112 lub jedź na izbę przyjęć.',actions:[{lbl:'📞 Zadzwoń 112',cls:'btn-red'}]});
+  else if(v.spo2>0&&v.spo2<95) alerts.push({type:'alert-warn',icon:'💨',title:'SpO2 obniżone: '+v.spo2+'%',desc:'SpO2 między 93–95% jest poniżej normy. Wykonaj ćwiczenia oddechowe 4-7-8. Jeśli nie poprawi się w ciągu 1h — skonsultuj lekarza.',actions:[{lbl:'🌿 Protokół SpO2',cls:'btn-forest',fn:"showPage('signals')"}]});
+
+  if(v.hr>0&&v.hr>100) alerts.push({type:'alert-critical',icon:'❤️‍🔥',title:'Tachykardia: '+v.hr+' bpm',desc:'Tętno spoczynkowe powyżej 100 bpm to tachykardia. Upewnij się że jesteś w spoczynku. Sprawdź nawodnienie. Przy kołataniu serca lub bólu klatki — skonsultuj natychmiast.',actions:[{lbl:'⚕️ Idź do lekarza',cls:'btn-amber'}]});
+  else if(v.hr>0&&v.hr>85) alerts.push({type:'alert-warn',icon:'❤️',title:'Podwyższone tętno: '+v.hr+' bpm',desc:'Tętno 85–100 bpm w spoczynku może wskazywać na stres, odwodnienie lub nadchodzącą infekcję. Pij wodę, odpoczywaj, zaplanuj wczesny sen.',actions:[{lbl:'🌿 Protokół HR',cls:'btn-forest',fn:"showPage('signals')"}]});
+
+  if(v.hrv>0&&v.hrv<20) alerts.push({type:'alert-warn',icon:'🧠',title:'HRV bardzo niskie: '+v.hrv+' ms',desc:'HRV poniżej 20ms oznacza poważne przeciążenie układu nerwowego. Priorytet: sen (8h+), ashwagandha, magnez, brak intensywnego wysiłku przez 48h.',actions:[{lbl:'🌿 Protokół HRV',cls:'btn-forest',fn:"selectSignal('hrv')"}]});
+  else if(v.hrv>0&&v.hrv<30) alerts.push({type:'alert-warn',icon:'🧠',title:'HRV niskie: '+v.hrv+' ms',desc:'HRV między 20–30ms wskazuje na przeciążenie. Ciało jest w trybie stresu. Ashwagandha, sen, nawodnienie i spokój to priorytety.',actions:[]});
+
+  if(v.sleep>0&&v.sleep<5) alerts.push({type:'alert-warn',icon:'😴',title:'Poważny niedobór snu: '+v.sleep+'h',desc:'Poniżej 5h snu to chroniczny niedobór. Wykazano powiązanie z ↑ ryzykiem CVD, otyłości i depresji. Melatonina 1mg, waleriana lub melisa wieczorem.',actions:[]});
+
+  if(v.temp>0&&v.temp>38.5) alerts.push({type:'alert-warn',icon:'🌡️',title:'Gorączka: '+v.temp+'°C',desc:'Powyżej 38.5°C — gorączka jest wyraźna. Stosuj czarny bez, czosnek, witaminę C, cynk. Dużo płynów. Przy gorączce powyżej 39.5°C przez 3+ dni — lekarz.',actions:[{lbl:'🌿 Protokół gorączki',cls:'btn-forest',fn:"selectSignal('temp')"}]});
+
+  if(alerts.length===0) alerts.push({type:'alert-ok',icon:'✅',title:'Wszystko w normie',desc:'Twoje parametry biometryczne nie wykazują sygnałów alarmowych. Kontynuuj swoje nawyki zdrowotne i pamiętaj o regularnym monitorowaniu.',actions:[]});
+
+  // Check for positive alerts
+  if(v.hrv>=50) alerts.push({type:'alert-ok',icon:'🧠',title:'Świetne HRV: '+v.hrv+' ms',desc:'HRV powyżej 50ms wskazuje na doskonałą regenerację układu nerwowego. Twoje ciało jest w trybie odbudowy i odporności.',actions:[]});
+  if(v.spo2>=98) alerts.push({type:'alert-ok',icon:'💨',title:'Perfekcyjne SpO2: '+v.spo2+'%',desc:'Nasycenie krwi tlenem na poziomie 98%+ jest doskonałe. Twój oddech i krążenie funkcjonują optymalnie.',actions:[]});
+
+  document.getElementById('alerts-container').innerHTML = alerts.map(a=>`
+    <div class="alert-card ${a.type}">
+      <div class="alert-icon">${a.icon}</div>
+      <div class="alert-body">
+        <div class="alert-title">${a.title}</div>
+        <div class="alert-desc">${a.desc}</div>
+        <div class="alert-actions">
+          ${(a.actions||[]).map(btn=>`<button class="alert-btn ${btn.cls}" ${btn.fn?`onclick="${btn.fn}"`:''}>${btn.lbl}</button>`).join('')}
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ═══════════════════════════════════════
+// SEASON PROTOCOLS
+// ═══════════════════════════════════════
+function renderSeason(){
+  const month = new Date().getMonth()+1;
+  const seasons = [
+    {months:[12,1,2], cls:'season-winter', emoji:'❄️', title:'Protokół Zimowy — Tarcza Odporności',
+     desc:'Grudniowy-lutowy to czas najwyższego ryzyka infekcji i niedoboru witaminy D. Wzmocnij tarczę immunologiczną zanim choroba uderzy.',
+     daily:['Witamina D3 4000 IU + K2','Czarny bez 5ml syropu','Czosnek 1–2 ząbki','Ashwagandha 300mg (wieczorem)','Cynk 15mg','Witamina C 1000mg'],
+     at_infection:['Czarny bez 15ml × 4/dzień','Cynk pastylki co 2h (24h)','NAC 600mg × 3','Czosnek + imbir + kurkuma','Wit. C do 2g/dzień'],
+     color:'season-winter'},
+    {months:[3,4,5], cls:'season-spring', emoji:'🌸', title:'Protokół Wiosenny — Oczyszczenie i Energia',
+     desc:'Wiosna to naturalny czas detoksu po zimie. Organizm potrzebuje oczyszczenia, świeżych mikroelementów i wiosennej energii.',
+     daily:['Sok z brzozy 100–200ml (świeży)','Sałatka z mniszka + czosnek niedźwiedzi','Zupa z pokrzywy (żelazo, chlorofil)','Witamina C 500mg','Probiotyki 10mld CFU'],
+     at_infection:['Ostropest plamisty (detoks wątroby)','Łopian korzeniowy','Mniszek — napar 3× dziennie','Ograniczenie cukru i przetworzonej żywności','Ruch na świeżym powietrzu'],
+     color:'season-spring'},
+    {months:[6,7,8], cls:'season-summer', emoji:'☀️', title:'Protokół Letni — Nawodnienie i Ochrona',
+     desc:'Upały to wyzwanie dla serca, ciśnienia i nawodnienia. Ochrona przed słońcem, elektrolity i polifenole sezonowe.',
+     daily:['Woda z elektrolitami (sól morska + cytryna)','Arbuz (cytrulina → NO → ↓ ciśnienie)','Borówki + truskawki + maliny (codziennie)','Zielona herbata (chłodzona, bez cukru)','Hibiskus napar (chłodny, ↓ ciśnienie)'],
+     at_infection:['Aloes na oparzenia słoneczne','Mięta na przegrzanie','Sok z buraka na przemęczenie','Magnez po obfitym poceniu','Nawodnienie priorytet — min. 3L'],
+     color:'season-summer'},
+    {months:[9,10,11], cls:'season-autumn', emoji:'🍂', title:'Protokół Jesienny — Fortyfikacja na Zimę',
+     desc:'Wrzesień-listopad to czas budowania rezerw. Start suplementacji D3, adaptogeny na stres nowego sezonu, grzyby lecznicze.',
+     daily:['Ashwagandha 300mg (start)', 'D3 2000 IU (stop słońca → start suplementacji)','Orzechy włoskie garść/dzień','Grzyby (boczniaki, shitake) 3× tydzień','Imbir + kurkuma + pieprz codziennie','Reishi lub Lion\'s Mane (adaptacja)'],
+     at_infection:['Echinacea 400mg × 3 (max 8 tyg.)','Czarny bez syrop prewencyjnie 5ml/dzień','Wit. D3 4000 IU (przełącz na zimową dawkę)','CoQ10 200mg (energia jesienną)','Probiotyki (nowy szczep sezonowy)'],
+     color:'season-autumn'},
+  ];
+  const current = seasons.find(s=>s.months.includes(month))||seasons[0];
+  const others = seasons.filter(s=>s!==current);
+
+  document.getElementById('season-container').innerHTML = `
+    <div class="season-card ${current.color}">
+      <span class="season-emoji">${current.emoji}</span>
+      <div class="season-title">${current.title}</div>
+      <div class="season-desc">${current.desc}</div>
+      <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.6);letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px">Codziennie:</div>
+      <div class="season-items">${current.daily.map(i=>`<span class="season-item">✓ ${i}</span>`).join('')}</div>
+      <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.6);letter-spacing:.06em;text-transform:uppercase;margin:14px 0 8px">Przy infekcji:</div>
+      <div class="season-items">${current.at_infection.map(i=>`<span class="season-item" style="background:rgba(255,255,255,.08)">⚡ ${i}</span>`).join('')}</div>
+    </div>
+    <div class="section-label">Pozostałe pory roku</div>
+    ${others.map(s=>`
+      <div class="card" style="margin-bottom:10px;cursor:pointer" onclick="this.style.display='none'">
+        <div style="font-size:18px;margin-bottom:6px">${s.emoji}</div>
+        <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px">${s.title}</div>
+        <div style="font-size:12px;color:var(--text-soft);margin-bottom:10px">${s.desc}</div>
+        <div style="display:flex;flex-wrap:wrap;gap:5px">${s.daily.slice(0,4).map(i=>`<span style="font-size:10px;padding:3px 9px;border-radius:99px;background:var(--forest-xlight);color:var(--forest)">${i}</span>`).join('')}</div>
+      </div>
+    `).join('')}
+  `;
+}
+
+// ═══════════════════════════════════════
+// FULL DB IN APTECZKA — extended search
+// ═══════════════════════════════════════
+const FULL_DB_EXTRA = [
+  {emoji:'🫒',name:'Oliwa z oliwek (EVOO)',latin:'Olea europaea',en:'Extra Virgin Olive Oil',evidence:'high',
+   states:['serce','stan zapalny','ciśnienie'],dose:'20–40ml (2–3 łyżki) na zimno lub do gotowania.',
+   mech:'PREDIMED (NEJM, n=7447): ↓ CV o 30%. Oleokantal działa jak ibuprofen. ↓ LDL oksydowany.'},
+  {emoji:'🥜',name:'Orzechy włoskie',latin:'Juglans regia',en:'Walnuts',evidence:'high',
+   states:['serce','głowa','stan zapalny','stres'],dose:'28–42g dziennie (7–10 połówek).',
+   mech:'ALA omega-3 + polifenole. ↓ LDL, ↓ ciśnienie, ↑ BDNF, ↓ stan zapalny mózgu.'},
+  {emoji:'🍫',name:'Gorzka czekolada (70%+)',latin:'Theobroma cacao',en:'Dark Chocolate',evidence:'good',
+   states:['serce','stres','nastrój'],dose:'20–40g dziennie (70%+ kakao).',
+   mech:'Flawanole: ↑ NO → ↓ ciśnienie. ↑ serotonina, ↑ endorfiny.'},
+  {emoji:'🥦',name:'Brokuły',latin:'Brassica oleracea',en:'Broccoli',evidence:'good',
+   states:['stan zapalny','odporność','serce'],dose:'150–200g dziennie (parzone krótko lub surowe).',
+   mech:'Sulforafan aktywuje Nrf2 → ↑ enzymy antyoksydacyjne. ↓ NF-κB → przeciwzapalnie.'},
+  {emoji:'🍵',name:'Zielona herbata (EGCG)',latin:'Camellia sinensis',en:'Green Tea',evidence:'high',
+   states:['serce','stres','stan zapalny','skupienie'],dose:'3–5 filiżanek lub 250–500mg EGCG.',
+   mech:'EGCG: ↓ LDL, ↑ HDL. L-teanina: skupienie bez nerwowości. ↓ CVD o 20–30%.'},
+  {emoji:'🧇',name:'Siemię lniane',latin:'Linum usitatissimum',en:'Flaxseed',evidence:'good',
+   states:['serce','trawienie','stan zapalny'],dose:'1–2 łyżki mielone dziennie.',
+   mech:'ALA + lignany + błonnik: ↓ LDL o 6–11%, ↓ TG o 20mg/dl.'},
+  {emoji:'🫘',name:'Witamina B-complex',latin:'Vitaminum B complexum',en:'B Vitamins',evidence:'good',
+   states:['zmęczenie','stres','nastrój'],dose:'B-complex raz rano. Szczególnie B12 1000mcg i B9 400mcg.',
+   mech:'Kofaktory metabolizmu energetycznego. Niedobór B12 → zmęczenie, depresja, zaburzenia rytmu.'},
+  {emoji:'💊',name:'NAC (N-acetylocysteina)',latin:'N-acetylcysteinum',en:'NAC',evidence:'good',
+   states:['odporność','wątroba','przeziębienie'],dose:'600–1800mg dziennie z posiłkiem.',
+   mech:'Prekursor glutationu. ↑ glutation wątrobowy. Mukolotyk. FDA-approved przy zatruciu paracetamolem.'},
+  {emoji:'🌊',name:'Spirulina',latin:'Arthrospira platensis',en:'Spirulina',evidence:'moderate',
+   states:['zmęczenie','odporność','anemia'],dose:'3–10g dziennie (zacznij od 1g).',
+   mech:'Fikojanina: ↓ IL-6. Żelazo, B-wit., pełne białko (60%). ↓ TG i LDL.'},
+  {emoji:'🌿',name:'Moringa',latin:'Moringa oleifera',en:'Moringa',evidence:'moderate',
+   states:['zmęczenie','odporność','stan zapalny'],dose:'2–6g proszku dziennie.',
+   mech:'92 składniki. Wit. C (7× pomarańcza), żelazo (3× szpinak). Izotyocyjaniany → ↓ CRP.'},
+  {emoji:'🍊',name:'Kiwi (2 szt. przed snem)',latin:'Actinidia deliciosa',en:'Kiwi',evidence:'good',
+   states:['sen','odporność'],dose:'2 owoce 1h przed snem.',
+   mech:'RCT: ↓ latencja zasypiania o 35%, ↑ czas snu o 13%. Serotonina + foliany.'},
+  {emoji:'🍯',name:'Miód Manuka (MGO 250+)',latin:'Leptospermum scoparium',en:'Manuka Honey',evidence:'good',
+   states:['odporność','trawienie','infekcja'],dose:'1–2 łyżeczki na czczo. Nie powyżej 40°C.',
+   mech:'Metyloglioksal (MGO): działa na MRSA, H. pylori. WHO uznaje za środek medyczny.'},
+];
+
+function renderFullDB(){
+  const aptekaPage = document.getElementById('page-remedies');
+  if(!aptekaPage) return;
+  const maxW = aptekaPage.querySelector('.max-w');
+  if(!maxW) return;
+  if(document.getElementById('full-db-section')) return; // already rendered
+
+  const section = document.createElement('div');
+  section.id = 'full-db-section';
+  section.innerHTML = `
+    <div class="section-label" style="margin-top:24px">📚 Pełna Baza Naturalna (87 środków)</div>
+    <div class="db-search-wrap">
+      <input type="text" id="db-search-input" placeholder="Szukaj: zioło, stan, składnik..." oninput="filterFullDB()">
+    </div>
+    <div class="db-filter-row" id="db-filter-row">
+      <button class="db-filter-btn active" onclick="setDbFilter('all',this)">Wszystkie</button>
+      <button class="db-filter-btn" onclick="setDbFilter('zmęczenie',this)">😴 Zmęczenie</button>
+      <button class="db-filter-btn" onclick="setDbFilter('stres',this)">🧠 Stres</button>
+      <button class="db-filter-btn" onclick="setDbFilter('serce',this)">❤️ Serce</button>
+      <button class="db-filter-btn" onclick="setDbFilter('sen',this)">🌙 Sen</button>
+      <button class="db-filter-btn" onclick="setDbFilter('odporność',this)">🛡️ Odporność</button>
+      <button class="db-filter-btn" onclick="setDbFilter('trawienie',this)">🫄 Trawienie</button>
+      <button class="db-filter-btn" onclick="setDbFilter('stan zapalny',this)">🔥 Zapalenie</button>
+    </div>
+    <div style="font-size:12px;color:var(--text-soft);margin-bottom:10px" id="db-count"></div>
+    <div id="full-db-results"></div>
+  `;
+  maxW.appendChild(section);
+  filterFullDB();
+}
+
+let dbCurrentFilter = 'all';
+function setDbFilter(f, btn){
+  dbCurrentFilter = f;
+  document.querySelectorAll('.db-filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  filterFullDB();
+}
+
+function filterFullDB(){
+  const q = (document.getElementById('db-search-input')?.value||'').toLowerCase();
+  const combined = [...REMEDY_DB, ...FULL_DB_EXTRA];
+  const evMap = {high:['ev-high','Wysoki'],good:['ev-good','Dobry'],moderate:['ev-mod','Umiarkowany'],traditional:['ev-trad','Tradycyjny']};
+  const filtered = combined.filter(r=>{
+    const matchF = dbCurrentFilter==='all'||r.states.some(s=>s.includes(dbCurrentFilter));
+    const matchQ = !q || (r.name+r.latin+r.en+r.states.join(' ')+r.mech).toLowerCase().includes(q);
+    return matchF && matchQ;
+  });
+  const countEl = document.getElementById('db-count');
+  if(countEl) countEl.innerHTML = `Wyświetlam <strong style="color:var(--forest)">${filtered.length}</strong> z ${combined.length} wpisów`;
+  const res = document.getElementById('full-db-results');
+  if(!res) return;
+  res.innerHTML = filtered.map(r=>{
+    const [cls,lbl] = evMap[r.evidence]||evMap.moderate;
+    return `<div class="remedy-card">
+      <div class="remedy-emoji">${r.emoji}</div>
+      <div class="remedy-body">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px">
+          <div><div class="remedy-name">${r.name}</div><div class="remedy-latin">${r.latin} · ${r.en}</div></div>
+          <span class="remedy-ev ${cls}">${lbl}</span>
+        </div>
+        <div class="remedy-dose">💊 ${r.dose}</div>
+        <div style="font-size:11px;color:var(--text-soft);line-height:1.5;margin-bottom:6px">${r.mech}</div>
+        <div class="remedy-tags">${r.states.map(s=>`<span class="remedy-tag">${s}</span>`).join('')}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════
+// HOOK into analyzeSignals to save history
+// ═══════════════════════════════════════
+const _origAnalyze = window.analyzeSignals;
+window.analyzeSignals = function(){
+  _origAnalyze && _origAnalyze();
+  saveTodayHistory();
+  renderAlerts();
+};
+
+// ═══════════════════════════════════════
+// Initial renders
+// ═══════════════════════════════════════
+window.addEventListener('load', function(){
+  setTimeout(()=>{
+    saveTodayHistory();
+    // Restore sliders
+    if(state.weight>0){const s=document.getElementById('weight-slider');if(s)s.value=state.weight;}
+    if(state.age>0){const s=document.getElementById('age-slider');if(s)s.value=state.age;}
+  }, 300);
+});
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- PUSH NOTIFICATIONS MODULE                      -->
+<!-- ══════════════════════════════════════════════ -->
+<style>
+/* NOTIFICATIONS PAGE */
+.notif-page .section-label{margin-top:20px}
+.notif-toggle-row{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:var(--white);border-radius:var(--r-md);margin-bottom:8px;box-shadow:var(--shadow)}
+.notif-toggle-info{}
+.notif-toggle-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px}
+.notif-toggle-desc{font-size:11px;color:var(--text-soft);line-height:1.4}
+.toggle-switch{position:relative;width:48px;height:26px;flex-shrink:0;margin-left:12px}
+.toggle-switch input{opacity:0;width:0;height:0}
+.toggle-slider{position:absolute;cursor:pointer;inset:0;background:var(--cream-dark);border-radius:99px;transition:.3s}
+.toggle-slider::before{content:'';position:absolute;width:20px;height:20px;left:3px;top:3px;background:white;border-radius:50%;transition:.3s;box-shadow:0 1px 4px rgba(0,0,0,.2)}
+.toggle-switch input:checked+.toggle-slider{background:var(--forest)}
+.toggle-switch input:checked+.toggle-slider::before{transform:translateX(22px)}
+
+.notif-status-card{border-radius:var(--r-lg);padding:16px 18px;margin-bottom:16px;display:flex;align-items:center;gap:14px}
+.notif-status-card.granted{background:var(--good-bg);border-left:4px solid var(--good)}
+.notif-status-card.denied{background:var(--red-bg);border-left:4px solid var(--red)}
+.notif-status-card.default{background:var(--gold-bg);border-left:4px solid var(--gold)}
+.notif-status-icon{font-size:28px;flex-shrink:0}
+.notif-status-text{flex:1}
+.notif-status-title{font-size:13px;font-weight:700;margin-bottom:3px}
+.notif-status-desc{font-size:11px;line-height:1.5;opacity:.85}
+.notif-grant-btn{background:var(--forest);color:#fff;border:none;border-radius:var(--r-md);padding:10px 18px;font-size:12px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;margin-top:10px;display:flex;align-items:center;gap:6px}
+.notif-grant-btn:hover{background:var(--forest-mid)}
+
+.time-picker-row{display:flex;align-items:center;gap:10px;margin-top:8px}
+.time-picker-row label{font-size:12px;color:var(--text-mid);min-width:80px}
+.time-picker-row input[type=time]{padding:7px 10px;border:2px solid var(--cream-dark);border-radius:var(--r-sm);font-size:13px;font-family:Inter,sans-serif;outline:none;color:var(--text);background:var(--bg);accent-color:var(--forest)}
+.time-picker-row input[type=time]:focus{border-color:var(--forest-light)}
+
+.notif-preview-card{background:var(--forest);border-radius:var(--r-lg);padding:16px;margin:14px 0;color:#fff;position:relative}
+.notif-preview-header{font-size:10px;color:rgba(255,255,255,.5);letter-spacing:.05em;text-transform:uppercase;margin-bottom:10px}
+.notif-preview-item{background:rgba(255,255,255,.1);border-radius:10px;padding:12px 14px;margin-bottom:8px;display:flex;gap:12px;align-items:flex-start}
+.notif-preview-item:last-child{margin-bottom:0}
+.notif-preview-icon{font-size:22px;flex-shrink:0}
+.notif-preview-title{font-size:13px;font-weight:600;color:#fff;margin-bottom:2px}
+.notif-preview-body{font-size:11px;color:rgba(255,255,255,.7);line-height:1.4}
+
+.notif-log{background:var(--white);border-radius:var(--r-lg);padding:14px;max-height:240px;overflow-y:auto}
+.notif-log-item{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--bg);font-size:12px}
+.notif-log-item:last-child{border-bottom:none}
+.notif-log-time{color:var(--text-xsoft);min-width:52px;flex-shrink:0}
+.notif-log-text{color:var(--text-mid);line-height:1.4}
+.notif-log-icon{font-size:16px;flex-shrink:0}
+.notif-test-btn{background:var(--gold);color:#fff;border:none;border-radius:var(--r-md);padding:11px 20px;font-size:13px;font-weight:600;cursor:pointer;width:100%;font-family:Inter,sans-serif;margin-top:4px;display:flex;align-items:center;justify-content:center;gap:8px}
+.interval-select{padding:7px 12px;border:2px solid var(--cream-dark);border-radius:var(--r-sm);font-size:12px;font-family:Inter,sans-serif;outline:none;color:var(--text);background:var(--bg);accent-color:var(--forest)}
+</style>
+
+<!-- PAGE: POWIADOMIENIA -->
+<div class="page notif-page" id="page-notifications">
+<div class="max-w">
+  <div class="page-title">🔔 <em>Powiadomienia</em></div>
+  <div class="page-sub">Inteligentne przypomnienia oparte na Twoich parametrach biometrycznych</div>
+
+  <!-- STATUS -->
+  <div id="notif-status-block"></div>
+
+  <!-- MAIN TOGGLES -->
+  <div class="section-label">Aktywne przypomnienia</div>
+
+  <div class="notif-toggle-row">
+    <div class="notif-toggle-info">
+      <div class="notif-toggle-title">💧 Nawodnienie</div>
+      <div class="notif-toggle-desc">Inteligentne przypomnienia o piciu wody — nie co godzinę, ale wtedy gdy potrzebujesz</div>
+    </div>
+    <label class="toggle-switch">
+      <input type="checkbox" id="toggle-water" onchange="saveNotifSettings()" checked>
+      <span class="toggle-slider"></span>
+    </label>
+  </div>
+
+  <div class="notif-toggle-row">
+    <div class="notif-toggle-info">
+      <div class="notif-toggle-title">🌿 Zioła i suplementy</div>
+      <div class="notif-toggle-desc">Przypomnienie o porannych i wieczornych suplementach według Twojego protokołu</div>
+    </div>
+    <label class="toggle-switch">
+      <input type="checkbox" id="toggle-herbs" onchange="saveNotifSettings()" checked>
+      <span class="toggle-slider"></span>
+    </label>
+  </div>
+
+  <div class="notif-toggle-row">
+    <div class="notif-toggle-info">
+      <div class="notif-toggle-title">🧠 Codzienny check-in HRV</div>
+      <div class="notif-toggle-desc">Poranne przypomnienie o wpisaniu parametrów z zegarka — fundament działania NaturaIQ</div>
+    </div>
+    <label class="toggle-switch">
+      <input type="checkbox" id="toggle-checkin" onchange="saveNotifSettings()" checked>
+      <span class="toggle-slider"></span>
+    </label>
+  </div>
+
+  <div class="notif-toggle-row">
+    <div class="notif-toggle-info">
+      <div class="notif-toggle-title">💤 Przygotowanie do snu</div>
+      <div class="notif-toggle-desc">Wieczorny rytuał snu — melatonina, melisa, lawenda — 60 minut przed snem</div>
+    </div>
+    <label class="toggle-switch">
+      <input type="checkbox" id="toggle-sleep" onchange="saveNotifSettings()" checked>
+      <span class="toggle-slider"></span>
+    </label>
+  </div>
+
+  <div class="notif-toggle-row">
+    <div class="notif-toggle-info">
+      <div class="notif-toggle-title">🚶 Ruch i aktywność</div>
+      <div class="notif-toggle-desc">Przy małej liczbie kroków w ciągu dnia — delikatne przypomnienie o ruchu</div>
+    </div>
+    <label class="toggle-switch">
+      <input type="checkbox" id="toggle-move" onchange="saveNotifSettings()">
+      <span class="toggle-slider"></span>
+    </label>
+  </div>
+
+  <div class="notif-toggle-row">
+    <div class="notif-toggle-info">
+      <div class="notif-toggle-title">⚠️ Alerty biometryczne</div>
+      <div class="notif-toggle-desc">Natychmiastowy alert gdy tętno, SpO2 lub HRV wychodzą poza bezpieczny zakres</div>
+    </div>
+    <label class="toggle-switch">
+      <input type="checkbox" id="toggle-alerts" onchange="saveNotifSettings()" checked>
+      <span class="toggle-slider"></span>
+    </label>
+  </div>
+
+  <div class="notif-toggle-row">
+    <div class="notif-toggle-info">
+      <div class="notif-toggle-title">📓 Wieczorny dziennik</div>
+      <div class="notif-toggle-desc">Przypomnienie o zapisaniu samopoczucia w dzienniku zdrowia</div>
+    </div>
+    <label class="toggle-switch">
+      <input type="checkbox" id="toggle-journal" onchange="saveNotifSettings()">
+      <span class="toggle-slider"></span>
+    </label>
+  </div>
+
+  <!-- SCHEDULE -->
+  <div class="section-label">Godziny przypomnień</div>
+  <div class="card">
+    <div class="time-picker-row">
+      <label>☀️ Poranek</label>
+      <input type="time" id="time-morning" value="07:30" onchange="saveNotifSettings()">
+      <span style="font-size:11px;color:var(--text-soft)">check-in + zioła</span>
+    </div>
+    <div class="time-picker-row" style="margin-top:10px">
+      <label>🌞 Południe</label>
+      <input type="time" id="time-noon" value="13:00" onchange="saveNotifSettings()">
+      <span style="font-size:11px;color:var(--text-soft)">woda + ruch</span>
+    </div>
+    <div class="time-picker-row" style="margin-top:10px">
+      <label>🌙 Wieczór</label>
+      <input type="time" id="time-evening" value="21:30" onchange="saveNotifSettings()">
+      <span style="font-size:11px;color:var(--text-soft)">sen + dziennik</span>
+    </div>
+    <div class="time-picker-row" style="margin-top:10px">
+      <label>💧 Woda co:</label>
+      <select class="interval-select" id="water-interval" onchange="saveNotifSettings()">
+        <option value="60">60 minut</option>
+        <option value="90" selected>90 minut</option>
+        <option value="120">2 godziny</option>
+        <option value="0">Wyłączone</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- PREVIEW -->
+  <div class="section-label">Podgląd powiadomień</div>
+  <div class="notif-preview-card">
+    <div class="notif-preview-header">🔔 Przykładowe powiadomienia NaturaIQ</div>
+    <div id="notif-preview-list"></div>
+  </div>
+
+  <!-- TEST -->
+  <div class="section-label">Test i historia</div>
+  <button class="notif-test-btn" onclick="sendTestNotification()">🔔 Wyślij testowe powiadomienie</button>
+  <div style="margin-top:12px">
+    <div class="notif-log" id="notif-log">
+      <div style="text-align:center;color:var(--text-xsoft);font-size:12px;padding:20px">Brak wysłanych powiadomień</div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════
+// PUSH NOTIFICATION ENGINE
+// ═══════════════════════════════════════════════
+
+// Extend showPage
+(function(){
+  const orig = window.showPage;
+  window.showPage = function(id, btn){
+    orig && orig(id, btn);
+    if(id==='notifications') initNotifPage();
+  };
+  // Add to nav
+  const navTabs = document.querySelector('.nav-tabs');
+  if(navTabs) navTabs.innerHTML += `<button class="nav-tab" onclick="showPage('notifications',this)">🔔 Powiadomienia</button>`;
+})();
+
+// ─── State ───
+let notifSettings = JSON.parse(localStorage.getItem('naturaiq_notif')||'{}');
+let notifLog = JSON.parse(localStorage.getItem('naturaiq_notif_log')||'[]');
+let scheduledTimers = [];
+
+function saveNotifSettings(){
+  notifSettings = {
+    water:      document.getElementById('toggle-water')?.checked ?? true,
+    herbs:      document.getElementById('toggle-herbs')?.checked ?? true,
+    checkin:    document.getElementById('toggle-checkin')?.checked ?? true,
+    sleep:      document.getElementById('toggle-sleep')?.checked ?? true,
+    move:       document.getElementById('toggle-move')?.checked ?? false,
+    alerts:     document.getElementById('toggle-alerts')?.checked ?? true,
+    journal:    document.getElementById('toggle-journal')?.checked ?? false,
+    timeMorning: document.getElementById('time-morning')?.value || '07:30',
+    timeNoon:    document.getElementById('time-noon')?.value    || '13:00',
+    timeEvening: document.getElementById('time-evening')?.value || '21:30',
+    waterInterval: parseInt(document.getElementById('water-interval')?.value||90),
+  };
+  localStorage.setItem('naturaiq_notif', JSON.stringify(notifSettings));
+  scheduleAll();
+  renderNotifPreview();
+  showToast('✅ Ustawienia powiadomień zapisane');
+}
+
+function loadNotifSettings(){
+  const s = notifSettings;
+  const set = (id, val) => { const el=document.getElementById(id); if(el && val!==undefined) el.checked=val; };
+  const setVal = (id, val) => { const el=document.getElementById(id); if(el && val!==undefined) el.value=val; };
+  set('toggle-water',   s.water   !== false);
+  set('toggle-herbs',   s.herbs   !== false);
+  set('toggle-checkin', s.checkin !== false);
+  set('toggle-sleep',   s.sleep   !== false);
+  set('toggle-move',    s.move    === true);
+  set('toggle-alerts',  s.alerts  !== false);
+  set('toggle-journal', s.journal === true);
+  setVal('time-morning',  s.timeMorning  || '07:30');
+  setVal('time-noon',     s.timeNoon     || '13:00');
+  setVal('time-evening',  s.timeEvening  || '21:30');
+  setVal('water-interval', s.waterInterval || 90);
+}
+
+// ─── Permission ───
+async function requestPermission(){
+  if(!('Notification' in window)){ showToast('⚠️ Przeglądarka nie obsługuje powiadomień'); return; }
+  const result = await Notification.requestPermission();
+  renderPermissionStatus();
+  if(result === 'granted'){
+    await registerServiceWorker();
+    scheduleAll();
+    showToast('🔔 Powiadomienia włączone!');
+    logNotif('✅','Powiadomienia push zostały włączone');
+  } else {
+    showToast('⚠️ Powiadomienia zablokowane — zmień w ustawieniach przeglądarki');
+  }
+}
+
+async function registerServiceWorker(){
+  if(!('serviceWorker' in navigator)) return null;
+  try {
+    // Inline SW using blob — no external file needed
+    const swCode = `
+      self.addEventListener('install', e=>self.skipWaiting());
+      self.addEventListener('activate', e=>e.waitUntil(clients.claim()));
+      self.addEventListener('notificationclick', e=>{
+        e.notification.close();
+        e.waitUntil(clients.matchAll({type:'window'}).then(cls=>{
+          for(const c of cls) if('focus' in c) return c.focus();
+          if(clients.openWindow) return clients.openWindow('/');
+        }));
+      });
+    `;
+    const blob = new Blob([swCode], {type:'application/javascript'});
+    const swUrl = URL.createObjectURL(blob);
+    const reg = await navigator.serviceWorker.register(swUrl, {scope:'/'});
+    return reg;
+  } catch(e) {
+    console.warn('SW registration failed (expected in some environments):', e.message);
+    return null;
+  }
+}
+
+function renderPermissionStatus(){
+  const block = document.getElementById('notif-status-block');
+  if(!block) return;
+  const perm = 'Notification' in window ? Notification.permission : 'unsupported';
+  const configs = {
+    granted: {cls:'granted', icon:'✅', title:'Powiadomienia aktywne', desc:'Przeglądarka zezwala na wysyłanie powiadomień. Zaplanowane przypomnienia będą działać nawet gdy aplikacja jest w tle.'},
+    denied:  {cls:'denied',  icon:'🚫', title:'Powiadomienia zablokowane', desc:'Odblokuj powiadomienia w ustawieniach przeglądarki (ikona kłódki w pasku adresu) i odśwież stronę.'},
+    default: {cls:'default', icon:'🔔', title:'Włącz powiadomienia', desc:'Kliknij przycisk poniżej, aby otrzymywać inteligentne przypomnienia o wodzie, ziołach, snie i parametrach zdrowotnych.'},
+    unsupported: {cls:'denied', icon:'⚠️', title:'Brak wsparcia', desc:'Ta przeglądarka nie obsługuje powiadomień push. Użyj Chrome, Firefox lub Safari 16.4+.'},
+  };
+  const c = configs[perm] || configs.unsupported;
+  block.innerHTML = `
+    <div class="notif-status-card ${c.cls}">
+      <div class="notif-status-icon">${c.icon}</div>
+      <div class="notif-status-text">
+        <div class="notif-status-title">${c.title}</div>
+        <div class="notif-status-desc">${c.desc}</div>
+        ${perm==='default'?`<button class="notif-grant-btn" onclick="requestPermission()">🔔 Włącz powiadomienia</button>`:''}
+        ${perm==='denied'?`<div style="font-size:10px;margin-top:8px;opacity:.7">Chrome: Ustawienia → Prywatność → Powiadomienia → Zezwól dla tej strony</div>`:''}
+      </div>
+    </div>
+  `;
+}
+
+// ─── Send notification ───
+function sendNativeNotif(title, body, icon='🌿', tag='naturaiq'){
+  if(!('Notification' in window)) return false;
+  if(Notification.permission !== 'granted') return false;
+  try {
+    const n = new Notification(title, {
+      body, icon: '🌿',
+      badge: '🌿',
+      tag,
+      renotify: true,
+      silent: false,
+    });
+    n.onclick = () => { window.focus(); n.close(); };
+    setTimeout(()=>n.close(), 8000);
+    return true;
+  } catch(e) {
+    console.warn('Notification error:', e);
+    return false;
+  }
+}
+
+function logNotif(icon, text){
+  const time = new Date().toLocaleTimeString('pl-PL',{hour:'2-digit',minute:'2-digit'});
+  notifLog.unshift({time, icon, text});
+  if(notifLog.length > 30) notifLog = notifLog.slice(0,30);
+  localStorage.setItem('naturaiq_notif_log', JSON.stringify(notifLog));
+  renderNotifLog();
+}
+
+function sendTestNotification(){
+  if(Notification.permission !== 'granted'){
+    requestPermission().then(()=>{
+      if(Notification.permission === 'granted') sendTestNotification();
+    });
+    return;
+  }
+  const tests = [
+    {title:'💧 NaturaIQ — Nawodnienie', body:'Wypiłeś dziś '+Math.round((state.water||0)/100)/10+'L. Cel: '+(state.waterGoal/1000).toFixed(1)+'L. Wypiج szklankę wody teraz!', tag:'test-water'},
+    {title:'🌿 NaturaIQ — Zioła wieczorne', body:'Czas na Twój protokół: Ashwagandha 300mg + Magnez 400mg + Melisa. Dobrej regeneracji!', tag:'test-herbs'},
+    {title:'🧠 NaturaIQ — Poranny Check-in', body:'Wpisz parametry z zegarka, aby obliczyć BioScore i otrzymać personalizowany protokół na dziś.', tag:'test-checkin'},
+  ];
+  const t = tests[Math.floor(Math.random()*tests.length)];
+  const sent = sendNativeNotif(t.title, t.body, '🌿', t.tag);
+  if(sent){
+    logNotif('🔔', t.title + ' — ' + t.body.slice(0,60)+'...');
+    showToast('✅ Testowe powiadomienie wysłane!');
+  } else {
+    showToast('⚠️ Najpierw włącz powiadomienia w przeglądarce');
+  }
+}
+
+// ─── Smart notification logic ───
+const NOTIF_DEFS = [
+  {
+    id: 'morning_checkin',
+    getTime: s => s.timeMorning || '07:30',
+    enabled: s => s.checkin !== false,
+    getPayload: () => ({
+      title: '☀️ NaturaIQ — Poranny Check-in',
+      body: 'Wpisz parametry z zegarka i oblicz swój BioScore. Twoje ciało ma coś do powiedzenia!',
+      tag: 'morning-checkin'
+    })
+  },
+  {
+    id: 'morning_herbs',
+    getTime: s => {
+      const [h,m] = (s.timeMorning||'07:30').split(':');
+      return `${h}:${String(parseInt(m)+15).padStart(2,'0')}`;
+    },
+    enabled: s => s.herbs !== false,
+    getPayload: () => {
+      const v = state.vitals;
+      let herbs = 'Różeniec górski 400mg + Omega-3 + Witamina D3';
+      if(v.hrv>0&&v.hrv<35) herbs = 'Ashwagandha 300mg + Omega-3 + Witamina D3';
+      if(v.spo2>0&&v.spo2<96) herbs = 'Spirulina 5g + Witamina C 1000mg + Burak ćwikłowy';
+      return {
+        title: '🌿 NaturaIQ — Poranne zioła',
+        body: `Twój protokół poranny: ${herbs}. Dobrego dnia!`,
+        tag: 'morning-herbs'
+      };
+    }
+  },
+  {
+    id: 'noon_water',
+    getTime: s => s.timeNoon || '13:00',
+    enabled: s => s.water !== false,
+    getPayload: () => {
+      const pct = Math.round(((state.water||0)/(state.waterGoal||2500))*100);
+      const left = Math.ceil(((state.waterGoal||2500)-(state.water||0))/250);
+      return {
+        title: '💧 NaturaIQ — Nawodnienie',
+        body: pct < 50
+          ? `Uwaga! Wypiłeś tylko ${pct}% celu. Jeszcze ${left} szklanek do celu!`
+          : `Super! ${pct}% celu nawodnienia. Jeszcze ${left} szklanek — do przodu!`,
+        tag: 'noon-water'
+      };
+    }
+  },
+  {
+    id: 'noon_move',
+    getTime: s => {
+      const [h,m] = (s.timeNoon||'13:00').split(':');
+      return `${String(parseInt(h)+1).padStart(2,'0')}:${m}`;
+    },
+    enabled: s => s.move === true,
+    getPayload: () => {
+      const steps = state.vitals.steps||0;
+      return {
+        title: '🚶 NaturaIQ — Ruch',
+        body: steps < 5000
+          ? `Tylko ${steps} kroków do tej pory. 10-minutowy spacer teraz = +1000 kroków i lepszy nastrój!`
+          : `${steps} kroków — świetnie! Krótki spacer po obiedzie uzupełni regenerację.`,
+        tag: 'noon-move'
+      };
+    }
+  },
+  {
+    id: 'evening_sleep',
+    getTime: s => s.timeEvening || '21:30',
+    enabled: s => s.sleep !== false,
+    getPayload: () => {
+      const v = state.vitals;
+      let protocol = 'Melisa 300mg + Magnez 400mg + Lawenda (aromaterapia) + 2 kiwi';
+      if(v.hrv>0&&v.hrv<30) protocol = 'Ashwagandha 600mg + Magnez 400mg + Waleriana + Melisa';
+      if(v.hr>0&&v.hr>80) protocol = 'Passiflora 60 drops + Magnez 400mg + Lawenda + L-teanina 200mg';
+      return {
+        title: '🌙 NaturaIQ — Rytuał snu',
+        body: `Czas na wieczorny protokół snu: ${protocol}. Ogranicz ekrany!`,
+        tag: 'evening-sleep'
+      };
+    }
+  },
+  {
+    id: 'evening_journal',
+    getTime: s => {
+      const [h,m] = (s.timeEvening||'21:30').split(':');
+      return `${String(parseInt(h)+1).padStart(2,'0')}:${m}`;
+    },
+    enabled: s => s.journal === true,
+    getPayload: () => ({
+      title: '📓 NaturaIQ — Dziennik zdrowia',
+      body: 'Jak minął dzień? Zapisz swoje samopoczucie. 2 minuty notatki = miesiące wzorców zdrowotnych.',
+      tag: 'evening-journal'
+    })
+  },
+];
+
+// Water interval notifications
+function scheduleWaterInterval(){
+  const interval = notifSettings.waterInterval||90;
+  if(interval<=0) return;
+  // Use setInterval for water reminders
+  if(window._waterIntervalId) clearInterval(window._waterIntervalId);
+  window._waterIntervalId = setInterval(()=>{
+    if(!notifSettings.water) return;
+    if(Notification.permission!=='granted') return;
+    const pct = Math.round(((state.water||0)/(state.waterGoal||2500))*100);
+    if(pct>=100) return; // goal reached
+    const left = Math.ceil(((state.waterGoal||2500)-(state.water||0))/250);
+    sendNativeNotif(
+      '💧 NaturaIQ — Czas na wodę!',
+      `Wypiłeś ${pct}% dziennego celu. Jeszcze ${left} szklanek. Weź łyk teraz! 🌿`,
+      '🌿', 'water-reminder'
+    );
+    logNotif('💧','Przypomnienie o wodzie — '+pct+'% celu');
+  }, interval * 60 * 1000);
+}
+
+// Daily time-based scheduler
+function scheduleAll(){
+  // Clear existing timers
+  scheduledTimers.forEach(t=>clearTimeout(t));
+  scheduledTimers = [];
+  if(Notification.permission!=='granted') return;
+
+  const now = new Date();
+
+  NOTIF_DEFS.forEach(def => {
+    if(!def.enabled(notifSettings)) return;
+    const timeStr = def.getTime(notifSettings);
+    const [h,m] = timeStr.split(':').map(Number);
+    const target = new Date(now);
+    target.setHours(h, m, 0, 0);
+    // If time already passed today, schedule for tomorrow
+    if(target <= now) target.setDate(target.getDate()+1);
+    const delay = target - now;
+    const t = setTimeout(()=>{
+      const payload = def.getPayload();
+      sendNativeNotif(payload.title, payload.body, '🌿', payload.tag);
+      logNotif('🔔', payload.title + ' — ' + payload.body.slice(0,70));
+      // Reschedule for next day
+      scheduleAll();
+    }, delay);
+    scheduledTimers.push(t);
+  });
+
+  scheduleWaterInterval();
+}
+
+// Biometric alerts — check every 5 minutes when app is open
+function startBioAlertMonitor(){
+  if(window._bioMonitorId) clearInterval(window._bioMonitorId);
+  window._bioMonitorId = setInterval(()=>{
+    if(!notifSettings.alerts) return;
+    if(Notification.permission!=='granted') return;
+    const v = state.vitals;
+    if(!state.bioscore) return; // no data entered yet
+    const now = Date.now();
+    const lastAlert = parseInt(localStorage.getItem('naturaiq_last_bio_alert')||0);
+    if(now - lastAlert < 30*60*1000) return; // max 1 alert per 30 min
+
+    let alertSent = false;
+    if(v.spo2>0 && v.spo2<93){
+      sendNativeNotif('🚨 ALERT — SpO2 krytyczne: '+v.spo2+'%','Natlenienie krwi jest bardzo niskie. Wykonaj ćwiczenia oddechowe. Przy duszności — zadzwoń 112!','🌿','bio-alert-spo2');
+      logNotif('🚨','ALERT SpO2: '+v.spo2+'% — poniżej 93%');
+      alertSent=true;
+    } else if(v.hr>0 && v.hr>110){
+      sendNativeNotif('⚠️ ALERT — Tętno: '+v.hr+' bpm','Tętno spoczynkowe jest bardzo wysokie. Usiądź, oddychaj spokojnie. Przy bólu klatki — zadzwoń 112!','🌿','bio-alert-hr');
+      logNotif('⚠️','ALERT Tętno: '+v.hr+' bpm — powyżej 110');
+      alertSent=true;
+    } else if(v.temp>0 && v.temp>39.5){
+      sendNativeNotif('🌡️ ALERT — Temperatura: '+v.temp+'°C','Wysoka gorączka! Stosuj czarny bez, wit. C, dużo płynów. Powyżej 3 dni — idź do lekarza.','🌿','bio-alert-temp');
+      logNotif('🌡️','ALERT Temperatura: '+v.temp+'°C — powyżej 39.5°C');
+      alertSent=true;
+    }
+    if(alertSent) localStorage.setItem('naturaiq_last_bio_alert', now.toString());
+  }, 5*60*1000); // every 5 minutes
+}
+
+// ─── Preview ───
+const PREVIEW_NOTIFS = [
+  {icon:'☀️', title:'Poranny Check-in', body:'Wpisz parametry z zegarka i oblicz BioScore na dziś.', time:'07:30'},
+  {icon:'🌿', title:'Poranne zioła', body:'Twój protokół poranny: Ashwagandha 300mg + Omega-3 + D3.', time:'07:45'},
+  {icon:'💧', title:'Czas na wodę!', body:'Wypiłeś 40% celu. Jeszcze 5 szklanek do celu!', time:'co 90 min'},
+  {icon:'🚶', title:'Ruch i aktywność', body:'Tylko 2,400 kroków. Krótki spacer teraz = lepsze HRV wieczorem!', time:'14:00'},
+  {icon:'🌙', title:'Rytuał snu', body:'Czas na melisę + magnez + lawendę. Ogranicz ekrany!', time:'21:30'},
+  {icon:'⚠️', title:'Alert biometryczny', body:'HRV niskie (22ms). Priorytet: spokój, ashwagandha, wcześniejszy sen.', time:'Auto'},
+];
+
+function renderNotifPreview(){
+  const list = document.getElementById('notif-preview-list');
+  if(!list) return;
+  list.innerHTML = PREVIEW_NOTIFS.map(n=>`
+    <div class="notif-preview-item">
+      <div class="notif-preview-icon">${n.icon}</div>
+      <div>
+        <div class="notif-preview-title">${n.title} <span style="font-size:9px;opacity:.6;font-weight:400;margin-left:6px">${n.time}</span></div>
+        <div class="notif-preview-body">${n.body}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderNotifLog(){
+  const log = document.getElementById('notif-log');
+  if(!log) return;
+  if(!notifLog.length){
+    log.innerHTML='<div style="text-align:center;color:var(--text-xsoft);font-size:12px;padding:20px">Brak historii powiadomień</div>';
+    return;
+  }
+  log.innerHTML = notifLog.map(e=>`
+    <div class="notif-log-item">
+      <div class="notif-log-icon">${e.icon}</div>
+      <div class="notif-log-time">${e.time}</div>
+      <div class="notif-log-text">${e.text}</div>
+    </div>
+  `).join('');
+}
+
+// ─── Init ───
+function initNotifPage(){
+  loadNotifSettings();
+  renderPermissionStatus();
+  renderNotifPreview();
+  renderNotifLog();
+  if(Notification.permission==='granted') scheduleAll();
+}
+
+// Auto-start monitor when app loads
+window.addEventListener('load', ()=>{
+  setTimeout(()=>{
+    // Load saved settings
+    notifSettings = JSON.parse(localStorage.getItem('naturaiq_notif')||'{}');
+    if(Notification.permission==='granted'){
+      scheduleAll();
+      startBioAlertMonitor();
+    }
+    // Visibility change — reschedule when user returns to app
+    document.addEventListener('visibilitychange', ()=>{
+      if(!document.hidden && Notification.permission==='granted') scheduleAll();
+    });
+  }, 500);
+});
+</script>
+
+
+<style>
+/* PWA INSTALL BANNER */
+#pwa-install-banner {
+  position: fixed;
+  bottom: 80px;
+  left: 16px;
+  right: 16px;
+  background: var(--forest);
+  border-radius: 16px;
+  padding: 14px 16px;
+  display: none;
+  align-items: center;
+  gap: 12px;
+  z-index: 300;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  animation: slideUp .4s ease;
+}
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+#pwa-install-banner .install-icon { font-size: 28px; flex-shrink: 0; }
+#pwa-install-banner .install-text { flex: 1; }
+#pwa-install-banner .install-title { font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 2px; }
+#pwa-install-banner .install-desc  { font-size: 11px; color: rgba(255,255,255,.65); }
+#pwa-install-banner .install-btn   { background: var(--gold); color: #fff; border: none; border-radius: 10px; padding: 9px 14px; font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap; font-family: Inter, sans-serif; }
+#pwa-install-banner .dismiss-btn   { color: rgba(255,255,255,.4); font-size: 18px; cursor: pointer; flex-shrink: 0; background: none; border: none; padding: 4px; }
+</style>
+<!-- PWA INSTALL BANNER -->
+<div id="pwa-install-banner">
+  <div class="install-icon">🌿</div>
+  <div class="install-text">
+    <div class="install-title">Zainstaluj NaturaIQ</div>
+    <div class="install-desc">Dodaj do ekranu głównego — działa offline!</div>
+  </div>
+  <button class="install-btn" onclick="installPWA()">Instaluj</button>
+  <button class="dismiss-btn" onclick="dismissInstallBanner()">✕</button>
+</div>
+
+<script>
+// ═══════════════════════════════════════
+// SERVICE WORKER REGISTRATION
+// ═══════════════════════════════════════
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', async () => {
+    try {
+      const reg = await navigator.serviceWorker.register('/sw.js', { scope: '/' });
+      console.log('[NaturaIQ] SW registered:', reg.scope);
+      
+      // Check for updates
+      reg.addEventListener('updatefound', () => {
+        const newWorker = reg.installing;
+        newWorker.addEventListener('statechange', () => {
+          if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+            showToast('🔄 Aktualizacja NaturaIQ dostępna — odśwież stronę');
+          }
+        });
+      });
+    } catch(e) {
+      console.warn('[NaturaIQ] SW registration failed:', e.message);
+    }
+  });
+}
+
+// ═══════════════════════════════════════
+// PWA INSTALL PROMPT (Android Chrome)
+// ═══════════════════════════════════════
+let deferredInstallPrompt = null;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredInstallPrompt = e;
+  
+  // Show install banner after 3 seconds
+  setTimeout(() => {
+    const banner = document.getElementById('pwa-install-banner');
+    if (banner) banner.style.display = 'flex';
+  }, 3000);
+});
+
+window.addEventListener('appinstalled', () => {
+  deferredInstallPrompt = null;
+  const banner = document.getElementById('pwa-install-banner');
+  if (banner) banner.style.display = 'none';
+  showToast('🎉 NaturaIQ zainstalowana na telefonie!');
+});
+
+function installPWA() {
+  if (!deferredInstallPrompt) {
+    showToast('ℹ️ Użyj menu przeglądarki → "Dodaj do ekranu głównego"');
+    return;
+  }
+  deferredInstallPrompt.prompt();
+  deferredInstallPrompt.userChoice.then(result => {
+    if (result.outcome === 'accepted') {
+      showToast('✅ Instalowanie NaturaIQ...');
+    }
+    deferredInstallPrompt = null;
+    const banner = document.getElementById('pwa-install-banner');
+    if (banner) banner.style.display = 'none';
+  });
+}
+
+function dismissInstallBanner() {
+  const banner = document.getElementById('pwa-install-banner');
+  if (banner) banner.style.display = 'none';
+  localStorage.setItem('naturaiq_install_dismissed', '1');
+}
+
+// Handle URL params for shortcuts
+window.addEventListener('load', () => {
+  const params = new URLSearchParams(window.location.search);
+  const page = params.get('page');
+  if (page) setTimeout(() => showPage(page), 500);
+});
+</script>
+</body>
+</html>
