@@ -1,7 +1,7 @@
 // NaturaIQ Service Worker v1.0
 // Offline cache + Push notifications
 
-const CACHE_NAME = 'naturaiq-v1.0';
+const CACHE_NAME = 'naturaiq-v5.0';
 const OFFLINE_URL = '/';
 
 // Assets to cache immediately on install

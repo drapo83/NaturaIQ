@@ -1,5 +1,5 @@
 {
-  "name": "NaturaIQ — Naturalny Asystent Zdrowia",
+  "name": "NaturaIQ — Naturalny Asystent Zdrowia v5",
   "short_name": "NaturaIQ",
   "description": "Twój personalny asystent zdrowia oparty na medycynie naturalnej i danych biometrycznych",
   "start_url": "/",
@@ -8,7 +8,11 @@
   "orientation": "portrait",
   "background_color": "#1A3D2B",
   "theme_color": "#1A3D2B",
-  "categories": ["health", "medical", "lifestyle"],
+  "categories": [
+    "health",
+    "medical",
+    "lifestyle"
+  ],
   "lang": "pl",
   "icons": [
     {
@@ -59,25 +63,40 @@
   ],
   "shortcuts": [
     {
-      "name": "Wpisz parametry",
+      "name": "Wywiad zdrowotny",
+      "short_name": "Profil",
+      "description": "Uzupełnij alergie i leki",
+      "url": "/?page=interview",
+      "icons": [
+        {
+          "src": "icons/icon-96.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Sygnały z zegarka",
       "short_name": "Sygnały",
-      "description": "Wpisz dane z zegarka i oblicz BioScore",
+      "description": "Wpisz parametry biometryczne",
       "url": "/?page=signals",
-      "icons": [{ "src": "icons/icon-96.png", "sizes": "96x96" }]
+      "icons": [
+        {
+          "src": "icons/icon-96.png",
+          "sizes": "96x96"
+        }
+      ]
     },
     {
-      "name": "Naturalna apteczka",
+      "name": "Naturalna Apteczka",
       "short_name": "Apteczka",
-      "description": "Znajdź naturalny środek na swój stan",
+      "description": "Znajdź środek na swój stan",
       "url": "/?page=remedies",
-      "icons": [{ "src": "icons/icon-96.png", "sizes": "96x96" }]
-    },
-    {
-      "name": "Tracker nawyków",
-      "short_name": "Tracker",
-      "description": "Zaznacz dzisiejsze nawyki zdrowotne",
-      "url": "/?page=tracker",
-      "icons": [{ "src": "icons/icon-96.png", "sizes": "96x96" }]
+      "icons": [
+        {
+          "src": "icons/icon-96.png",
+          "sizes": "96x96"
+        }
+      ]
     }
   ]
 }
