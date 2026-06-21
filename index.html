@@ -325,7 +325,7 @@ input[type=range]{width:100%;accent-color:var(--F)}
 .dc-result strong{display:block;font-size:13px;margin-bottom:5px}
 
 /* ── TOAST ── */
-.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--F);color:#fff;padding:11px 20px;border-radius:99px;font-size:12px;font-weight:500;z-index:800;transition:transform .3s ease;pointer-events:none;white-space:nowrap}
+.toast{position:fixed;bottom:76px;left:50%;transform:translateX(-50%) translateY(120px);background:var(--F);color:#fff;padding:11px 20px;border-radius:99px;font-size:12px;font-weight:500;z-index:700;transition:transform .3s ease;pointer-events:none;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,.25);max-width:90vw;text-align:center}
 .toast.show{transform:translateX(-50%) translateY(0)}
 
 /* ── PWA INSTALL ── */
@@ -333,6 +333,63 @@ input[type=range]{width:100%;accent-color:var(--F)}
 @keyframes slideUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
 .pwa-install-btn{background:var(--GO);color:#fff;border:none;border-radius:8px;padding:8px 13px;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap;font-family:'Inter',sans-serif}
 .pwa-dismiss{color:rgba(255,255,255,.4);font-size:18px;cursor:pointer;background:none;border:none;padding:3px}
+
+/* ═══════════════════════════════════════
+   LOCK SCREEN / AUTH SYSTEM
+═══════════════════════════════════════ */
+#lock-screen{
+  position:fixed;inset:0;background:var(--F);z-index:1000;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:40px 32px max(40px,env(safe-area-inset-bottom));
+  animation:fadeIn .3s ease;
+}
+.lock-logo{font-family:'Fraunces',serif;font-size:28px;font-weight:300;color:#fff;margin-bottom:4px}
+.lock-logo em{color:var(--GOl);font-style:italic}
+.lock-tagline{font-size:12px;color:rgba(255,255,255,.4);margin-bottom:40px;letter-spacing:.05em}
+.lock-avatar{width:72px;height:72px;background:var(--Fm);border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:32px;margin-bottom:12px;box-shadow:0 4px 20px rgba(0,0,0,.3)}
+.lock-username{font-size:15px;font-weight:500;color:#fff;margin-bottom:4px}
+.lock-hint{font-size:11px;color:rgba(255,255,255,.45);margin-bottom:32px}
+.lock-method-tabs{display:flex;gap:6px;background:rgba(255,255,255,.1);border-radius:10px;padding:3px;margin-bottom:28px}
+.lock-method-tab{padding:7px 14px;border-radius:7px;font-size:12px;font-weight:500;color:rgba(255,255,255,.5);cursor:pointer;border:none;background:transparent;transition:all .15s}
+.lock-method-tab.active{background:rgba(255,255,255,.15);color:#fff}
+
+/* PIN PAD */
+.pin-display{display:flex;gap:12px;margin-bottom:28px;height:14px;align-items:center}
+.pin-dot{width:12px;height:12px;border-radius:50%;border:2px solid rgba(255,255,255,.3);transition:all .15s}
+.pin-dot.filled{background:#fff;border-color:#fff}
+.pin-dot.error{background:var(--RD);border-color:var(--RD);animation:shake .3s ease}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.pin-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:240px}
+.pin-btn{height:64px;border-radius:16px;border:none;background:rgba(255,255,255,.1);color:#fff;font-size:22px;font-weight:300;cursor:pointer;transition:all .15s;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-family:'Inter',sans-serif}
+.pin-btn:active{background:rgba(255,255,255,.25);transform:scale(.95)}
+.pin-btn .sub{font-size:8px;letter-spacing:.1em;color:rgba(255,255,255,.35);font-weight:500}
+.pin-btn.del{font-size:18px}
+.pin-btn.bio{font-size:24px}
+
+/* PASSWORD INPUT */
+.lock-pw-wrap{position:relative;width:240px;margin-bottom:16px}
+.lock-pw-input{width:100%;padding:14px 44px 14px 16px;border-radius:12px;border:2px solid rgba(255,255,255,.2);background:rgba(255,255,255,.1);color:#fff;font-size:16px;font-family:'Inter',sans-serif;outline:none;text-align:center;letter-spacing:.1em}
+.lock-pw-input:focus{border-color:rgba(255,255,255,.5)}
+.lock-pw-input::placeholder{color:rgba(255,255,255,.3);letter-spacing:0;font-size:13px}
+.lock-pw-toggle{position:absolute;right:12px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,.4);cursor:pointer;font-size:18px;background:none;border:none}
+.lock-pw-btn{width:240px;padding:14px;border-radius:12px;background:var(--GO);color:#fff;border:none;font-size:14px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:opacity .15s}
+.lock-pw-btn:hover{opacity:.88}
+
+/* BIO */
+.bio-btn{width:80px;height:80px;border-radius:24px;background:rgba(255,255,255,.1);border:none;color:#fff;font-size:40px;cursor:pointer;transition:all .2s;margin-bottom:12px}
+.bio-btn:active{background:rgba(255,255,255,.2);transform:scale(.95)}
+.bio-label{font-size:12px;color:rgba(255,255,255,.5)}
+
+/* SETUP PIN */
+.setup-pin-title{font-size:16px;font-weight:500;color:#fff;margin-bottom:6px;text-align:center}
+.setup-pin-sub{font-size:12px;color:rgba(255,255,255,.5);margin-bottom:24px;text-align:center}
+
+/* LOCK OPTIONS (in profile) */
+.lock-option-row{display:flex;align-items:center;justify-content:space-between;padding:13px 14px;background:var(--WH);border-radius:var(--r2);margin-bottom:7px;box-shadow:var(--sh)}
+.lo-info{}
+.lo-title{font-size:13px;font-weight:600;color:var(--INK);margin-bottom:2px}
+.lo-desc{font-size:11px;color:var(--SOFT);line-height:1.4}
+
 </style>
 </head>
 <body>
@@ -777,6 +834,8 @@ input[type=range]{width:100%;accent-color:var(--F)}
       <div style="margin-left:auto;font-size:18px;color:var(--XS)">›</div>
     </div>
   </div>
+  <div class="card" style="margin-top:0"><div id="security-settings-box"><div style="text-align:center;padding:16px;color:var(--XS);font-size:12px">Ładowanie ustawień bezpieczeństwa...</div></div></div>
+
   <div class="disclaimer">⚕️ NaturaIQ to aplikacja wellness — nie jest urządzeniem medycznym i nie zastępuje porady lekarskiej. Wszystkie dane są przechowywane lokalnie na Twoim urządzeniu.</div>
 </div>
 </div>
@@ -796,6 +855,98 @@ input[type=range]{width:100%;accent-color:var(--F)}
   <div style="flex:1"><div style="font-size:12px;font-weight:700;color:#fff">Zainstaluj NaturaIQ</div><div style="font-size:10px;color:rgba(255,255,255,.55)">Działa offline · Ikona na ekranie</div></div>
   <button class="pwa-install-btn" onclick="installPWA()">Instaluj</button>
   <button class="pwa-dismiss" onclick="this.parentElement.style.display='none'">✕</button>
+</div>
+
+
+<!-- ══════════════════════════════════
+     LOCK SCREEN
+══════════════════════════════════ -->
+<div id="lock-screen" style="display:none">
+  <div class="lock-logo">Natura<em>IQ</em></div>
+  <div class="lock-tagline">TWÓJ NATURALNY ASYSTENT ZDROWIA</div>
+
+  <div class="lock-avatar" id="lock-avatar">🌿</div>
+  <div class="lock-username" id="lock-username">NaturaIQ</div>
+  <div class="lock-hint" id="lock-hint">Wprowadź PIN aby odblokować</div>
+
+  <!-- Method tabs -->
+  <div class="lock-method-tabs" id="lock-tabs">
+    <button class="lock-method-tab active" data-method="pin" onclick="switchLockMethod('pin')">🔢 PIN</button>
+    <button class="lock-method-tab" data-method="password" onclick="switchLockMethod('password')">🔑 Hasło</button>
+    <button class="lock-method-tab" data-method="bio" onclick="switchLockMethod('bio')" id="bio-tab" style="display:none">👁️ Biometria</button>
+  </div>
+
+  <!-- PIN method -->
+  <div id="lock-pin-view">
+    <div class="pin-display" id="pin-display">
+      <div class="pin-dot" id="pd0"></div>
+      <div class="pin-dot" id="pd1"></div>
+      <div class="pin-dot" id="pd2"></div>
+      <div class="pin-dot" id="pd3"></div>
+    </div>
+    <div class="pin-pad">
+      <button class="pin-btn" onclick="pinKey('1')">1</button>
+      <button class="pin-btn" onclick="pinKey('2')">2<div class="sub">ABC</div></button>
+      <button class="pin-btn" onclick="pinKey('3')">3<div class="sub">DEF</div></button>
+      <button class="pin-btn" onclick="pinKey('4')">4<div class="sub">GHI</div></button>
+      <button class="pin-btn" onclick="pinKey('5')">5<div class="sub">JKL</div></button>
+      <button class="pin-btn" onclick="pinKey('6')">6<div class="sub">MNO</div></button>
+      <button class="pin-btn" onclick="pinKey('7')">7<div class="sub">PQRS</div></button>
+      <button class="pin-btn" onclick="pinKey('8')">8<div class="sub">TUV</div></button>
+      <button class="pin-btn" onclick="pinKey('9')">9<div class="sub">WXYZ</div></button>
+      <button class="pin-btn bio" id="bio-pin-btn" onclick="tryBiometric()" style="display:none">👁️</button>
+      <button class="pin-btn" onclick="pinKey('0')">0</button>
+      <button class="pin-btn del" onclick="pinDel()">⌫</button>
+    </div>
+  </div>
+
+  <!-- Password method -->
+  <div id="lock-pw-view" style="display:none">
+    <div class="lock-pw-wrap">
+      <input class="lock-pw-input" id="lock-pw-input" type="password" placeholder="Wpisz hasło..." onkeydown="if(event.key==='Enter') checkPassword()">
+      <button class="lock-pw-toggle" onclick="togglePwVis()">👁</button>
+    </div>
+    <button class="lock-pw-btn" onclick="checkPassword()">Odblokuj →</button>
+  </div>
+
+  <!-- Biometric method -->
+  <div id="lock-bio-view" style="display:none">
+    <button class="bio-btn" onclick="tryBiometric()">👁️</button>
+    <div class="bio-label" id="bio-label">Face ID / Touch ID / Odcisk palca</div>
+    <div style="margin-top:20px;font-size:11px;color:rgba(255,255,255,.3);cursor:pointer" onclick="switchLockMethod('pin')">Użyj PIN zamiast</div>
+  </div>
+
+  <!-- Error message -->
+  <div id="lock-error" style="font-size:12px;color:#FF8A80;margin-top:16px;min-height:18px;text-align:center"></div>
+</div>
+
+<!-- SETUP PIN MODAL (first time or change) -->
+<div id="setup-pin-modal" style="display:none;position:fixed;inset:0;background:var(--F);z-index:1100;display:none;flex-direction:column;align-items:center;justify-content:center;padding:40px 32px">
+  <div class="lock-logo">Natura<em>IQ</em></div>
+  <div style="height:32px"></div>
+  <div class="setup-pin-title" id="setup-pin-title">Ustaw PIN (4 cyfry)</div>
+  <div class="setup-pin-sub" id="setup-pin-sub">PIN zabezpiecza Twoje dane zdrowotne</div>
+  <div class="pin-display" id="setup-pin-display">
+    <div class="pin-dot" id="spd0"></div>
+    <div class="pin-dot" id="spd1"></div>
+    <div class="pin-dot" id="spd2"></div>
+    <div class="pin-dot" id="spd3"></div>
+  </div>
+  <div class="pin-pad" style="margin-top:28px">
+    <button class="pin-btn" onclick="setupPinKey('1')">1</button>
+    <button class="pin-btn" onclick="setupPinKey('2')">2<div class="sub">ABC</div></button>
+    <button class="pin-btn" onclick="setupPinKey('3')">3<div class="sub">DEF</div></button>
+    <button class="pin-btn" onclick="setupPinKey('4')">4<div class="sub">GHI</div></button>
+    <button class="pin-btn" onclick="setupPinKey('5')">5<div class="sub">JKL</div></button>
+    <button class="pin-btn" onclick="setupPinKey('6')">6<div class="sub">MNO</div></button>
+    <button class="pin-btn" onclick="setupPinKey('7')">7<div class="sub">PQRS</div></button>
+    <button class="pin-btn" onclick="setupPinKey('8')">8<div class="sub">TUV</div></button>
+    <button class="pin-btn" onclick="setupPinKey('9')">9<div class="sub">WXYZ</div></button>
+    <button class="pin-btn" style="opacity:0" disabled></button>
+    <button class="pin-btn" onclick="setupPinKey('0')">0</button>
+    <button class="pin-btn del" onclick="setupPinDel()">⌫</button>
+  </div>
+  <div style="margin-top:20px;font-size:12px;color:rgba(255,255,255,.35);cursor:pointer" onclick="skipPinSetup()">Pomiń — użyj bez zabezpieczenia</div>
 </div>
 
 <!-- TOAST -->
@@ -913,9 +1064,10 @@ function finishOnb(){
   S.onboardingDone=true;
   saveState();
   document.getElementById('onboarding').style.display='none';
-  showToast('✅ Profil zapisany! Witaj, '+S.name+'!');
   initDash();
   syncInterviewPage();
+  // Welcome toast with delay so it appears briefly then hides
+  setTimeout(()=>showToast('✅ Witaj, '+S.name+'! 🌿'),200);
 }
 // Onboarding chips toggle
 document.querySelectorAll('#onboarding .onb-chips').forEach(container=>{
@@ -949,11 +1101,14 @@ function saveP(){
     // goals
     S.goals=[...document.querySelectorAll('#p-goal-chips .onb-chip.on')].map(c=>c.dataset.val);
     saveState();
-    showToast('✅ Profil zapisany');
+    // toast only if user manually edited (not during sync)
+    if(!_suppressProfileToast) showToast('✅ Profil zapisany');
   },600);
 }
 
+let _suppressProfileToast=false;
 function syncInterviewPage(){
+  _suppressProfileToast=true;
   const setV=(id,v)=>{const el=document.getElementById(id);if(el) el.value=v||'';};
   setV('p-name',S.name);setV('p-age',S.age||'');setV('p-weight',S.weight||'');
   setV('p-height',S.height||'');setV('p-gender',S.gender);setV('p-meds',S.meds);
@@ -963,6 +1118,7 @@ function syncInterviewPage(){
   document.querySelectorAll('#p-goal-chips .onb-chip').forEach(c=>{c.classList.toggle('on',S.goals.includes(c.dataset.val));});
   // Sync device
   document.querySelectorAll('#p-devices .device-opt').forEach(o=>{o.classList.toggle('on',o.dataset.dev===S.device);});
+  setTimeout(()=>{_suppressProfileToast=false;},100);
 }
 
 // Interview page chip events
@@ -1880,6 +2036,7 @@ function initProfile(){
     hs.innerHTML=rows.join('')||`<div style="text-align:center;padding:20px;color:var(--XS);font-size:12px">Wywiad zdrowotny nie uzupełniony — <span style="color:var(--F);cursor:pointer" onclick="goPage('interview')">uzupełnij teraz →</span></div>`;
   }
   renderNotifStatus();
+  initSecurityPage();
 }
 
 // ═══════════════════════════════════════════════════════
@@ -1920,10 +2077,16 @@ function printSummary(){
 // ═══════════════════════════════════════════════════════
 // TOAST
 // ═══════════════════════════════════════════════════════
+let _toastTimer=null;
 function showToast(msg){
   const t=document.getElementById('toast');
-  t.textContent=msg;t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),2800);
+  if(!t) return;
+  t.textContent=msg;
+  t.classList.remove('show');
+  void t.offsetWidth; // reflow
+  t.classList.add('show');
+  clearTimeout(_toastTimer);
+  _toastTimer=setTimeout(()=>t.classList.remove('show'),2200);
 }
 
 // ═══════════════════════════════════════════════════════
@@ -1945,9 +2108,16 @@ if('serviceWorker' in navigator){window.addEventListener('load',async()=>{try{aw
 // ═══════════════════════════════════════════════════════
 function init(){
   loadState();
+  // Auth check: if setup done and not unlocked this session, show lock screen
+  if(AUTH.setupDone && !AUTH.sessionUnlocked && (AUTH.pin||AUTH.password||AUTH.bioEnabled)){
+    showLockScreen();
+    // Still init state in background, lock screen is on top
+  } else {
+    AUTH.sessionUnlocked=true;
+  }
   // Show onboarding if first time
   if(!S.onboardingDone){
-    setTimeout(()=>showOnboarding(),500);
+    setTimeout(()=>showOnboarding(),600);
   }
   // Restore vitals inputs
   const v=S.vitals;
@@ -1964,6 +2134,373 @@ function init(){
 }
 
 window.addEventListener('load',init);
+
+
+// ═══════════════════════════════════════════════════════
+// AUTH / LOCK SCREEN SYSTEM
+// ═══════════════════════════════════════════════════════
+
+const AUTH = {
+  // Stored (hashed) in localStorage separately for security
+  get pin(){ return localStorage.getItem('niq_pin_hash')||''; },
+  set pin(v){ if(v) localStorage.setItem('niq_pin_hash',v); else localStorage.removeItem('niq_pin_hash'); },
+  get password(){ return localStorage.getItem('niq_pw_hash')||''; },
+  set password(v){ if(v) localStorage.setItem('niq_pw_hash',v); else localStorage.removeItem('niq_pw_hash'); },
+  get bioEnabled(){ return localStorage.getItem('niq_bio')==='1'; },
+  set bioEnabled(v){ localStorage.setItem('niq_bio',v?'1':'0'); },
+  get setupDone(){ return localStorage.getItem('niq_auth_setup')==='1'; },
+  set setupDone(v){ localStorage.setItem('niq_auth_setup',v?'1':'0'); },
+  get sessionUnlocked(){ return sessionStorage.getItem('niq_unlocked')==='1'; },
+  set sessionUnlocked(v){ sessionStorage.setItem('niq_unlocked',v?'1':'0'); },
+};
+
+// Simple hash (not cryptographic — just obfuscation for localStorage)
+async function hashPin(str){
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode('niq_salt_'+str));
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+
+// ─── Lock Screen State ───
+let pinEntry='';
+let pinMode='unlock'; // 'unlock' | 'setup' | 'confirm'
+let setupPinFirst='';
+let currentLockMethod='pin';
+
+function showLockScreen(){
+  const ls=document.getElementById('lock-screen');
+  if(ls){
+    ls.style.display='flex';
+    // Update user info
+    const un=document.getElementById('lock-username');
+    const av=document.getElementById('lock-avatar');
+    const hint=document.getElementById('lock-hint');
+    if(un) un.textContent=S.name||'NaturaIQ';
+    if(av) av.textContent=S.name?S.name[0].toUpperCase():'🌿';
+    // Show appropriate method
+    const hasBio=AUTH.bioEnabled;
+    const bioTab=document.getElementById('bio-tab');
+    const bioPinBtn=document.getElementById('bio-pin-btn');
+    if(bioTab) bioTab.style.display=hasBio?'block':'none';
+    if(bioPinBtn) bioPinBtn.style.display=hasBio?'flex':'none';
+    // If bio is primary, show bio first
+    if(hasBio&&!AUTH.pin) switchLockMethod('bio');
+    else switchLockMethod('pin');
+    // Auto-try biometric
+    if(hasBio) setTimeout(tryBiometric,400);
+    pinEntry='';
+    updatePinDisplay('pin-display','pd');
+  }
+}
+
+function hideLockScreen(){
+  const ls=document.getElementById('lock-screen');
+  if(ls) ls.style.display='none';
+  AUTH.sessionUnlocked=true;
+}
+
+function switchLockMethod(method){
+  currentLockMethod=method;
+  document.querySelectorAll('.lock-method-tab').forEach(t=>t.classList.toggle('active',t.dataset.method===method));
+  document.getElementById('lock-pin-view').style.display=method==='pin'?'flex':'none';
+  document.getElementById('lock-pin-view').style.flexDirection='column';
+  document.getElementById('lock-pin-view').style.alignItems='center';
+  document.getElementById('lock-pw-view').style.display=method==='password'?'flex':'none';
+  document.getElementById('lock-pw-view').style.flexDirection='column';
+  document.getElementById('lock-pw-view').style.alignItems='center';
+  document.getElementById('lock-bio-view').style.display=method==='bio'?'flex':'none';
+  document.getElementById('lock-bio-view').style.flexDirection='column';
+  document.getElementById('lock-bio-view').style.alignItems='center';
+  const hint=document.getElementById('lock-hint');
+  if(hint){
+    if(method==='pin') hint.textContent='Wprowadź 4-cyfrowy PIN';
+    if(method==='password') hint.textContent='Wprowadź hasło';
+    if(method==='bio') hint.textContent='Użyj Face ID / Touch ID / Odcisk palca';
+  }
+  clearLockError();
+}
+
+function updatePinDisplay(containerId,dotPrefix){
+  for(let i=0;i<4;i++){
+    const d=document.getElementById(dotPrefix+i);
+    if(d) d.classList.toggle('filled',i<pinEntry.length);
+  }
+}
+
+function setLockError(msg){
+  const e=document.getElementById('lock-error');
+  if(e) e.textContent=msg;
+  // Shake dots
+  for(let i=0;i<4;i++){const d=document.getElementById('pd'+i);if(d){d.classList.add('error');setTimeout(()=>d.classList.remove('error'),400);}}
+}
+function clearLockError(){const e=document.getElementById('lock-error');if(e) e.textContent='';}
+
+// ─── PIN unlock ───
+function pinKey(digit){
+  if(pinEntry.length>=4) return;
+  pinEntry+=digit;
+  updatePinDisplay('pin-display','pd');
+  clearLockError();
+  if(pinEntry.length===4) setTimeout(()=>checkPin(),100);
+}
+function pinDel(){
+  if(pinEntry.length>0) pinEntry=pinEntry.slice(0,-1);
+  updatePinDisplay('pin-display','pd');
+  clearLockError();
+}
+
+async function checkPin(){
+  const hash=await hashPin(pinEntry);
+  if(hash===AUTH.pin){
+    pinEntry='';
+    updatePinDisplay('pin-display','pd');
+    hideLockScreen();
+  } else {
+    setLockError('Nieprawidłowy PIN');
+    pinEntry='';
+    setTimeout(()=>updatePinDisplay('pin-display','pd'),350);
+  }
+}
+
+// ─── Password unlock ───
+async function checkPassword(){
+  const pw=document.getElementById('lock-pw-input')?.value.trim();
+  if(!pw) return;
+  const hash=await hashPin(pw);
+  if(hash===AUTH.password){
+    document.getElementById('lock-pw-input').value='';
+    hideLockScreen();
+  } else {
+    setLockError('Nieprawidłowe hasło');
+    document.getElementById('lock-pw-input').value='';
+  }
+}
+function togglePwVis(){
+  const inp=document.getElementById('lock-pw-input');
+  if(inp) inp.type=inp.type==='password'?'text':'password';
+}
+
+// ─── BIOMETRICS (WebAuthn) ───
+async function tryBiometric(){
+  if(!window.PublicKeyCredential){
+    const bl=document.getElementById('bio-label');
+    if(bl) bl.textContent='Biometria niedostępna w tej przeglądarce';
+    return;
+  }
+  try {
+    // Check if platform authenticator available
+    const available=await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();
+    if(!available){
+      const bl=document.getElementById('bio-label');
+      if(bl) bl.textContent='Brak biometrii na tym urządzeniu';
+      return;
+    }
+    // Try to authenticate with stored credential
+    const storedId=localStorage.getItem('niq_cred_id');
+    if(!storedId){
+      // No credential registered yet — register first
+      await registerBiometric();
+      return;
+    }
+    const credId=new Uint8Array(JSON.parse(storedId));
+    const challenge=new Uint8Array(32);
+    crypto.getRandomValues(challenge);
+    const assertion=await navigator.credentials.get({
+      publicKey:{
+        challenge,
+        rpId:location.hostname||'localhost',
+        allowCredentials:[{id:credId,type:'public-key',transports:['internal']}],
+        userVerification:'required',
+        timeout:30000,
+      }
+    });
+    if(assertion){
+      hideLockScreen();
+    }
+  } catch(e){
+    if(e.name!=='NotAllowedError'){
+      const bl=document.getElementById('bio-label');
+      if(bl) bl.textContent='Biometria nie powiodła się — użyj PIN';
+    }
+  }
+}
+
+async function registerBiometric(){
+  try {
+    const challenge=new Uint8Array(32);
+    crypto.getRandomValues(challenge);
+    const userId=new TextEncoder().encode(S.name||'naturaiq_user');
+    const cred=await navigator.credentials.create({
+      publicKey:{
+        challenge,
+        rp:{name:'NaturaIQ',id:location.hostname||'localhost'},
+        user:{id:userId,name:S.name||'user',displayName:S.name||'NaturaIQ User'},
+        pubKeyCredParams:[{alg:-7,type:'public-key'},{alg:-257,type:'public-key'}],
+        authenticatorSelection:{authenticatorAttachment:'platform',userVerification:'required'},
+        timeout:30000,
+      }
+    });
+    if(cred){
+      localStorage.setItem('niq_cred_id',JSON.stringify(Array.from(new Uint8Array(cred.rawId))));
+      AUTH.bioEnabled=true;
+      AUTH.setupDone=true;
+      hideLockScreen();
+      showToast('✅ Biometria skonfigurowana!');
+      initSecurityPage();
+    }
+  } catch(e){
+    const bl=document.getElementById('bio-label');
+    if(bl) bl.textContent=e.name==='NotAllowedError'?'Anulowano':'Błąd rejestracji biometrii';
+  }
+}
+
+// ─── PIN SETUP FLOW ───
+let setupPinEntry='';
+
+function showPinSetup(mode='setup'){
+  pinMode=mode;
+  setupPinEntry='';
+  setupPinFirst='';
+  const modal=document.getElementById('setup-pin-modal');
+  if(modal) modal.style.display='flex';
+  const title=document.getElementById('setup-pin-title');
+  const sub=document.getElementById('setup-pin-sub');
+  if(title) title.textContent='Ustaw nowy PIN (4 cyfry)';
+  if(sub) sub.textContent='PIN zabezpiecza Twoje dane zdrowotne';
+  updateSetupPinDisplay();
+}
+
+function setupPinKey(digit){
+  if(setupPinEntry.length>=4) return;
+  setupPinEntry+=digit;
+  updateSetupPinDisplay();
+  if(setupPinEntry.length===4){
+    setTimeout(async()=>{
+      if(!setupPinFirst){
+        setupPinFirst=setupPinEntry;
+        setupPinEntry='';
+        const title=document.getElementById('setup-pin-title');
+        const sub=document.getElementById('setup-pin-sub');
+        if(title) title.textContent='Potwierdź PIN';
+        if(sub) sub.textContent='Wpisz ten sam PIN ponownie';
+      } else {
+        if(setupPinEntry===setupPinFirst){
+          AUTH.pin=await hashPin(setupPinEntry);
+          AUTH.setupDone=true;
+          document.getElementById('setup-pin-modal').style.display='none';
+          showToast('✅ PIN ustawiony!');
+          initSecurityPage();
+        } else {
+          setupPinFirst='';setupPinEntry='';
+          const title=document.getElementById('setup-pin-title');
+          const sub=document.getElementById('setup-pin-sub');
+          if(title) title.textContent='PINy się nie zgadzają. Spróbuj ponownie.';
+          if(sub) sub.textContent='Wpisz 4-cyfrowy PIN od początku';
+        }
+      }
+      updateSetupPinDisplay();
+    },100);
+  }
+}
+function setupPinDel(){if(setupPinEntry.length>0) setupPinEntry=setupPinEntry.slice(0,-1);updateSetupPinDisplay();}
+function updateSetupPinDisplay(){for(let i=0;i<4;i++){const d=document.getElementById('spd'+i);if(d) d.classList.toggle('filled',i<setupPinEntry.length);}}
+function skipPinSetup(){AUTH.setupDone=true;document.getElementById('setup-pin-modal').style.display='none';showToast('Aplikacja bez zabezpieczenia PIN');}
+
+// ─── PASSWORD SETUP ───
+async function setupPassword(pw){
+  if(!pw||pw.length<4){showToast('Hasło musi mieć min. 4 znaki');return;}
+  AUTH.password=await hashPin(pw);
+  AUTH.setupDone=true;
+  showToast('✅ Hasło ustawione!');
+  initSecurityPage();
+}
+
+// ─── VISIBILITY / LOCK TRIGGER ───
+let _lockTimer=null;
+const LOCK_AFTER_MS=5*60*1000; // 5 minut w tle
+
+document.addEventListener('visibilitychange',()=>{
+  if(document.hidden){
+    // Start lock timer
+    _lockTimer=setTimeout(()=>{AUTH.sessionUnlocked=false;},LOCK_AFTER_MS);
+  } else {
+    clearTimeout(_lockTimer);
+    // Check if should lock
+    if(AUTH.setupDone&&!AUTH.sessionUnlocked&&(AUTH.pin||AUTH.password||AUTH.bioEnabled)){
+      showLockScreen();
+    }
+  }
+});
+
+// ─── SECURITY SETTINGS PAGE ───
+function initSecurityPage(){
+  const box=document.getElementById('security-settings-box');
+  if(!box) return;
+  const hasPin=!!AUTH.pin;
+  const hasPw=!!AUTH.password;
+  const hasBio=AUTH.bioEnabled;
+  box.innerHTML=`
+    <div class="sec-lbl" style="margin-top:0">🔐 Zabezpieczenie aplikacji</div>
+    <div class="lock-option-row">
+      <div class="lo-info">
+        <div class="lo-title">🔢 PIN (4 cyfry)</div>
+        <div class="lo-desc">${hasPin?'✅ Ustawiony':'Nie skonfigurowany'}</div>
+      </div>
+      <button class="btn-ghost" onclick="showPinSetup()">${hasPin?'Zmień':'Ustaw'}</button>
+    </div>
+    <div class="lock-option-row">
+      <div class="lo-info">
+        <div class="lo-title">🔑 Hasło</div>
+        <div class="lo-desc">${hasPw?'✅ Ustawione':'Nie skonfigurowane'}</div>
+      </div>
+      <button class="btn-ghost" onclick="showPwSetupModal()">${hasPw?'Zmień':'Ustaw'}</button>
+    </div>
+    <div class="lock-option-row">
+      <div class="lo-info">
+        <div class="lo-title">👁️ Biometria (Face ID / Touch ID)</div>
+        <div class="lo-desc">${hasBio?'✅ Aktywna':'Nie skonfigurowana'}</div>
+      </div>
+      <button class="btn-ghost" onclick="setupBiometric()">${hasBio?'Wyłącz':'Włącz'}</button>
+    </div>
+    ${(hasPin||hasPw||hasBio)?`
+    <div class="lock-option-row" style="background:var(--RDb)">
+      <div class="lo-info">
+        <div class="lo-title" style="color:var(--RD)">🗑️ Usuń zabezpieczenie</div>
+        <div class="lo-desc">Aplikacja będzie dostępna bez logowania</div>
+      </div>
+      <button class="btn-ghost" style="color:var(--RD)" onclick="removeAuth()">Usuń</button>
+    </div>`:''}
+    <div style="font-size:11px;color:var(--SOFT);margin-top:10px;line-height:1.6">
+      🔒 Aplikacja automatycznie blokuje się po 5 minutach w tle. Dane zdrowotne są przechowywane lokalnie — PIN zabezpiecza dostęp do nich.
+    </div>
+  `;
+}
+
+function setupBiometric(){
+  if(AUTH.bioEnabled){
+    AUTH.bioEnabled=false;
+    localStorage.removeItem('niq_cred_id');
+    showToast('Biometria wyłączona');
+    initSecurityPage();
+  } else {
+    tryBiometric();
+  }
+}
+
+function removeAuth(){
+  if(!confirm('Usunąć wszystkie zabezpieczenia? Aplikacja będzie otwarta bez PIN/hasła.')) return;
+  AUTH.pin='';AUTH.password='';AUTH.bioEnabled=false;AUTH.setupDone=false;AUTH.sessionUnlocked=true;
+  localStorage.removeItem('niq_cred_id');localStorage.removeItem('niq_pin_hash');localStorage.removeItem('niq_pw_hash');
+  showToast('Zabezpieczenie usunięte');
+  initSecurityPage();
+}
+
+let _pwSetupModal=null;
+function showPwSetupModal(){
+  const pw=prompt('Nowe hasło (min. 4 znaki):');
+  if(pw!==null&&pw.length>=4) setupPassword(pw);
+  else if(pw!==null) showToast('Hasło za krótkie — min. 4 znaki');
+}
+
 </script>
 </body>
 </html>

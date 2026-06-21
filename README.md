@@ -1,27 +1,21 @@
-# 🌿 NaturaIQ v5.0 — Naturalny Asystent Zdrowia
+# 🌿 NaturaIQ v5.1 — Naturalny Asystent Zdrowia
 
-> Personalizowana aplikacja zdrowia naturalnego z wywiadem medycznym, rozbudowanymi kartami środków i inteligentnym systemem bezpieczeństwa.
+## 🆕 Co nowego w v5.1
 
-## 🆕 Co nowego w v5.0
+- **🔐 System logowania** — PIN (4 cyfry), hasło lub biometria (Face ID / Touch ID / odcisk palca przez WebAuthn)
+- **⏱️ Auto-blokada** — aplikacja blokuje się po 5 minutach w tle. Po powrocie wymaga uwierzytelnienia
+- **✅ Toast naprawiony** — znika po 2.2s, nie przykrywa dolnej nawigacji
+- **🩺 Wywiad zdrowotny** — alergie, leki, choroby — aplikacja ostrzega przed niebezpiecznymi kombinacjami
+- **🌿 Rozwijane karty środków** — skąd pozyskać, jak przygotować, pełne dawkowanie, odpowiedniki farmaceutyczne
 
-- **🩺 Wywiad zdrowotny** — alergie, leki, choroby przewlekłe, priorytety. Aplikacja ostrzega przed niebezpiecznymi kombinacjami.
-- **🌿 Rozwijane karty środków** — kliknij środek i zobaczysz: skąd pozyskać, jak przygotować, pełne dawkowanie, mechanizm działania, odpowiedniki farmaceutyczne.
-- **⚠️ System bezpieczeństwa** — automatyczne alerty gdy środek może reagować z Twoimi lekami lub alergiami.
-- **✅ Naprawione błędy** — imię działa, symptomy działają, powiadomienia działają.
+## 🔐 System logowania
+
+1. Przy pierwszym uruchomieniu → kreator onboardingu (bez blokady)
+2. W Profil → Zabezpieczenie → ustaw PIN, hasło lub biometrię
+3. Przy kolejnym otwarciu po 5+ minutach → ekran blokady
+4. Obsługuje: PIN 4-cyfrowy, hasło tekstowe, Face ID/Touch ID (WebAuthn)
 
 ## 📱 Instalacja na Android
 
-1. Otwórz w Chrome: `https://TWOJA-NAZWA.github.io/naturaiq`
-2. Menu (⋮) → **"Dodaj do ekranu głównego"**
-3. Gotowe — działa jak natywna aplikacja
-
-## 🗂️ Struktura
-
-```
-naturaiq/
-├── index.html      ← Cała aplikacja
-├── manifest.json   ← PWA config
-├── sw.js           ← Service Worker (offline)
-├── icons/          ← Ikony aplikacji
-└── README.md
-```
+Otwórz w Chrome: `https://TWOJA-NAZWA.github.io/naturaiq`
+Menu (⋮) → **Dodaj do ekranu głównego**
