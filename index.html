@@ -390,6 +390,290 @@ input[type=range]{width:100%;accent-color:var(--F)}
 .lo-title{font-size:13px;font-weight:600;color:var(--INK);margin-bottom:2px}
 .lo-desc{font-size:11px;color:var(--SOFT);line-height:1.4}
 
+
+/* LANG TOGGLE */
+.lang-toggle{display:flex;gap:2px;background:rgba(255,255,255,.1);border-radius:8px;padding:2px;flex-shrink:0;margin-left:6px}
+.lang-btn{padding:5px 9px;border-radius:6px;font-size:11px;font-weight:600;color:rgba(255,255,255,.5);cursor:pointer;border:none;background:transparent;transition:all .15s;font-family:'Inter',sans-serif}
+.lang-btn.active{background:rgba(255,255,255,.2);color:#fff}
+.lang-btn:hover{color:#fff}
+
+
+/* ═══════════════════════════════════════
+   AI ASSISTANT — CLAUDE INTEGRATION
+═══════════════════════════════════════ */
+#page-ai { padding-top: 64px; }
+.ai-header {
+  background: linear-gradient(135deg, var(--F), var(--Fm));
+  border-radius: var(--r4);
+  padding: 20px;
+  margin-bottom: 14px;
+  position: relative;
+  overflow: hidden;
+}
+.ai-header::after {
+  content: '';
+  position: absolute;
+  top: -30px; right: -30px;
+  width: 130px; height: 130px;
+  border-radius: 50%;
+  background: rgba(196,135,58,.12);
+  pointer-events: none;
+}
+.ai-title {
+  font-family: 'Fraunces', serif;
+  font-size: 22px; font-weight: 300;
+  color: #fff; margin-bottom: 4px;
+}
+.ai-title em { color: var(--GOl); font-style: italic; }
+.ai-subtitle { font-size: 12px; color: rgba(255,255,255,.5); line-height: 1.5; }
+.ai-context-bar {
+  background: rgba(255,255,255,.08);
+  border-radius: 10px;
+  padding: 10px 13px;
+  margin-top: 12px;
+  font-size: 11px;
+  color: rgba(255,255,255,.6);
+  line-height: 1.5;
+}
+
+/* CHAT */
+.chat-box {
+  background: var(--WH);
+  border-radius: var(--r3);
+  padding: 14px;
+  box-shadow: var(--sh);
+  margin-bottom: 10px;
+  min-height: 300px;
+  max-height: 60vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  scroll-behavior: smooth;
+}
+.chat-msg {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  animation: fadeIn .2s ease;
+}
+.chat-msg.user { flex-direction: row-reverse; }
+.chat-avatar {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  background: var(--Fxl);
+}
+.chat-msg.user .chat-avatar { background: var(--F); }
+.chat-bubble {
+  max-width: 78%;
+  padding: 10px 13px;
+  border-radius: 14px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--INK);
+  background: var(--BG);
+}
+.chat-msg.user .chat-bubble {
+  background: var(--F);
+  color: #fff;
+  border-radius: 14px 14px 4px 14px;
+}
+.chat-msg.ai .chat-bubble {
+  border-radius: 14px 14px 14px 4px;
+}
+.chat-bubble strong { color: var(--F); }
+.chat-msg.user .chat-bubble strong { color: var(--GOl); }
+.chat-bubble ul { padding-left: 16px; margin: 6px 0; }
+.chat-bubble li { margin-bottom: 3px; }
+.chat-bubble code {
+  background: rgba(0,0,0,.08);
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+.chat-typing {
+  display: flex; align-items: center; gap: 5px;
+  padding: 10px 13px;
+  background: var(--BG);
+  border-radius: 14px 14px 14px 4px;
+  width: fit-content;
+}
+.chat-typing span {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--SOFT);
+  animation: typingDot 1.2s ease-in-out infinite;
+}
+.chat-typing span:nth-child(2) { animation-delay: .2s; }
+.chat-typing span:nth-child(3) { animation-delay: .4s; }
+@keyframes typingDot {
+  0%,60%,100% { transform: translateY(0); opacity: .4; }
+  30% { transform: translateY(-5px); opacity: 1; }
+}
+.chat-empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 20px;
+  text-align: center;
+  color: var(--SOFT);
+}
+.chat-empty-icon { font-size: 40px; margin-bottom: 12px; }
+.chat-empty-title { font-family: 'Fraunces',serif; font-size: 18px; font-weight:300; color:var(--F); margin-bottom:6px; }
+.chat-empty-sub { font-size: 12px; line-height: 1.6; }
+
+/* QUICK PROMPTS */
+.quick-prompts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-bottom: 10px;
+}
+.qp-btn {
+  background: var(--WH);
+  border: 1.5px solid var(--CRd);
+  border-radius: 99px;
+  padding: 7px 13px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--MID);
+  cursor: pointer;
+  transition: all .15s;
+  white-space: nowrap;
+  font-family: 'Inter', sans-serif;
+}
+.qp-btn:active, .qp-btn:hover {
+  border-color: var(--F);
+  background: var(--Fxl);
+  color: var(--F);
+}
+
+/* INPUT AREA */
+.ai-input-wrap {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+}
+.ai-textarea {
+  flex: 1;
+  padding: 11px 14px;
+  border: 2px solid var(--CRd);
+  border-radius: var(--r2);
+  font-size: 13px;
+  font-family: 'Inter', sans-serif;
+  resize: none;
+  outline: none;
+  color: var(--INK);
+  background: var(--WH);
+  max-height: 120px;
+  min-height: 44px;
+  overflow-y: auto;
+  line-height: 1.5;
+  transition: border-color .15s;
+}
+.ai-textarea:focus { border-color: var(--Fl); }
+.ai-send-btn {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: var(--F);
+  color: #fff;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: all .15s;
+}
+.ai-send-btn:hover { background: var(--Fm); transform: scale(1.05); }
+.ai-send-btn:disabled { background: var(--CRd); cursor: not-allowed; transform: none; }
+
+/* API KEY setup */
+.api-setup-card {
+  background: var(--WH);
+  border-radius: var(--r3);
+  padding: 20px;
+  box-shadow: var(--sh);
+  margin-bottom: 12px;
+}
+.api-setup-title { font-size: 14px; font-weight: 600; color: var(--INK); margin-bottom: 4px; }
+.api-setup-desc { font-size: 12px; color: var(--SOFT); line-height: 1.6; margin-bottom: 14px; }
+.api-key-wrap { position: relative; }
+.api-key-input {
+  width: 100%;
+  padding: 11px 44px 11px 13px;
+  border: 2px solid var(--CRd);
+  border-radius: var(--r2);
+  font-size: 13px;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  color: var(--INK);
+  background: var(--BG);
+  letter-spacing: .05em;
+}
+.api-key-input:focus { border-color: var(--Fl); }
+.api-key-toggle {
+  position: absolute; right: 10px; top: 50%;
+  transform: translateY(-50%);
+  background: none; border: none;
+  color: var(--SOFT); cursor: pointer; font-size: 16px;
+}
+.api-key-note {
+  font-size: 10px;
+  color: var(--XS);
+  margin-top: 6px;
+  line-height: 1.5;
+}
+.api-save-btn {
+  width: 100%;
+  margin-top: 10px;
+  padding: 11px;
+  background: var(--F);
+  color: #fff;
+  border: none;
+  border-radius: var(--r2);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+}
+.api-save-btn:hover { background: var(--Fm); }
+
+/* AI context badge */
+.ai-ctx-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 99px;
+  background: var(--Fxl);
+  color: var(--F);
+  margin-right: 5px;
+}
+
+
+/* DARK MODE */
+body.dark{--F:#2A6040;--Fm:#3A7A52;--Fl:#4D9A6A;--Fxl:rgba(45,96,64,.25);--CR:#1C1C1E;--CRd:#2C2C2E;--BG:#111113;--WH:#1C1C1E;--INK:#F5F5F7;--MID:#AEAEB2;--SOFT:#6C6C70;--XS:#48484A;--sh:0 2px 12px rgba(0,0,0,.35);--shL:0 6px 24px rgba(0,0,0,.45)}
+body.dark .nav{background:#1C1C1E}body.dark .bnav{background:#1C1C1E}body.dark .card,body.dark .card-sm{background:#1C1C1E}
+body.dark input,body.dark select,body.dark textarea{background:#2C2C2E;color:#F5F5F7;border-color:#3C3C3E}
+body.dark .sym-btn{background:#1C1C1E;border-color:#2C2C2E}body.dark .sym-btn.on{background:rgba(45,96,64,.35)}
+body.dark .chat-box{background:#1C1C1E}body.dark .chat-bubble{background:#2C2C2E;color:#F5F5F7}
+body.dark .rem-card,body.dark .det-box{background:#2C2C2E}body.dark .rem-header,body.dark .rem-inner{background:#1C1C1E}
+body.dark .qp-btn{background:#1C1C1E;border-color:#2C2C2E;color:#AEAEB2}
+body.dark .ai-textarea{background:#2C2C2E;color:#F5F5F7;border-color:#3C3C3E}
+body.dark .notif-toggle-row{background:#1C1C1E}body.dark .lock-option-row{background:#1C1C1E}
+body.dark .onb-chip{background:#2C2C2E;border-color:#3C3C3E;color:#AEAEB2}body.dark .onb-chip.on{background:var(--F);color:#fff}
+body.dark .device-opt{background:#1C1C1E;border-color:#2C2C2E}body.dark .device-opt.on{background:rgba(45,96,64,.25)}
+body.dark .hero{background:linear-gradient(135deg,#1A3D2B,#2A5C40)}
+body.dark .water-card{background:linear-gradient(135deg,#1A2A3A,#1E3248)}
+body,body *{transition:background-color .2s ease,border-color .2s ease,color .15s ease}
+
 </style>
 </head>
 <body>
@@ -410,6 +694,12 @@ input[type=range]{width:100%;accent-color:var(--F)}
       <button class="nav-tab" data-page="season">🍂</button>
       <button class="nav-tab" data-page="notifications">🔔</button>
       <button class="nav-tab" data-page="profile">⚙️</button>
+      <button class="nav-tab" data-page="ai">🤖</button>
+      <button class="nav-tab" data-page="recipes">🍵</button>
+    </div>
+    <div class="lang-toggle">
+      <button class="lang-btn active" data-lang="pl" onclick="setLang('pl')">PL</button>
+      <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
     </div>
   </div>
 </nav>
@@ -847,6 +1137,7 @@ input[type=range]{width:100%;accent-color:var(--F)}
   <div class="bi" data-page="signals"><div class="bi-icon">⌚</div><div class="bi-lbl">Sygnały</div></div>
   <div class="bi" data-page="remedies"><div class="bi-icon">🌿</div><div class="bi-lbl">Apteczka</div></div>
   <div class="bi" data-page="tracker"><div class="bi-icon">📊</div><div class="bi-lbl">Tracker</div></div>
+  <div class="bi" data-page="ai"><div class="bi-icon">🤖</div><div class="bi-lbl">AI</div></div>
 </div>
 
 <!-- PWA INSTALL BANNER -->
@@ -949,6 +1240,81 @@ input[type=range]{width:100%;accent-color:var(--F)}
   <div style="margin-top:20px;font-size:12px;color:rgba(255,255,255,.35);cursor:pointer" onclick="skipPinSetup()">Pomiń — użyj bez zabezpieczenia</div>
 </div>
 
+
+<!-- ══════════════════════════════
+     AI ASSISTANT PAGE
+══════════════════════════════ -->
+<div class="page" id="page-ai">
+<div class="mw">
+
+  <!-- Header -->
+  <div class="ai-header">
+    <div class="ai-title">🤖 <em>NaturaIQ</em> Assistant</div>
+    <div class="ai-subtitle">Spersonalizowany asystent zdrowia naturalnego — pyta, analizuje, doradza. Powered by Claude AI.</div>
+    <div class="ai-context-bar" id="ai-ctx-bar">
+      ℹ️ Ładowanie Twojego profilu zdrowotnego...
+    </div>
+  </div>
+
+  <!-- API Key Setup (shows only if no key) -->
+  <div id="api-setup-section">
+    <div class="api-setup-card">
+      <div class="api-setup-title">🔑 Podłącz Claude AI</div>
+      <div class="api-setup-desc">
+        Aby używać asystenta AI, wprowadź swój klucz API Anthropic. Klucz jest przechowywany tylko lokalnie na Twoim urządzeniu i nigdzie nie jest wysyłany poza zapytania do Claude.<br><br>
+        Klucz uzyskasz bezpłatnie (darmowe konto) na <strong>console.anthropic.com</strong>
+      </div>
+      <div class="api-key-wrap">
+        <input class="api-key-input" id="api-key-input" type="password" placeholder="sk-ant-api03-...">
+        <button class="api-key-toggle" onclick="toggleApiKeyVis()">👁</button>
+      </div>
+      <div class="api-key-note">🔒 Klucz zapisywany lokalnie (localStorage). Nie opuszcza Twojego urządzenia poza bezpośrednie zapytania do api.anthropic.com</div>
+      <button class="api-save-btn" onclick="saveApiKey()">✅ Zapisz klucz i uruchom asystenta</button>
+    </div>
+  </div>
+
+  <!-- Chat Interface (shows after key setup) -->
+  <div id="ai-chat-section" style="display:none">
+    <!-- Quick prompts -->
+    <div class="quick-prompts" id="quick-prompts"></div>
+
+    <!-- Chat window -->
+    <div class="chat-box" id="chat-box">
+      <div class="chat-empty" id="chat-empty">
+        <div class="chat-empty-icon">🌿</div>
+        <div class="chat-empty-title">Jak mogę pomóc?</div>
+        <div class="chat-empty-sub">Zapytaj o naturalne środki, interpretację swoich parametrów, dawkowanie, interakcje z lekami lub co zrobić dziś wieczorem.</div>
+      </div>
+    </div>
+
+    <!-- Input -->
+    <div class="ai-input-wrap">
+      <textarea class="ai-textarea" id="ai-input" placeholder="Zapytaj asystenta..." rows="1"
+        onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendAiMessage();}"
+        oninput="autoGrowTextarea(this)"></textarea>
+      <button class="ai-send-btn" id="ai-send-btn" onclick="sendAiMessage()">↑</button>
+    </div>
+
+    <!-- Change key link -->
+    <div style="text-align:center;margin-top:10px">
+      <span style="font-size:11px;color:var(--XS);cursor:pointer" onclick="changeApiKey()">🔑 Zmień klucz API</span>
+    </div>
+  </div>
+
+</div>
+</div>
+
+
+<!-- ═══ HEALING RECIPES PAGE ═══ -->
+<div class="page" id="page-recipes">
+<div class="mw">
+  <div class="pg-title">🍵 Przepisy <em>lecznicze</em></div>
+  <div class="pg-sub">Sprawdzone przepisy z naturalnych składników — działanie potwierdzone naukowo</div>
+  <div class="recipe-filter-row" id="recipe-filter-row"></div>
+  <div id="recipes-container"></div>
+</div>
+</div>
+
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
 
@@ -1010,6 +1376,8 @@ function goPage(id){
   if(id==='season') renderSeason();
   if(id==='notifications') initNotif();
   if(id==='interview') syncInterviewPage();
+  if(id==='recipes'){ initRecipesFilter(); renderRecipes(); }
+  if(id==='ai'){ initAiPage(); if(AI.hasKey&&chatHistory.length===0) restoreChat(); }
 }
 
 // Wire all nav clicks once
@@ -1067,7 +1435,7 @@ function finishOnb(){
   initDash();
   syncInterviewPage();
   // Welcome toast with delay so it appears briefly then hides
-  setTimeout(()=>showToast('✅ Witaj, '+S.name+'! 🌿'),200);
+  setTimeout(()=>showToast(t('onb_welcome_toast',{name:S.name})),200);
 }
 // Onboarding chips toggle
 document.querySelectorAll('#onboarding .onb-chips').forEach(container=>{
@@ -1102,7 +1470,7 @@ function saveP(){
     S.goals=[...document.querySelectorAll('#p-goal-chips .onb-chip.on')].map(c=>c.dataset.val);
     saveState();
     // toast only if user manually edited (not during sync)
-    if(!_suppressProfileToast) showToast('✅ Profil zapisany');
+    if(!_suppressProfileToast) showToast(t('btn_save')+' ✅');
   },600);
 }
 
@@ -1143,7 +1511,7 @@ document.querySelectorAll('#p-devices .device-opt').forEach(opt=>{
 // ═══════════════════════════════════════════════════════
 // DASHBOARD
 // ═══════════════════════════════════════════════════════
-function getGreeting(){const h=new Date().getHours();return h<6?'Dobranoc':h<12?'Dzień dobry':h<18?'Dobre południe':'Dobry wieczór';}
+function getGreeting(){const h=new Date().getHours();return h<6?t('dash_greeting_night'):h<12?t('dash_greeting_morning'):h<18?t('dash_greeting_noon'):t('dash_greeting_evening');}
 
 function initDash(){
   document.getElementById('h-greet').textContent=getGreeting();
@@ -1186,7 +1554,7 @@ function initDash(){
 
 function genInsight(){
   const v=S.vitals;
-  if(!v.hr&&!v.hrv&&!v.sleep) return 'Wpisz parametry z zegarka, aby zobaczyć personalizowaną prognozę.';
+  if(!v.hr&&!v.hrv&&!v.sleep) return t('dash_no_data');
   if(v.spo2>0&&v.spo2<93) return '🚨 SpO2 <em>krytycznie niskie</em> — rozważ kontakt z lekarzem natychmiast.';
   if(v.hrv>0&&v.hrv<25) return 'HRV bardzo niskie (<em>'+v.hrv+'ms</em>). Priorytet: sen, ashwagandha, magnez, spokój.';
   if(v.sleep>0&&v.sleep<5) return 'Tylko <em>'+v.sleep+'h snu</em>. Wieczorem: melatonina 1mg + melisa + magnez.';
@@ -1223,19 +1591,19 @@ function updateWaterUI(){
 // SYMPTOMS — CLEAN single state per context
 // ═══════════════════════════════════════════════════════
 const SYMS=[
-  {i:'😴',n:'Zmęczenie',k:'zmęczenie'},{i:'🤕',n:'Ból głowy',k:'głowa'},
-  {i:'😰',n:'Stres/Lęk',k:'stres'},{i:'🤒',n:'Przeziębienie',k:'przeziębienie'},
-  {i:'🫄',n:'Trawienie',k:'trawienie'},{i:'😶‍🌫️',n:'Mgła mózgowa',k:'focus'},
-  {i:'💤',n:'Zły sen',k:'sen'},{i:'🔥',n:'Stan zapalny',k:'stan zapalny'},
-  {i:'❤️',n:'Serce/Ciśnienie',k:'ciśnienie'},{i:'🛡️',n:'Odporność',k:'odporność'},
-  {i:'🌡️',n:'Gorączka',k:'gorączka'},{i:'😔',n:'Nastrój',k:'nastrój'},
+  {i:'😴',tk:'sym_fatigue',k:'zmęczenie'},{i:'🤕',tk:'sym_headache',k:'głowa'},
+  {i:'😰',tk:'sym_stress',k:'stres'},{i:'🤒',tk:'sym_cold',k:'przeziębienie'},
+  {i:'🫄',tk:'sym_digestion',k:'trawienie'},{i:'😶‍🌫️',tk:'sym_brain_fog',k:'focus'},
+  {i:'💤',tk:'sym_sleep',k:'sen'},{i:'🔥',tk:'sym_inflammation',k:'stan zapalny'},
+  {i:'❤️',tk:'sym_heart',k:'ciśnienie'},{i:'🛡️',tk:'sym_immunity',k:'odporność'},
+  {i:'🌡️',tk:'sym_fever',k:'gorączka'},{i:'😔',tk:'sym_mood',k:'nastrój'},
 ];
 
 function renderSymGrid(containerId, ctx){
   const el=document.getElementById(containerId);
   if(!el) return;
   const sel=ctx==='dash'?S.sym_dash:S.sym_rem;
-  el.innerHTML=SYMS.map(s=>`<div class="sym-btn${sel.includes(s.k)?' on':''}" data-key="${s.k}" data-ctx="${ctx}"><div class="sym-icon">${s.i}</div><div class="sym-name">${s.n}</div></div>`).join('');
+  el.innerHTML=SYMS.map(s=>`<div class="sym-btn${sel.includes(s.k)?' on':''}" data-key="${s.k}" data-ctx="${ctx}"><div class="sym-icon">${s.i}</div><div class="sym-name">${t(s.tk)}</div></div>`).join('');
 }
 
 // Single delegated handler for ALL symptom grids
@@ -1247,12 +1615,15 @@ document.body.addEventListener('click',function(e){
   const idx=arr.indexOf(key);
   if(idx>-1) arr.splice(idx,1); else arr.push(key);
   btn.classList.toggle('on',arr.includes(key));
+  // update name in case lang changed
+  const nameEl=btn.querySelector('.sym-name');
+  if(nameEl){const sym=SYMS.find(s=>s.k===key);if(sym) nameEl.textContent=t(sym.tk);}
   // Live update remedies if on remedies page
   if(ctx==='rem'&&document.getElementById('rem-results').innerHTML) showRemedies();
 });
 
 function dashFindRemedies(){
-  if(!S.sym_dash.length){showToast('Wybierz przynajmniej jeden objaw');return;}
+  if(!S.sym_dash.length){showToast(t('rem_choose_symptom'));return;}
   S.sym_rem=[...S.sym_dash];
   goPage('remedies');
 }
@@ -1262,17 +1633,17 @@ function dashFindRemedies(){
 // ═══════════════════════════════════════════════════════
 const SIG_DEFS=[
   {id:'hr',icon:'❤️',name:'Tętno spoczynkowe',unit:'bpm',
-   st:(v)=>v<=0?{s:'nil',l:'Brak danych',val:'—'}:v<=54?{s:'ok',l:'Sportowe',val:v}:v<=72?{s:'ok',l:'Optymalne',val:v}:v<=85?{s:'warn',l:'Podwyższone',val:v}:{s:'bad',l:'Wysokie',val:v}},
+   st:(v)=>v<=0?{s:'nil',l:t('sig_nil'),val:'—'}:v<=54?{s:'ok',l:t('sig_athletic'),val:v}:v<=72?{s:'ok',l:t('sig_optimal'),val:v}:v<=85?{s:'warn',l:t('sig_elevated'),val:v}:{s:'bad',l:t('sig_high'),val:v}},
   {id:'hrv',icon:'🧠',name:'HRV',unit:'ms',
-   st:(v)=>v<=0?{s:'nil',l:'Brak danych',val:'—'}:v>=50?{s:'ok',l:'Świetny',val:v}:v>=35?{s:'ok',l:'Dobry',val:v}:v>=20?{s:'warn',l:'Niski',val:v}:{s:'bad',l:'Bardzo niski',val:v}},
+   st:(v)=>v<=0?{s:'nil',l:'Brak danych',val:'—'}:v>=50?{s:'ok',l:t('sig_excellent'),val:v}:v>=35?{s:'ok',l:t('sig_good'),val:v}:v>=20?{s:'warn',l:t('sig_low'),val:v}:{s:'bad',l:t('sig_very_low'),val:v}},
   {id:'sleep',icon:'💤',name:'Sen',unit:'h',
-   st:(v)=>v<=0?{s:'nil',l:'Brak danych',val:'—'}:v>=7&&v<=9?{s:'ok',l:'Optymalny',val:v}:v>=6?{s:'warn',l:'Niewystarczający',val:v}:{s:'bad',l:'Za mało',val:v}},
+   st:(v)=>v<=0?{s:'nil',l:'Brak danych',val:'—'}:v>=7&&v<=9?{s:'ok',l:t('sig_optimal_s'),val:v}:v>=6?{s:'warn',l:t('sig_insufficient'),val:v}:{s:'bad',l:t('sig_too_little'),val:v}},
   {id:'spo2',icon:'💨',name:'SpO2',unit:'%',
-   st:(v)=>v<=0?{s:'nil',l:'Brak danych',val:'—'}:v>=97?{s:'ok',l:'Doskonałe',val:v}:v>=95?{s:'ok',l:'Dobre',val:v}:v>=93?{s:'warn',l:'Obniżone',val:v}:{s:'bad',l:'Niskie!',val:v}},
+   st:(v)=>v<=0?{s:'nil',l:'Brak danych',val:'—'}:v>=97?{s:'ok',l:t('sig_perfect'),val:v}:v>=95?{s:'ok',l:'Dobre',val:v}:v>=93?{s:'warn',l:t('sig_reduced'),val:v}:{s:'bad',l:t('sig_low_s'),val:v}},
   {id:'steps',icon:'🚶',name:'Kroki',unit:'',
-   st:(v)=>v<=0?{s:'nil',l:'Brak danych',val:'—'}:v>=10000?{s:'ok',l:'Cel!',val:v.toLocaleString()}:v>=7000?{s:'ok',l:'Dobry',val:v.toLocaleString()}:v>=3000?{s:'warn',l:'Mało',val:v.toLocaleString()}:{s:'bad',l:'Bardzo mało',val:v.toLocaleString()}},
+   st:(v)=>v<=0?{s:'nil',l:'Brak danych',val:'—'}:v>=10000?{s:'ok',l:t('sig_goal'),val:v.toLocaleString()}:v>=7000?{s:'ok',l:'Dobry',val:v.toLocaleString()}:v>=3000?{s:'warn',l:t('sig_little'),val:v.toLocaleString()}:{s:'bad',l:t('sig_very_little'),val:v.toLocaleString()}},
   {id:'temp',icon:'🌡️',name:'Temperatura',unit:'°C',
-   st:(v)=>v<=0?{s:'nil',l:'Brak danych',val:'—'}:v>=36.1&&v<=37.2?{s:'ok',l:'Normalna',val:v}:v>=37.3&&v<=38?{s:'warn',l:'Podgorączkowa',val:v}:v>38?{s:'bad',l:'Gorączka',val:v}:{s:'nil',l:'Niska',val:v}},
+   st:(v)=>v<=0?{s:'nil',l:'Brak danych',val:'—'}:v>=36.1&&v<=37.2?{s:'ok',l:t('sig_normal'),val:v}:v>=37.3&&v<=38?{s:'warn',l:t('sig_subfebr'),val:v}:v>38?{s:'bad',l:t('sig_fever'),val:v}:{s:'nil',l:t('sig_low'),val:v}},
 ];
 
 function renderSigCards(){
@@ -1310,7 +1681,7 @@ function analyzeSignals(){
   saveHistory();
   renderSigCards();
   renderProto();
-  showToast('✅ BioScore: '+S.bioscore+'/100');
+  showToast(t('prof_bioscore_saved',{s:S.bioscore}));
 }
 
 // ═══════════════════════════════════════════════════════
@@ -1574,6 +1945,314 @@ const REMEDY_DB=[
    warn:'Może nasilać SSRI i MAOI — ryzyko zespołu serotoninowego. Unikać przy zaburzeniach dwubiegunowych (może wywołać epizod maniakalny). Wieczorem → bezsenność.',
    pharma:[{n:'SSRI (sertralina, escitalopram)',why:'Leki antydepresyjne. Różeniec ma zbliżony mechanizm (inhibicja MAO) przy łagodnej depresji i wypaleniu bez skutków odstawienia.'},{n:'Modafinil (lek na narkolepsję)',why:'Na zmęczenie i pobudzenie. Różeniec naturalną alternatywą dla chronicznego zmęczenia bez ryzyka uzależnienia.'}],
    source:'EMA Monograph 2012 | Phytomedicine RCT | European Journal 2025'},
+
+  // ─── 14. WALERIANA ───
+  {e:'🌾',n:'Kozłek lekarski (Waleriana)',lat:'Valeriana officinalis',en:'Valerian Root',ev:'good',
+   states:['sen','stres'],primary:['sen'],
+   allergies:[],conditions_warn:[],meds_warn:['benzodiazepiny','barbiturany','alkohol'],
+   dose_short:'160–600mg ekstraktu 30–120 min przed snem',
+   origin:'Korzeń kozłka lekarskiego dostępny w każdej aptece (kapsułki, krople, herbatki). W Polsce rośnie dziko na wilgotnych łąkach i brzegach rzek. Zbiór: jesień (korzeń 2-letnich roślin). Suszony korzeń w sklepach zielarskich.',
+   prep:'Napar: 2–3g suszonego korzenia na 150ml gorącej wody, parzyć 10–15 minut pod przykryciem. Nalewka: 1–3ml na 30 min przed snem. Kapsułki: połykać 30–120 minut przed snem (nie żuć — intensywny smak). Kąpiel relaksacyjna: 100g korzenia gotować 20 min, dodać do wanny.',
+   dose_full:'Dawka terapeutyczna: 160–600mg standaryzowanego ekstraktu (0.8% kwasu walerenowego) 30–120 min przed snem. Przy bezsenności: 450–600mg jednorazowo wieczorem. Przy lęku: 300–400mg 3× dziennie. Efekty pełne po 2–4 tygodniach regularnego stosowania. Kuracja: max 4–6 tygodni, potem tydzień przerwy. 26 RCT meta-analiza potwierdza skuteczność.',
+   mech:'Kwas walerenowy i izowalerianowy stymulują receptory GABA-A (identyczny mechanizm jak benzodiazepiny) bez ryzyka uzależnienia. Walepotriaty hamują rozpad GABA. ↓ latencja zasypiania o 20 min (meta-analiza), ↑ jakość snu głębokiego (slow-wave sleep). EMA zatwierdziła do stosowania przy przewlekłej bezsenności.',
+   warn:'Nie łączyć z alkoholem i lekami naspnymi — potencjalne sumowanie efektów sedatywnych. Rzadko: paradoksalne pobudzenie (szczególnie u dzieci). Charakterystyczny intensywny zapach (pochodne izowaleranowe).',
+   pharma:[
+     {n:'Temazepam / Nitrazepam (benzodiazepiny)',why:'Leki nasenne z receptą. Waleriana działa wolniej, ale bez uzależnienia, efektu odstawienia i wpływu na jakość snu REM.'},
+     {n:'Zolpidem (niebenzodiazepinowy lek nasenny)',why:'Popularny lek nasenny. Waleriana nie zaburza architektury snu i nie powoduje tolerancji przy długim stosowaniu.'},
+     {n:'Buspiron (anksjolityk)',why:'Na lęk uogólniony — podobne działanie na GABA jak waleriana, ale lek wymaga recepti i działa wolniej.'},
+   ],
+   source:'EMA Monograph 2020 | PMC11859059 | 26-RCT systematic review'},
+
+  // ─── 15. LAWENDA ───
+  {e:'💜',n:'Lawenda wąskolistna',lat:'Lavandula angustifolia',en:'Lavender',ev:'good',
+   states:['sen','stres','głowa'],primary:['sen','stres'],
+   allergies:[],conditions_warn:[],meds_warn:['benzodiazepiny','leki nasenne'],
+   dose_short:'80mg olejku Silexan (kapsułki) lub 2–4 krople olejku do aromaterapii',
+   origin:'Olejek eteryczny z lawendy dostępny w aptekach, drogeriach i sklepach zielarskich. Preparat Silexan (80mg kapsułki) — apteka. Suszone kwiaty: zielarnie i sklepy ogrodnicze. Lawenda łatwa w uprawie w doniczce lub ogrodzie (kwitnie VI–VIII).',
+   prep:'Aromaterapia: 2–4 krople olejku w dyfuzorze lub na poduszkę przed snem. Masaż: 5 kropli olejku w 10ml oleju nośnego (migdałowy, kokosowy) — masować skronie i nadgarstki. Kąpiel: 10–15 kropli olejku do ciepłej kąpieli wieczorem. Poduszeczka z suszonymi kwiatami pod głowę. Herbatka: 1g suszonych kwiatów na 150ml wrzątku.',
+   dose_full:'Doustnie (Silexan 80mg): jedna kapsułka wieczorem z posiłkiem — efekty po 2 tygodniach, pełne po 6 tygodniach. RCT wykazało skuteczność porównywalną z lorazepamem 0.5mg przy GAD. Aromaterapia: bez ograniczeń dawkowania. Zewnętrznie: do woli. Kąpiel: 2–3× tygodniowo wieczorem.',
+   mech:'Linalol i linalool octan modulują kanały wapniowe VDCC i receptor NMDA — redukcja pobudzenia neuronalnego. Wiąże receptory serotoniny (5-HT1A) i melatoniny. Klinicznie: ↓ przebudzenia nocne, ↑ głębokość snu, ↓ lęk przy GAD (Kasper et al. RCT). EMA zatwierdza Silexan dla lęku i zaburzeń snu.',
+   warn:'Doustnie (olejek): unikać w ciąży i u dzieci poniżej 12 lat. Zewnętrznie: bezpieczna. Rzadko: alergia kontaktowa. Nie stosować czystego olejku na skórę bez rozcieńczenia.',
+   pharma:[
+     {n:'Lorazepam / Alprazolam (benzodiazepiny)',why:'Silexan 80mg wykazał porównywalną skuteczność do lorazepamu 0.5mg w RCT przy GAD — bez uzależnienia i zaburzeń funkcji poznawczych.'},
+     {n:'SSRI (escitalopram)',why:'Przy przewlekłym lęku. Silexan jako monoterapia lub wspomagająco — szczególnie przy nietolerancji SSRI.'},
+     {n:'Hydroxyzyna (atarax)',why:'Lek przeciwhistaminowy stosowany przy lęku i bezsenności. Lawenda (Silexan) ma korzystniejszy profil bezpieczeństwa przy długotrwałym stosowaniu.'},
+   ],
+   source:'EMA Monograph Silexan | Kasper et al. RCT 2010 | PMC11859059'},
+
+  // ─── 16. OSTROPEST ───
+  {e:'🌼',n:'Ostropest plamisty',lat:'Silybum marianum',en:'Milk Thistle',ev:'good',
+   states:['trawienie'],primary:['trawienie'],
+   allergies:['astrowate'],conditions_warn:['hormon-zależne nowotwory'],meds_warn:['statyny','cyklosporyna','diazepam'],
+   dose_short:'140–210mg sylimaryny 3× dziennie',
+   origin:'Ostropest rośnie dziko w Polsce (suche, kamieniste miejsca). Nasiona i ekstrakt w każdej aptece i sklepie zielarskim. Proszek z nasion w sklepach ze zdrową żywnością. Uprawa możliwa w ogrodzie — duże, łatwe w uprawie rośliny.',
+   prep:'Kapsułki: standaryzowane na 70–80% sylimaryny — najskuteczniejsza forma. Proszek z nasion: 1–2 łyżeczki dziennie do jogurtu, koktajlu lub wody (mniej skoncentrowany niż ekstrakt). Napar z rozdrobnionych nasion: 1 łyżeczka na 250ml wrzątku, parzyć 10 min (słaba biodostępność aktywnych składników).',
+   dose_full:'Dawka terapeutyczna: 140–210mg sylimaryny (=silibininy) 3× dziennie z posiłkiem — łącznie 420–630mg/dzień. Przy hepatoprotekcji zapobiegawczej: 200mg/dzień. Przy stłuszczeniu wątroby (NAFLD): 420mg/dzień przez 6–12 miesięcy. Przy zatruciu muchomorem (szpital): IV silibinina — najsilniejszy znany antidotum roślinny. Czas kuracji: min. 8–12 tygodni.',
+   mech:'Sylimaryna (mieszanina flawonoidów: silibinina, silidianina, silicystyna): ↑ glutation w wątrobie o 35%, ↓ lipidowa peroksydacja błon hepatocytów, ↓ AST i ALT (markery uszkodzenia wątroby). Działa hepatoprotekcyjnie, hepatoregeneracyjnie i antyinflamacyjnie. AHRQ evidence report potwierdzono stosowanie od starożytności. Inhibicja pomp efluks P-gp i MRP (interakcje lekowe).',
+   warn:'Możliwe łagodne działanie żołądkowo-jelitowe. Rzadko: alergia (osoby uczulone na astrowate). Inhibicja CYP3A4 i P-gp → interakcje ze statynami, cyklosporyną, syrolimusem. Ostrożnie przy nowotworach hormonozależnych (efekty estrogenopodobne silibininy).',
+   pharma:[
+     {n:'Ursodiol (UDCA)',why:'Lek na kamieniokwas żółciowy i NAFLD. Ostropest stosowany jako alternatywa lub wsparcie przy łagodnym stłuszczeniu wątroby.'},
+     {n:'N-acetylocysteina (NAC)',why:'Przy zatruciu paracetamolem i hepatotoksyczności. Sylimaryna IV (silibinina) jest opcją przy zatruciu muchomorem w szpitalach europejskich.'},
+   ],
+   source:'AHRQ Evidence Report NBK11896 | NAFLD clinical trials | Traditional hepatoprotection'},
+
+  // ─── 17. KORZEŃ MNISZKA ───
+  {e:'🌿',n:'Mniszek lekarski',lat:'Taraxacum officinale',en:'Dandelion',ev:'moderate',
+   states:['trawienie'],primary:['trawienie'],
+   allergies:['astrowate'],conditions_warn:['nerki','kamieniakwas żółciowy'],meds_warn:['diuretyki','leki na ciśnienie','lit'],
+   dose_short:'Napar z 4–8g korzenia 3× dziennie lub ekstrakt 500mg',
+   origin:'Rośnie wszędzie — trawniki, łąki, parki. Zbierać z dala od dróg i pól opryskiwanych pestycydami. Najlepsza jakość: wiosna (liście) i jesień (korzeń). Korzeń suszyć w temp. 40°C. Suszony korzeń i liście dostępne w zielarniach i aptekach.',
+   prep:'Napar z korzenia: 4–8g suszonego korzenia na 250ml wrzątku, parzyć 10 minut (gorzki smak — naturalnie pobudza żółć). Kawa z korzenia mniszka: prażony zmielony korzeń zamiast kawy. Liście młode (wiosna): do sałatek zamiast rukoli. Sok ze świeżych liści: 5–10ml 3× dziennie.',
+   dose_full:'Korzeń: napar 4–8g lub ekstrakt 500mg 3× dziennie przed posiłkami — dla efektu choleretycznego (pobudzenie żółci). Liście (efekt moczopędny): 4–10g suszonych liści na napar 3× dziennie. Czas kuracji: 4–6 tygodni. Wiosenny kurs detoksykacyjny: 3 tygodnie intensywnie.',
+   mech:'Sesquiterpeny (taraksacyna, taraksaceryna): gorycze pobudzające wydzielanie żółci (efekt choleretyczny i cholagogiczny). Inulina w korzeniu (prebiotyk): żywi pożyteczne bakterie jelitowe. Flawonoidy i kwasy fenolowe: antyoksydacyjnie. Liście: naturalny diuretyk bogaty w potas — nie wypłukuje potasu jak syntetyczne diuretyki (unikalna zaleta).',
+   warn:'Może nasilać działanie leków moczopędnych → ↓ ciśnienie. Ostrożnie przy kamicy żółciowej (stymulacja żółci może wywołać kolkę). Blokuje wydalanie litu → ↑ stężenie litu. Alergia krzyżowa z astrowatymi.',
+   pharma:[
+     {n:'Hydrochlorotiazyd (diuretyk tiazydowy)',why:'Przy zatrzymaniu wody i nadciśnieniu. Liście mniszka działają moczopędnie bez wypłukiwania potasu — unikalna zaleta nad syntetycznymi diuretykami.'},
+     {n:'Ursodiol / kwas chenodeoksycholowy',why:'Przy zaburzeniach funkcji żółciowej. Mniszek naturalnie stymuluje produkcję i przepływ żółci.'},
+   ],
+   source:'Gaia Herbs Traditional | College of Naturopathic Medicine | ESCOP Monograph'},
+
+  // ─── 18. BORÓWKA / JAGODA ───
+  {e:'🫐',n:'Borówka czarna (jagody)',lat:'Vaccinium myrtillus',en:'Bilberry / Blueberry',ev:'good',
+   states:['serce','głowa','stan zapalny','stres'],primary:['serce','głowa'],
+   allergies:[],conditions_warn:[],meds_warn:['warfaryna','klopidogrel'],
+   dose_short:'150–300g świeżych dziennie lub 500mg ekstraktu (36% antocyjanów)',
+   origin:'Borówki czarne (leśne) rosną w polskich lasach iglastych (VII–IX). Borówki amerykanie (większe) w każdym supermarkecie przez cały rok. Mrożone zachowują 85–95% antocyjanów. Ekstrakt standaryzowany: sklepy zielarskie i apteki.',
+   prep:'Najlepiej: świeże lub mrożone bezpośrednio (nie gotować — ↓ antocyjany). Smoothie: 150g borówek + jogurt + siemię lniane. Owsianka z borówkami. Koktajl antycyjanowy: borówki + jeżyny + maliny + rodzynki — tzw. "brain smoothie". Ekstrakt: kapsułki z posiłkiem.',
+   dose_full:'Dawka terapeutyczna: 150–300g świeżych lub mrożonych dziennie. Ekstrakt: 500mg standaryzowanego 2× dziennie. Badanie TwinsUK (n=3100, 10 lat): regularne spożycie ↓ ASCVD score. Czas efektów: 4–8 tygodni ciągłego spożycia na parametry naczyniowe. Dla funkcji poznawczych (↑ BDNF): min. 12 tygodni.',
+   mech:'Antocyjany (cyjanidyna, delfinidyna, malwidyna): ↑ BDNF (czynnik wzrostu nerwów), ↑ neuroplastyczność, ↓ stan zapalny mózgu (ScienceDaily 2024). Pterostilben: aktywuje sirtuiny (geny długowieczności). ↓ LDL oksydowany, ↑ HDL, ↓ agregacja płytek. Polyphenols study (MedNewsToday 2025): wśród 5 pokarmów z najlepiej udowodnionymi korzyściami CV.',
+   warn:'Bardzo bezpieczne. W bardzo dużych ilościach może chwilowo hamować wchłanianie żelaza. Kolor może barwić zęby (normalnie). Ostrożnie z lekami przeciwzakrzepowymi przy bardzo dużych dawkach ekstraktu.',
+   pharma:[
+     {n:'Statyny (atorwastatyna)',why:'Na wysoki LDL. Antocyjany z borówek ↓ LDL oksydowany i TG jako uzupełnienie diety lub przy łagodnej dyslipidemii.'},
+     {n:'Donepezyl / Memantyna (leki na demencję)',why:'Na zaburzenia funkcji poznawczych. Borówki ↑ BDNF i ↓ neuroznpalenie — stosowane profilaktycznie i wspomagająco.'},
+   ],
+   source:'ScienceDaily 2024 | MedicalNewsToday 2025 | TwinsUK cohort | PMC48 Polyphenols'},
+
+  // ─── 19. ZIELONA HERBATA ───
+  {e:'🍵',n:'Zielona herbata (EGCG)',lat:'Camellia sinensis (green)',en:'Green Tea',ev:'high',
+   states:['serce','stres','głowa','stan zapalny'],primary:['serce','stres'],
+   allergies:[],conditions_warn:['nerki','wątroba'],meds_warn:['warfaryna','nadolopol','statyny'],
+   dose_short:'3–5 filiżanek dziennie lub 250–500mg EGCG (ekstrakt)',
+   origin:'Herbata zielona dostępna w każdym supermarkecie i sklepie z herbatami. Jakość ważna: japonskie (Sencha, Matcha, Gyokuro) i chińskie (Longjing, Bi Luo Chun) mają najwyższe stężenie EGCG. Ekstrakt (kapsułki) w aptekach i sklepach zielarskich. Matcha: sklepy ze zdrową żywnością.',
+   prep:'Klasyczny napar: 2–3g liści (1 łyżeczka) na 150ml wody 70–80°C (wyższa temp. → ↓ EGCG i ↑ gorycz!), parzyć 2–3 min. Zimna ekstrakcja (cold brew): liście w zimnej wodzie 8h w lodówce — wyższe stężenie EGCG, niższe garbniki. Matcha: 1/2 łyżeczki + 100ml gorącej wody 70°C, ubić. Wieczorem: tylko bezkofeinowe odmiany (Hojicha, bancha).',
+   dose_full:'Dawka terapeutyczna: 3–5 filiżanek dziennie (łącznie 240–320mg EGCG). Ekstrakt: 250–500mg EGCG dziennie (z posiłkiem — ↓ hepatotoksyczność). Na ostatnie 3 godziny przed snem: unikać kofeiny. Efekty CV: 8–12 tygodni regularnego picia. Epidemiologia japońska: ↓ ryzyko CVD o 26% przy 5+ filiżankach/dzień (n=40,000).',
+   mech:'EGCG (epigallokatechina-3-galusan) najsilniejszy polifenol: ↓ LDL, ↑ HDL, ↓ agregacja płytek, ↑ funkcja śródbłonka (FMD). L-teanina + kofeina: precyzja kognitywna bez nerwowości (synergizm). ↓ stan zapalny (↓ NF-κB). MedNewsToday 2025: zielona herbata wśród 5 pokarmów z najsilniejszymi dowodami na zdrowie serca.',
+   warn:'EGCG w kapsułkach >800mg/dzień: potencjalna hepatotoksyczność (rzadko). Kofeina: unikać wieczorem. Może ↑ antykoagulacyjne działanie warfaryny. Garbniki ↓ wchłanianie żelaza (pić między posiłkami).',
+   pharma:[
+     {n:'Statyny (rosuwastatyna)',why:'Na wysoki LDL. EGCG ma łagodne działanie hipolipemizujące — przy łagodnej dyslipidemii lub jako wsparcie diety.'},
+     {n:'Aspiryna / Klopidogrel',why:'Na agregację płytek. EGCG w dużych dawkach ma działanie antyagregacyjne — nie łączyć bez konsultacji przy lekach przeciwpłytkowych.'},
+   ],
+   source:'MedicalNewsToday 2025 | Polyphenols PMC48 | Japanese cohort epidemiology | FFS Functional Food 2024'},
+
+  // ─── 20. GRANAT ───
+  {e:'🍊',n:'Granat (Punica granatum)',lat:'Punica granatum',en:'Pomegranate',ev:'good',
+   states:['serce','stan zapalny','ciśnienie'],primary:['serce'],
+   allergies:[],conditions_warn:['cukrzyca'],meds_warn:['warfaryna','leki hipotensyjne','statyny'],
+   dose_short:'240ml soku dziennie lub nasiona + 1/2 owocu',
+   origin:'Granat dostępny w supermarketach od września do marca (importowany). Sok granatu (bez cukru!) w sklepach ekologicznych i delikatesach. Arillus (nasionka) można kupić mrożone. Sezon lokalny: południe Europy (IX–XI).',
+   prep:'Sok świeży: przekroić na pół, wycisnąć jak cytrynę lub użyć sokowirówki. Nasionka (arillus): do sałatek, owsianki, jogurtu, deserów — jeść razem z pestką (błonnik). Syrop granatowy (molasses): 1–2 łyżki do dresingu lub napojów. Ekstrakt w kapsułkach: 500mg 2× dziennie.',
+   dose_full:'Dawka terapeutyczna: 240ml czystego soku dziennie (bez cukru). Lub 1/2 granatu + garść nasionek. Efekty na ciśnienie: widoczne po 2 tygodniach (↓ 5–8 mmHg). Efekty na LDL: 8–12 tygodni. Przy stanie zapalnym: min. 4 tygodnie. Polyphenols z granatu jedne z najsilniejszych znanych — 3× silniejsze niż zielona herbata.',
+   mech:'Punicalaginy (hydrolizowalne taniny): antyoksydanty silniejsze od zielonej herbaty i czerwonego wina (3×). ↓ ciśnienie skurczowe o 5–8 mmHg (meta-analiza). ↓ LDL oksydowany (kluczowy czynnik miażdżycy), ↓ aggregacja płytek. ↑ tlenek azotu (NO) → wazodylatacja. FFS 2024: blokuje ekspresję VCAM-1 i ICAM-1 (cząsteczki adhezji naczyniowej w miażdżycy).',
+   warn:'Nasila warfarynę — monitoring INR. Sok kaloryczny (30 kcal/100ml) — ostrożnie przy cukrzycy. Może nasilać leki hipotensyjne. Interakcja z enzymami CYP2C9 (jak grejpfrut, ale słabsza).',
+   pharma:[
+     {n:'Inhibitory ACE (Ramipryl, Perindopryl)',why:'Na nadciśnienie. Granaty ↓ ciśnienie przez NO — jako wsparcie diety lub przy łagodnym nadciśnieniu.'},
+     {n:'Ezetymib / Statyny',why:'Na LDL. Punicalaginy z granatu specyficznie redukują LDL oksydowany (aktywny aterogenny) — korzystna synergia z dietą.'},
+   ],
+   source:'FFS Functional Food Science 2024 | Pomegranate meta-analysis | PREDIMED diet extension'},
+
+  // ─── 21. KIWI ───
+  {e:'🥝',n:'Kiwi',lat:'Actinidia deliciosa',en:'Kiwi Fruit',ev:'good',
+   states:['sen','odporność'],primary:['sen'],
+   allergies:['lateks'],conditions_warn:[],meds_warn:['warfaryna'],
+   dose_short:'2 owoce 1 godzinę przed snem',
+   origin:'Kiwi dostępne przez cały rok w każdym supermarkecie. Najlepsze: zielone Hayward (Nowa Zelandia, Włochy) lub żółte SunGold. Sezon lokalny (Włochy): IX–IV. Przechowywanie: dojrzałe w lodówce do tygodnia.',
+   prep:'Na sen: 2 dojrzałe kiwi obrane ze skórki, zjeść 1 godzinę przed snem (RCT stosował dokładnie ten protokół). Smoothie nocne: kiwi + banan + mleko owsiane + szczypta kardamonu. Ewentualnie ze skórką (bogata w błonnik i antocyjany) — tylko przy kiwi ekologicznym.',
+   dose_full:'Dawka terapeutyczna udowodniona w RCT (Asia Pacific J Clin Nutr, n=24): 2 kiwi dziennie 1h przed snem przez 4 tygodnie. Wyniki: ↓ latencja zasypiania o 35.4%, ↑ całkowity czas snu o 13.4%, ↑ wydajność snu o 5.41%. Jedno z nielicznych badań klinicznych żywności specyficznie na sen. Bezpieczne bez ograniczeń czasowych.',
+   mech:'Serotonina endogenna w kiwi (10–20mcg/g): biorąc pod uwagę barierę krew-mózg, prawdopodobnie działa przez receptor 5-HT3 w jelitach. Foliany: niedobór → ↑ homocysteina → zaburzenia snu. Wysoka witamina C (154mg w 2 owocach): kofaktor syntezy serotoniny. Aktynidyna (unikalna proteaza): ↑ trawienie białka po kolacji → lepsze wchłanianie tryptofanu.',
+   warn:'Alergia krzyżowa z lateksem (latex-fruit syndrome) — przy alergii na lateks sprawdzić tolerancję. Rzadko: alergia oral allergy syndrome. Kwaśne — przy refluksie spożywać z posiłkiem.',
+   pharma:[
+     {n:'Zolpidem / Eszopiklon (leki nasenne)',why:'Na bezsenność. 2 kiwi dziennie wykazało skuteczność w skracaniu latencji snu porównywalną z niskimi dawkami leków nasennych, bez ryzyka uzależnienia.'},
+     {n:'Melatonina',why:'Na zaburzenia rytmu snu. Kiwi działa prawdopodobnie przez mechanizm serotoninergiczny — inny niż melatonina. Mogą być stosowane razem.'},
+   ],
+   source:'Asia Pacific J Clin Nutr RCT n=24 | Serotonin mechanism | Vitamin C synthesis'},
+
+  // ─── 22. SPIRULINA ───
+  {e:'🌊',n:'Spirulina',lat:'Arthrospira platensis',en:'Spirulina',ev:'moderate',
+   states:['zmęczenie','odporność','stan zapalny'],primary:['zmęczenie','odporność'],
+   allergies:['owoce morza'],conditions_warn:['autoimmuno','PKU'],meds_warn:['immunosupresanty','warfaryna'],
+   dose_short:'3–10g proszku dziennie (zacznij od 1g)',
+   origin:'Spirulina jako suplement (tabletki, proszek, kapsułki) dostępna w aptekach, sklepach ze zdrową żywnością i online. KLUCZOWE: kupować tylko certyfikowane produkty (NSF, USP, Informed Sport) — niecertyfikowane mogą zawierać hepatotoksyczne mikrocystyny z innych sinic. Uprawiana w kontrolowanych basenach (Hawaii, Indie, Chiny).',
+   prep:'Proszek: 1 łyżeczka (5g) w smoothie owocowym (maskuje intensywny smak), soku jabłkowym lub wodzie z cytryną. Tabletki: połykać z dużą ilością wody. Zaczynać od 1g i zwiększać o 1g co 3 dni (adaptacja układu trawiennego). Najlepsza wchłanialność: rano na czczo lub przed treningiem.',
+   dose_full:'Dawka startowa: 1g (tydzień). Dawka terapeutyczna: 3–10g dziennie. Na zmęczenie i energię: 5g dziennie przez 8 tygodni (badania kliniczne). Na parametry lipidowe: 4.5g dziennie przez 6 tygodni (↓ TG o 16.3%, ↓ LDL o 10.1% — meta-analiza). Na anemiologię: 5g + żelazo przez 12 tygodni. Maksdawka bezpieczna: 10g/dzień.',
+   mech:'Fikojanina (C-phycocyanin): silny antyoksydant i przeciwzapalny — hamuje COX-2, ↓ IL-6, ↓ TNF-α. Pełne białko: 60–70% masy, wszystkie aminokwasy egzogenne. Beta-karoten: 10× więcej niż marchewka. Żelazo hemowe: wyższe wchłanianie niż szpinak. B12 (pseudowitamina B12 — nieaktywna forma, nie stosować jako źródło B12 u wegan!).',
+   warn:'Kupować wyłącznie certyfikowane produkty — ryzyko zanieczyszczenia mikrocystynami (hepatotoksyczne sinice). Nie stosować przy PKU (zawiera fenyloalaninę). Ostrożnie przy chorobach autoimmunologicznych (stymulacja układu odpornościowego). B12 w spirulinie: nieaktywna forma pseudowitaminy — nie zastępuje B12 u wegan.',
+   pharma:[
+     {n:'Preparaty żelaza (Sorbifer, Tardyferon)',why:'Na anemię z niedoboru żelaza. Spirulina + wit. C jako alternatywa przy łagodnym niedoborze (lepiej tolerowana niż sole żelaza).'},
+     {n:'Fenofibrat / Niacyna (leki na TG)',why:'Na hipertriglicerydemię. Spirulina w dawce 4.5g ↓ TG o 16% — jako wsparcie diety przy łagodnej hipertriglicerydemii.'},
+   ],
+   source:'NCT07398885 | Spirulina meta-analysis TG/LDL | PMC systematic review phycocyanin'},
+
+  // ─── 23. SZAFRAN ───
+  {e:'🌺',n:'Szafran',lat:'Crocus sativus',en:'Saffron',ev:'good',
+   states:['stres','sen','nastrój'],primary:['stres','nastrój'],
+   allergies:[],conditions_warn:['choroba afektywna dwubiegunowa','ciąża'],meds_warn:['SSRI','leki dwubiegunowe'],
+   dose_short:'30mg dziennie (15mg rano + 15mg wieczorem) — tylko standaryzowany ekstrakt',
+   origin:'Szafran kuchenny (nitki) dostępny w każdym sklepie spożywczym — ale stężenie aktywnych składników za niskie. Do celów terapeutycznych: standaryzowany ekstrakt kapsułkowy (np. Affron, ZimaSal) w aptekach i sklepach zielarskich. Uprawia się na Bliskim Wschodzie i w Kaszmirze.',
+   prep:'Kuchenny (słaby efekt): 5–8 nitek rozpuścić w 2 łyżkach ciepłej wody 15 min, dodać do potrawy. Herbatka: 5–6 nitek + 200ml gorącej wody 70°C + miód + kardamon. Ekstrakt terapeutyczny (Affron): kapsułki z posiłkiem, nie otwierać. Złote mleko z szafranem: mleko roślinne + szczypta szafranu + kurkuma + pieprz.',
+   dose_full:'Dawka terapeutyczna: 30mg/dzień standaryzowanego ekstraktu (np. Affron 28mg = 88.25mg proszku). Podzielić: 15mg rano + 15mg wieczorem lub 30mg jednorazowo. Efekty na nastrój: 6–8 tygodni. Skuteczność jak fluoksetyna (Prozac) 20mg przy łagodnej/umiarkowanej depresji (RCT, n=40). Szafran kuchenny: ~30–50 nitek dziennie dla minimalnego efektu.',
+   mech:'Safranol i krocyna: ↑ serotonina i dopamina przez wielokierunkową inhibicję wychwytu zwrotnego (podobna do SNRI). Modulacja receptorów GABA i NMDA. Silne działanie antyoksydacyjne (karotenoidy). PMC11597216: tak skuteczny jak fluoksetyna w łagodnej/umiarkowanej depresji przy znacząco lepszej tolerancji.',
+   warn:'Wysokie dawki (>5g) mogą powodować poronienie — bezwzględne przeciwwskazanie w ciąży. Może nasilać działanie leków antydepresyjnych (ryzyko zespołu serotoninowego przy kombinacji z SSRI). Ostrożnie przy zaburzeniach dwubiegunowych.',
+   pharma:[
+     {n:'Fluoksetyna / Sertralina (SSRI)',why:'Szafran 30mg/dzień wykazał porównywalną skuteczność do fluoksetyny 20mg przy depresji łagodnej/umiarkowanej w RCT — bez efektów seksualnych SSRI.'},
+     {n:'Melatonina + L-teanina',why:'Na zaburzenia snu przy depresji. Szafran usprawnia zarówno nastrój jak i architekturę snu — synergizm.'},
+   ],
+   source:'PMC11597216 | Molecules 2022 | RCT vs fluoxetine n=40 | J Affect Disorders'},
+
+  // ─── 24. BERBERYNA ───
+  {e:'🌿',n:'Berberyna',lat:'Berberine HCl',en:'Berberine',ev:'high',
+   states:['serce','trawienie','ciśnienie'],primary:['serce'],
+   allergies:[],conditions_warn:['wątroba','ciąża'],meds_warn:['metformina','warfaryna','cyklosporyna','statyny'],
+   dose_short:'500mg 2–3× dziennie z posiłkami; przerwy co 8 tygodni',
+   origin:'Berberyna jest alkaloidem roślinnym — naturalnie w berberysie zwyczajnym (Berberis vulgaris), goldenseal (Hydrastis canadensis) i mahonii (Mahonia aquifolium). Ekstrakt (berberyna HCl) dostępny w aptekach i sklepach zielarskich. Berberys jako roślina ogrodowa w Polsce.',
+   prep:'Kapsułki: zawsze z posiłkiem (↑ biodostępność i ↓ podrażnienie żołądka). Nie łączyć z sokiem grejpfrutowym (CYP). Zaczynać od 500mg/dzień, po tygodniu zwiększyć do 500mg 2×/dzień, po kolejnym tygodniu do 500mg 3×/dzień (adaptacja układu trawiennego). Przerwy co 2 miesiące: tydzień — dla mikrobioty.',
+   dose_full:'Dawka terapeutyczna: 1000–1500mg dziennie (2–3 × 500mg z posiłkami). Na lipidy i glukozę: 500mg 3× dziennie przez 3 miesiące. Na jelita (IBS, SIBO): 400mg 3× dziennie przez 4 tygodnie. Przerwy: obowiązkowe — 8 tygodni on, 2 tygodnie off. Efekty: ↓ LDL o 20–25%, ↓ TG o 35%, ↑ HDL, ↓ glukoza na czczo.',
+   mech:'Aktywuje AMPK (kinaza AMP-aktywowana) — "metaboliczny master switch": ten sam mechanizm co metformina i ćwiczenia fizyczne. ↓ wątrobowa produkcja glukozy. ↑ receptory insulinowe. Działanie na mikrobiotę: ↑ Akkermansia muciniphila (ochronna), ↓ bakterie prozapalne. Meta-analiza (35 RCT): skuteczność porównywalna z metforminą przy cukrzycy T2.',
+   warn:'NIE łączyć z metforminą bez nadzoru lekarza (podwójne działanie → ↓ glukoza). Nasila warfarynę (monitoring INR). Zmiany mikrobioty — obowiązkowe przerwy. Zabarwia mocz żółto (normalnie). Ciąża: absolutne przeciwwskazanie (może naruszać barierę krew-mózg u płodu). Może spowalniać metabolizm CYP3A4.',
+   pharma:[
+     {n:'Metformina (biguanid)',why:'Na insulinooporność i cukrzycę T2. Berberyna ma identyczny mechanizm (AMPK) i porównywalną skuteczność w meta-analizie — bez efektów GI metforminy.'},
+     {n:'Statyny (Atorwastatyna, Simwastatyna)',why:'Na wysoki LDL/TG. Berberyna 1500mg/dzień: ↓ LDL o 20–25%, ↓ TG o 35% — często stosowana zamiast lub z niską dawką statyny.'},
+     {n:'Metronidazol / Rifaksymina',why:'Na SIBO i zakażenia Helicobacter pylori. Berberyna ma potwierdzone działanie przeciwbakteryjne (H. pylori, E. coli, Candida).'},
+   ],
+   source:'JACC Review berberine | Metabolism Journal 35 RCT meta-analysis | AMPK mechanism review'},
+
+  // ─── 25. KOENZYM Q10 ───
+  {e:'⚡',n:'Koenzym Q10 (CoQ10)',lat:'Ubidecarenone / Ubiquinol',en:'Coenzyme Q10',ev:'good',
+   states:['serce','zmęczenie'],primary:['serce','zmęczenie'],
+   allergies:[],conditions_warn:[],meds_warn:['warfaryna','chemioterapia','leki hipotensyjne'],
+   dose_short:'100–300mg dziennie z tłustym posiłkiem; forma ubiquinol dla osób 40+',
+   origin:'CoQ10 (ubiquinol/ubidecarenon) dostępny w aptekach i sklepach zielarskich. Naturalnie: serce i wątroba wołowa (3mg/100g), makrela, sardynki (1.7mg/100g), pistacje, szpinak. Suplementacja niezbędna dla efektów terapeutycznych (ilość z diety za mała).',
+   prep:'Kapsułki miękkiego żelu (najlepsza biodostępność): z tłustym posiłkiem. Ubiquinol (zredukowana forma): lepsze wchłanianie (3× wyższy poziom w surowicy niż ubidekarenon), zalecany dla osób 40+ i na statynach. Ubidekarenon (utleniona forma): tańszy, wymaga konwersji w organizmie. Przechowywać w chłodnym miejscu (wrażliwy na ciepło).',
+   dose_full:'Dawka bazowa: 100mg/dzień. Dawka terapeutyczna przy niewydolności serca (NYHA I–II): 200–300mg/dzień. Przy stosowaniu statyn (uzupełnienie): 200mg/dzień. Przy migrenach: 150–300mg/dzień przez 3 miesiące. Forma ubiquinol: 100–150mg/dzień (ekwiwalentna do 200–300mg ubidekarenonu). Efekty: po 4–8 tygodniach regularne stosowanie.',
+   mech:'Kluczowy składnik łańcucha oddechowego mitochondriów — transport elektronów w kompleksach I, II, III → produkcja ATP. Silny antyoksydant lipofilny: chroni LDL przed utlenianiem. CORONA trial (n=5000+): ↓ śmiertelność sercowo-naczyniowa w niewydolności serca o 43% przy Q10 + selen. Statyny blokują syntezę CoQ10 przez szlak mewalonianowy — niedobór może powodować bóle mięśni (miopatia statynowa).',
+   warn:'Może obniżać INR przy warfarynie — monitoring. Ostrożnie przy chemioterapii (może zmniejszać toksyczność, ale też działanie leku — ustalić z onkologiem). Łagodnie ↓ ciśnienie — ostrożnie z lekami hipotensyjnymi.',
+   pharma:[
+     {n:'Karwedilol / Bisoprolol (beta-blokery)',why:'W niewydolności serca. CoQ10 działa synergistycznie z beta-blokerami — CORONA trial wykazał ↓ śmiertelności przy kombinacji.'},
+     {n:'Statyny',why:'CoQ10 jest standardowo zalecany przy stosowaniu statyn (redukują jego syntezę), szczególnie przy bólach mięśni.'},
+   ],
+   source:'CORONA Trial n=5000+ | JACC 2022 | Statin myopathy CoQ10 studies | Migraine RCT'},
+
+  // ─── 26. WITAMINA D3 + K2 (pełna karta) ───
+  {e:'☀️',n:'Witamina D3 + K2 (MK-7)',lat:'Cholecalciferolum + Menaquinonum-7',en:'Vitamin D3 + K2',ev:'high',
+   states:['odporność','serce','stres','zmęczenie','nastrój'],primary:['odporność'],
+   allergies:[],conditions_warn:['hiperkalcemia','sarkoidoza'],meds_warn:['warfaryna','tiazydowe diuretyki','glikokortykosteroidy'],
+   dose_short:'2000–4000 IU D3 + 100–200mcg K2-MK7 z tłustym posiłkiem',
+   origin:'Naturalne źródło D3: synteza skórna (słońce UVB, maj–sierpień w Polsce, min. 15–20 min/dzień odkryte ramiona i twarz). Żywność: tłuste ryby (sardynki 380 IU/100g, łosoś 360 IU), żółtka jaj, wątróbka. K2-MK7: natto (fermentowane soja, 1000mcg/100g), sery dojrzewające, masło od krów pastwiskowych. Suplementy: dostępne w każdej aptece.',
+   prep:'Kapsułki D3+K2 razem: jeden preparat zawierający obie witaminy (wygoda). Z tłustym posiłkiem (D3 rozpuszczalna w tłuszczach). Rano (chronobiologia: D3 może hamować produkcję melatoniny jeśli wieczorem). Rytm sezonowy: od X do IV suplementować (w Polsce mało słońca), V–IX: tylko suplementacja korygująca po badaniu. Badanie poziomu 25(OH)D co 6–12 miesięcy — optymalny poziom: 40–60 ng/mL.',
+   dose_full:'Dawka profilaktyczna: 1000–2000 IU D3 + 100mcg K2-MK7 przez cały rok. Dawka terapeutyczna (niedobór, poziom <20 ng/mL): 4000–5000 IU D3 przez 3 miesiące, kontrola. Grupom ryzyka (otyłość, ciemna skóra, brak słońca): do 6000 IU z lekarzem. K2-MK7: 100–200mcg — kieruje wapń do kości (osteocalcyna) i zapobiega zwapnieniu naczyń (MGP). Bez K2: D3 może paradoksalnie ↑ zwapnienie naczyń przy dużych dawkach.',
+   mech:'Receptor VDR w 37 tkankach ciała — reguluje ponad 200 genów. ↑ katelicydyna i β-defensyny (odporność wrodzona → naturalne antybiotyki ciała). ↓ IL-6, TNF-α. K2-MK7 aktywuje MGP (matrix Gla protein) → zapobiega zwapnieniu naczyń i ↑ wapń do kości. JACC 2022 (884 RCT, n=883,527): niedobór D koreluje ze ↑ arytmią, ↑ CVD, ↑ depresją.',
+   warn:'Toksyczność przy >10,000 IU długoterminowo bez badań krwi → hiperkalcemia. K2-MK7 może zakłócić działanie warfaryny (monitoring INR). Przy sarkoidozie, hiperkalcemii, gruźlicy: koniecznie z lekarzem (granulomy produkują aktywną formę D3).',
+   pharma:[
+     {n:'Alfakalcydol / Kalcytriol (aktywna D3)',why:'Na osteoporozę, niewydolność nerek. Naturalna D3 jest bardziej fizjologiczna dla osób bez chorób nerek.'},
+     {n:'Immunosupresanty (przy autoimmuno)',why:'Niedobór D3 nasila choroby autoimmunologiczne (MS, RZS, Hashimoto). Uzupełnianie D3 może zmniejszyć dawki immunosupresantów — z lekarzem.'},
+   ],
+   source:'JACC 2022 n=883,527 | NIH Office of Dietary Supplements | K2 MGP mechanism | VDR genomics'},
+
+  // ─── 27. PROBIOTYKI ───
+  {e:'🫙',n:'Probiotyki (wieloszczepowe)',lat:'Lactobacillus / Bifidobacterium spp.',en:'Probiotics',ev:'good',
+   states:['trawienie','odporność','stres','nastrój'],primary:['trawienie','odporność'],
+   allergies:['laktozy'],conditions_warn:['immunosupresja','centralne linie dożylne'],meds_warn:['antybiotyki','immunosupresanty'],
+   dose_short:'Min. 10 mld CFU dziennie, różnorodne szczepy; naturalne: kefir, kiszonki, jogurt',
+   origin:'Naturalne najlepsze źródła: kefir (10–50 mld CFU/szkl.), kiszona kapusta (domowej roboty, nie pasteryzowana), kiszone ogórki, kombucha, kimchi, jogurt naturalny z żywymi kulturami. Suplementy: apteki i sklepy zielarskie — wybierać preparaty wieloszczepowe z certyfikowanym CFU do końca ważności (nie w dacie produkcji!).',
+   prep:'Kefir: 250ml rano lub wieczorem. Kiszonki: 2–3 łyżki dziennie do posiłku. Suplementy: kapsułki dojelitowe (odporne na kwas żołądkowy) — rano na czczo lub z małym posiłkiem. Przechowywanie: większość wymaga chłodzenia (4°C). Probiotyki po antybiotykoterapii: zacznij podczas kuracji antybiotykiem (2h po dawce) i kontynuuj 4–8 tygodni po.',
+   dose_full:'Dawka minimalna: 10 mld CFU/dzień. Dawka terapeutyczna (IBS, dysbakterioza): 20–100 mld CFU/dzień. Przy antybiotykoterapii: start razem z antybiotykiem (2h po dawce) przez cały kurs i 4–8 tygodni po. Szczepy celowane: L. rhamnosus GG (biegunka, alergie), B. longum (lęk, oś jelito-mózg), L. plantarum (IBS, stan zapalny), S. boulardii (biegunka podróżnych, C. diff). Czas efektów: 4–8 tygodni.',
+   mech:'Oś jelito-mózg (gut-brain axis): 95% serotoniny produkowanej w jelitach przez enterochromaffinowe komórki modulowane przez mikrobiotę. L. rhamnosus i B. longum ↓ lęk (RCT, n=80). L. plantarum → ↓ CRP, ↓ TNF-α (stan zapalny). Wzmacniają barierę jelitową (tight junctions) → ↓ leaky gut. Modulacja SCFA (krótkołańcuchowe kwasy tłuszczowe) → żywią kolonocyty.',
+   warn:'Bezwzględne przeciwwskazanie: ciężka immunosupresja (przeszczep organów, aktywne leczenie onkologiczne) — ryzyko translokacji bakterii do krwi. Jakość produktów bardzo różna na rynku — wybierać certyfikowane preparaty kliniczne z potwierdzoną żywotnością szczepów.',
+   pharma:[
+     {n:'Mesalazyna / Sulfasalazyna',why:'Przy wrzodziejącym zapaleniu jelita grubego (IBD). Probiotyki jako uzupełnienie lub w remisji — badania wykazują synergizm z mesalazyną.'},
+     {n:'SSRI (Escitalopram)',why:'Przez oś jelito-mózg: L. rhamnosus GG i B. longum wykazały ↓ lęku porównywalnego z małymi dawkami anksjolitycznych.'},
+     {n:'Doksycyklina / Amoksycylina (antybiotyki)',why:'Zawsze stosować probiotyki przy antybiotykoterapii (2h po dawce) — zapobiegają biegunce poantybiotykowej i zniszczeniu mikrobioty.'},
+   ],
+   source:'Gut Microbiome Reviews | L. rhamnosus RCT n=80 | SCFA mechanizm | IBS Cochrane'},
+
+  // ─── 28. OLIWA EVOO ───
+  {e:'🫒',n:'Oliwa z oliwek extra virgin (EVOO)',lat:'Olea europaea — oleum',en:'Extra Virgin Olive Oil',ev:'high',
+   states:['serce','stan zapalny','ciśnienie'],primary:['serce'],
+   allergies:[],conditions_warn:[],meds_warn:['leki hipotensyjne'],
+   dose_short:'20–40ml (2–3 łyżki) dziennie na zimno; tylko extra virgin',
+   origin:'EVOO dostępna w każdym supermarkecie — jednak jakość krytyczna. Wybierać: tłoczona na zimno, z datą zbioru (nie datą produkcji), ciemna butelka, kraj pochodzenia (Włochy, Grecja, Hiszpania). Unikać: "light", "pure", "olive oil" (rafinowane — brak polifenoli). Najlepiej: DOP/IGP lub certyfikat polifenoli >250mg/kg.',
+   prep:'Na zimno: do sałatek, dipów, na chleb (najwyższe polifenole). Gotowanie w niskiej temperaturze (<180°C): bezpieczne dla EVOO (dobry punkt dymienia). Marynaty. Gotowe potrawy: dodać łyżkę na talerzu po ugotowaniu. NIE: głębokie smażenie, temp. >200°C. Codziennie: 2 łyżki na sałatę do obiadu.',
+   dose_full:'Dawka terapeutyczna (PREDIMED): 50ml (4 łyżki) dziennie — tyle stosowano w badaniu. Realistyczna dzienna: 20–40ml (2–3 łyżki). ↑ każde 10g EVOO/dzień = ↓ ryzyko CV o 10% (PREDIMED). Czas efektów: widoczne po 3–6 miesiącach przy konsekwentnym stosowaniu. Bezpieczna długoterminowo.',
+   mech:'PREDIMED (NEJM 2018, n=7447): dieta śródziemnomorska z EVOO ↓ zdarzenia CV o 30%. Oleokantal: inhibitor COX-1 i COX-2 (jak ibuprofen, 10% siły). Hydroksytyrozol (HT): najsilniejszy znany naturalny antyoksydant (ORAC > kurkumina). ↓ LDL oksydowany, ↑ HDL. Oleuropeina: ↓ agregacja płytek, ↓ CRP. ScienceDirect 2025: ↓ ryzyko CVD, cukrzycy, demencji.',
+   warn:'Wysokokaloryczna (120 kcal/łyżka) — uwzględnić w bilansie. Tylko EVOO — rafinowana oliwa nie ma polifenoli leczniczych. Może lekko ↓ ciśnienie — ostrożnie z lekami hipotensyjnymi.',
+   pharma:[
+     {n:'Statyny (Atorwastatyna)',why:'EVOO jako składnik diety śródziemnomorskiej wykazał skuteczność w ↓ CV porównywalną ze statynami (PREDIMED) — przy braku statyn lub niskiej tolerancji.'},
+     {n:'Ibuprofen (NLPZ)',why:'Oleokantal w EVOO ma mechanizm działania zbliżony do ibuprofenu (COX inhibicja) przy regularnym spożyciu — przeciwzapalnie.'},
+   ],
+   source:'NEJM PREDIMED 2018 n=7447 | PMC11852600 | ScienceDirect 2025 | Oleocanthal mechanism'},
+
+  // ─── 29. ŻEŃSZEŃ AZJATYCKI ───
+  {e:'🌿',n:'Żeńszeń azjatycki (Panax)',lat:'Panax ginseng',en:'Asian Ginseng / Panax',ev:'good',
+   states:['zmęczenie','stres'],primary:['zmęczenie'],
+   allergies:[],conditions_warn:['nadciśnienie','bezsenność','ciąża'],meds_warn:['warfaryna','SSRI','leki na cukrzycę','inhibitory MAO'],
+   dose_short:'200–400mg standaryzowanego ekstraktu (4% ginsenozydów) rano przez max. 3 miesiące',
+   origin:'Korzeń żeńszenia: sklepy zielarskie, apteki (kapsułki, herbatki, nalewki). Koreański (Panax ginseng) i czerwony żeńszeń koreański (Red Ginseng) — najlepiej zbadane. Chiński (Ren Shen) podobny. Nie mylić z żeńszeniem syberyjskim (Eleutherococcus) — inny rodzaj. Uprawa w Polsce niemożliwa (wymaga 5–6 lat wzrostu).',
+   prep:'Kapsułki standaryzowane (4% ginsenozydów): rano, z posiłkiem. Nalewka: 1–2ml rano. Herbatka z czerwonego żeńszenia: 3–5g na 500ml gorącej wody, parzyć 30 min. Nie brać wieczorem (działanie pobudzające). 3-miesięczna kuracja, potem min. 1 miesiąc przerwy.',
+   dose_full:'Dawka terapeutyczna: 200–400mg ekstraktu standaryzowanego (4% ginsenozydów) dziennie rano. Max kuracja: 3 miesiące, potem 4–8 tygodni przerwy. Dla ogólnej witalności: 100–200mg rano. Red Ginseng (wyższe stężenie ginsenozydów): 1.5–3g/dzień proszku. Efekty: po 4–8 tygodniach na wydajność, po 2–4 tygodniach na nastrój.',
+   mech:'Ginsenozydy (Rg1, Rb1, Rc): modulują oś HPA → ↓ kortyzol (adaptogenny). ↑ tlenek azotu (NO) → ↑ krążenie. ↑ dopamina i serotonina w OUN. Właściwości immunomodulacyjne (↑ NK-komórki, ↑ IgM). ↓ glukoza przez podobny do insuliny mechanizm. Stosowany w TCM od >2000 lat jako "król ziół".',
+   warn:'Bezsenność przy wieczornym stosowaniu. Może ↑ ciśnienie — ostrożnie przy nadciśnieniu. Nasila warfarynę i leki p/cukrzycowe. Interakcja z inhibitorami MAO (ryzyko mania). SSRI + żeńszeń: ostrożnie (addytywne działanie serotoninergiczne). Nie stosować w ciąży.',
+   pharma:[
+     {n:'Modafinil (promujący czuwanie)',why:'Na chroniczne zmęczenie i nadmierną senność. Żeńszeń jako naturalna alternatywa przy łagodnym zmęczeniu — bez ryzyka uzależnienia.'},
+     {n:'Metformina (na glikemię)',why:'Ginsenozydy mają właściwości hipoglikemizujące — przy łagodnej insulinooporności lub jako wsparcie przy cukrzycy T2 (nie zastąpi metforminy).'},
+   ],
+   source:'WHO Monograph Panax ginseng | TCM Traditional 2000+ years | Ginsenoside pharmacology review'},
+
+  // ─── 30. KORDYCEPS ───
+  {e:'🍄',n:'Kordyceps (Cordyceps)',lat:'Cordyceps militaris / sinensis',en:'Cordyceps',ev:'moderate',
+   states:['zmęczenie','serce'],primary:['zmęczenie'],
+   allergies:[],conditions_warn:['autoimmuno','ciąża'],meds_warn:['immunosupresanty','leki na cukrzycę'],
+   dose_short:'1–3g proszku C. militaris dziennie (certyfikowany produkt)',
+   origin:'C. militaris (hodowany) — dostępny w sklepach ze zdrową żywnością i online. C. sinensis (dziki) — bardzo drogi, rzadki, z Tybetu. Wybierać tylko certyfikowane produkty z C. militaris hodowanych na pożywce zbożowej (nie na ryżu — ryż może ↓ stężenie kordycepiny). NSF lub USP certyfikacja.',
+   prep:'Proszek: 1–3g w kawie (kordyceps coffee — popularny stack), smoothie lub gorącej wodzie. Kapsułki: z posiłkiem. Ekstrakt (10:1): 300–500mg = 3–5g proszku. Najlepiej rano (działanie energetyzujące). Możliwy synergia z Lion\'s Mane (cognitive stack) i Reishi (immune stack).',
+   dose_full:'Dawka terapeutyczna: 1–3g proszku dziennie (C. militaris). Ekstrakt 10:1: 300–500mg/dzień. Dla wydolności fizycznej: 3g na 1–2h przed treningiem przez 6–12 tygodni. Dla energii ogólnej: 1g rano przez 8 tygodni. Efekty: ↑ VO2max o 7–9% u starszych (badanie, n=20). Czas efektów: 4–6 tygodni.',
+   mech:'Kordycepina (3\'-deoksyadenozyna): ↑ ATP w mitochondriach przez ↑ aktywność kompleksu IV. ↑ VO2max przez ↑ przepływ krwi. Adenozyna: działanie kardioprotektywne. Stosowany przez chińskich olimpijczyków (lata 90.) — skandal na mistrzostwach świata w lekkoatletyce 1993. Beta-glukany: immunomodulacja.',
+   warn:'Kilka przypadków toksyczności wątrobowej przy niecertyfikowanych produktach. Stymuluje układ odpornościowy — ostrożnie przy autoimmuno. Może ↓ glukozę — ostrożnie z lekami p/cukrzycowymi. Ciąża: brak danych bezpieczeństwa.',
+   pharma:[
+     {n:'EPO / Erytropoetyna',why:'Na wydolność fizyczną i anemię. Kordyceps ↑ produkcję erytropoetyny endogennej i ↑ VO2max przez inne mechanizmy.'},
+     {n:'Sildenafil (Viagra)',why:'Kordyceps ↑ NO i ↑ przepływ krwi — stosowany tradycyjnie na libido i wydolność. Nie łączyć przy przyjmowaniu sildenafilu.'},
+   ],
+   source:'JISSN clinical trial n=20 | Cordyceps militaris cultivation | Cordycepin mechanism ATP'},
+
+  // ─── 31. LION'S MANE ───
+  {e:'🦁',n:"Soplówka jeżowata (Lion's Mane)",lat:'Hericium erinaceus',en:"Lion's Mane Mushroom",ev:'moderate',
+   states:['głowa','stres','zmęczenie'],primary:['głowa'],
+   allergies:[],conditions_warn:[],meds_warn:['leki p/cukrzycowe','leki p/krzepliwe'],
+   dose_short:'500–3000mg ekstraktu dziennie (standaryzowany); efekty po 4–12 tygodniach',
+   origin:'Lion\'s Mane dostępny jako suplement w sklepach ze zdrową żywnością i online. Świeże grzyby: sklepy delikatesowe (sezon jesienny). Proszek (owocnik): najbardziej skoncentrowany. Wybierać: ekstrakt z owocnika (nie mycelium na zbożu — niższa aktywność). Certyfikacja NSF lub Informed Sport.',
+   prep:'Kapsułki: z posiłkiem rano lub w południe. Proszek: w kawie (neutralny smak), herbacie lub smoothie. Świeże: na patelni z masłem (tekstura jak owoce morza, delikatny smak). Cognitive stack: Lion\'s Mane + Bacopa monnieri (synergizm na pamięć). Rano lub przed pracą umysłową.',
+   dose_full:'Dawka startowa: 500mg ekstraktu (owocnik, 1:1). Dawka terapeutyczna: 1000–3000mg dziennie. RCT Frontiers Nutrition 2025 (DBRCT, zdrowi dorośli): ↑ funkcje kognitywne przy 1.8g przez 12 tygodni. Efekty na pamięć: po 4–8 tygodniach. Efekty na NGF: widoczne po 4 tygodniach (↑ NGF-β w surowicy). Na MCI (łagodne zaburzenia): 3g przez 16 tygodni (Li et al. 2020).',
+   mech:'Hericenony (w owocniku) i erinacyny (w mycelium): jedyne znane naturalne związki stymulujące syntezę NGF (Nerve Growth Factor) i BDNF — czynników wzrostu nerwów. ↑ mielinizacja neuronów. ↓ β-amyloid i białko Tau (czynniki w chorobie Alzheimera). Immunomodulacja przez beta-glukany. ALZFDN Foundation: jedne z najbardziej obiecujących substancji naturalnych w badaniach nad Alzheimera.',
+   warn:'Kilka przypadków alergicznego zapalenia płuc (rzadko — szczególnie w Japonii przy intensywnym spożyciu). Może ↓ glukozę. Może ↓ agregację płytek. Niestandardyzowane produkty — jakość bardzo różna. Efekty ustępują po odstawieniu.',
+   pharma:[
+     {n:'Donepezyl / Rywastygmina (inhibitory ChE)',why:'Na łagodne zaburzenia poznawcze i wczesną demencję. Lion\'s Mane jako wsparcie lub profilaktyka — ↑ NGF/BDNF innymi mechanizmami.'},
+     {n:'Sertraline / Escitalopram (SSRI)',why:'Przy depresji z "mgłą mózgową". Lion\'s Mane ↓ neuroznpalenie i ↑ BDNF — mechanizm zbliżony do efektów neurotropowych SSRI.'},
+   ],
+   source:'PMC12018234 Frontiers 2025 | Li et al. 2020 RCT MCI | ALZFDN 2024 | NGF mechanism hericenones'},
+
+  // ─── 32. MAGNEZ B6 ───
+  {e:'🔵',n:'Magnez + Witamina B6',lat:'Magnesium + Pyridoxinum',en:'Magnesium + Vitamin B6',ev:'high',
+   states:['stres','sen','serce','zmęczenie'],primary:['stres','sen'],
+   allergies:[],conditions_warn:['nerki'],meds_warn:['antybiotyki tetracyklinowe','leki p/padaczkowe'],
+   dose_short:'300–400mg Mg (cytrynian/glicynian) + 10–25mg B6 wieczorem',
+   origin:'Magnez + B6 razem w wielu preparatach aptecznych (np. Magne B6, MagneB6 Forte). Osobno: cytrynian magnezu w sklepach zielarskich i aptekach. Naturalne źródła Mg: pestki dyni (156mg/100g), migdały (270mg), ciemna czekolada, szpinak. B6: kurczak, łosoś, ziemniaki, banany, ciecierzyca.',
+   prep:'Kapsułki/tabletki: z wieczornym posiłkiem lub przed snem. Magnez w proszku: rozmieszać w ciepłej wodzie (cytrynian — lekko musujący). B6 oddzielnie jeśli brak kombinacji: 10–25mg/dzień z magnezem. Naturalne: garść pestek dyni wieczorem + ciemna czekolada. Kąpiel w soli Epsom (siarczan magnezu): 2 szklanki na wannę — wchłanianie przez skórę kontrowersyjne ale relaksacyjne.',
+   dose_full:'Magnez elementarny: 300–400mg/dzień (cytrynian lub glicynian — najlepsza biodostępność; unikać tlenku — najgorsza). B6: 10–25mg/dzień (P5P = aktywna forma, lepsza niż pirydoksyna przy neuropatiach). Synergia: B6 ↑ wchłanianie Mg do komórek (badania kliniczne Mousain-Bosc). Na PMS: 300mg Mg + 50mg B6 od połowy cyklu. Na ADHD u dzieci: 6mg Mg/kg + B6 przez 2 miesiące (Mousain-Bosc RCT).',
+   mech:'B6 jest kofaktorem transportu magnezu do komórek. Razem: ↑ synteza GABA (B6 jest kofaktorem dekarboksylazy kwasu glutaminowego → GABA). ↓ stres oksydacyjny (B6 + Mg jako kofaktory antyoksydacyjne). Magnez: blokuje receptory NMDA → ↓ ekscytotoksyczność → ↓ lęk. Kombinacja szczególnie skuteczna przy silnym stresie: RCT Abbasi et al.: Mg+B6 ↓ objawy lęku o 48.7% vs Mg samo (↓ 23.2%).',
+   warn:'Magnez: duże dawki tlenku → biegunka. Ostrożnie przy ciężkiej chorobie nerek. B6 >100mg/dzień przez długo → neuropatia obwodowa (bardzo rzadko przy dawkach terapeutycznych). Odstęp od antybiotyków tetracyklinowych: 2h.',
+   pharma:[
+     {n:'Alprazolam / Diazepam (benzodiazepiny)',why:'Na lęk i napięcie. Kombinacja Mg+B6 ↓ objawy lęku silniej niż sam Mg (RCT 2017) — bez ryzyka uzależnienia i tolerancji.'},
+     {n:'Zolpidem / Temazepam (leki nasenne)',why:'Na bezsenność. Mg+B6 wspomaga GABA — naturalny, nieuzależniający induktor snu.'},
+   ],
+   source:'Abbasi RCT 2012 Mg+B6 anxiety | Mousain-Bosc ADHD RCT | GABA synthesis mechanism B6'},
 ];
 
 // ── Allergy checker ──
@@ -1636,12 +2315,12 @@ function showRemedies(){
     aw:getAllergyWarnings(r), mw:getMedWarnings(r), cw:getConditionWarnings(r)
   })).filter(r=>r.score>0).sort((a,b)=>b.score-a.score||(a.ev==='high'?-1:1));
 
-  if(!scored.length){res.innerHTML='<div class="card" style="text-align:center;color:var(--SOFT);padding:24px">Brak wyników dla wybranych objawów</div>';return;}
+  if(!scored.length){res.innerHTML='<div class="card" style="text-align:center;color:var(--SOFT);padding:24px">'+t('rem_no_results')+'</div>';return;}
 
-  const evMap={high:'ev-high ev-high',good:'ev-good ev-good',moderate:'ev-mod ev-mod',traditional:'ev-trad ev-trad'};
-  const evLbl={high:'Wysoki poziom dowodów',good:'Dobry',moderate:'Umiarkowany',traditional:'Tradycyjny'};
+  const evMap={high:'ev-high',good:'ev-good',moderate:'ev-mod',traditional:'ev-trad'};
+  const evLbl={high:()=>t('rem_ev_high'),good:()=>t('rem_ev_good'),moderate:()=>t('rem_ev_mod'),traditional:()=>t('rem_ev_trad')};
 
-  res.innerHTML=`<div style="font-size:12px;color:var(--SOFT);margin-bottom:10px">Znaleziono <strong style="color:var(--F)">${scored.length}</strong> środków · kliknij aby rozwinąć szczegóły</div>`+
+  res.innerHTML=`<div style="font-size:12px;color:var(--SOFT);margin-bottom:10px">${t('rem_found',{n:scored.length})}</div>`+
   scored.map((r,idx)=>{
     const hasWarn=r.aw.length||r.mw.length||r.cw.length;
     const allWarns=[...r.aw,...r.mw,...r.cw];
@@ -1664,31 +2343,31 @@ function showRemedies(){
           ${allWarns.map(w=>`<div class="allergy-warn"><div class="allergy-icon">⚠️</div><div>${w}</div></div>`).join('')}
 
           <div class="det-sec">
-            <div class="det-sec-title">📍 Skąd pozyskać?</div>
+            <div class="det-sec-title">${t('rem_origin')}</div>
             <div class="det-box">${r.origin}</div>
           </div>
 
           <div class="det-sec">
-            <div class="det-sec-title">🍵 Jak przygotować?</div>
+            <div class="det-sec-title">${t('rem_prep')}</div>
             <div class="det-box">${r.prep}</div>
           </div>
 
           <div class="det-sec">
-            <div class="det-sec-title">⚖️ Dawkowanie — pełne wytyczne</div>
+            <div class="det-sec-title">${t('rem_dose_full')}</div>
             <div class="det-box">${r.dose_full}</div>
           </div>
 
           <div class="det-sec">
-            <div class="det-sec-title">🔬 Mechanizm działania</div>
+            <div class="det-sec-title">${t('rem_mechanism')}</div>
             <div class="det-box">${r.mech}</div>
           </div>
 
-          <div class="warn-inline">⚠️ <strong>Ostrożność:</strong> ${r.warn}</div>
+          <div class="warn-inline">⚠️ <strong>${t('rem_caution')}</strong> ${r.warn}</div>
 
           <div class="pharma-box">
-            <div class="pharma-title">💊 Odpowiedniki farmaceutyczne (gdy naturalne nie wystarczy)</div>
+            <div class="pharma-title">${t('rem_pharma')}</div>
             ${r.pharma.map(p=>`<div class="pharma-item"><div class="pharma-dot"></div><div><strong>${p.n}</strong><br>${p.why}</div></div>`).join('')}
-            <div style="font-size:10px;color:var(--SOFT);margin-top:8px">ℹ️ Wymienione leki wymagają recepty lub konsultacji. Stosować jako opcję ostateczną.</div>
+            <div style="font-size:10px;color:var(--SOFT);margin-top:8px">${t('rem_pharma_note')}</div>
           </div>
 
           <div class="source-row">
@@ -1715,14 +2394,14 @@ function toggleRemedy(idx){
 // HABITS
 // ═══════════════════════════════════════════════════════
 const HABITS=[
-  {id:'water',e:'💧',l:'Wypiłem 2L+ wody'},
-  {id:'move',e:'🚶',l:'Min. 20 min ruchu'},
-  {id:'sleep',e:'💤',l:'Planuję 7–9h snu'},
-  {id:'herbs',e:'🌿',l:'Ziołowe suplementy'},
-  {id:'veg',e:'🥦',l:'5 porcji warzyw/owoców'},
-  {id:'coffee',e:'☕',l:'Brak kawy po 16:00'},
-  {id:'breathe',e:'🌬️',l:'Ćwiczenia oddechowe'},
-  {id:'nature',e:'🌳',l:'Świeże powietrze'},
+  {id:'water',e:'💧',k:'hab_water'},
+  {id:'move',e:'🚶',k:'hab_move'},
+  {id:'sleep',e:'💤',k:'hab_sleep'},
+  {id:'herbs',e:'🌿',k:'hab_herbs'},
+  {id:'veg',e:'🥦',k:'hab_veg'},
+  {id:'coffee',e:'☕',k:'hab_coffee'},
+  {id:'breathe',e:'🌬️',k:'hab_breathe'},
+  {id:'nature',e:'🌳',k:'hab_nature'},
 ];
 const today=()=>new Date().toISOString().slice(0,10);
 
@@ -1731,7 +2410,7 @@ function setHabit(id){if(!S.habits[today()]) S.habits[today()]={};S.habits[today
 function renderHabits(cid){
   const el=document.getElementById(cid);if(!el) return;
   const h=getHabits();
-  el.innerHTML=HABITS.map(hb=>`<div class="habit-row"><div class="habit-cb${h[hb.id]?' on':''}" onclick="setHabit('${hb.id}')"></div><span class="habit-lbl">${hb.e} ${hb.l}</span>${h[hb.id]?'<span class="habit-ok">✓</span>':''}</div>`).join('');
+  el.innerHTML=HABITS.map(hb=>`<div class="habit-row"><div class="habit-cb${h[hb.id]?' on':''}" onclick="setHabit('${hb.id}')"></div><span class="habit-lbl">${hb.e} ${t(hb.k)}</span>${h[hb.id]?'<span class="habit-ok">✓</span>':''}</div>`).join('');
 }
 
 // ═══════════════════════════════════════════════════════
@@ -1766,21 +2445,21 @@ function renderWeekDots(){
 // ═══════════════════════════════════════════════════════
 // JOURNAL
 // ═══════════════════════════════════════════════════════
-const MOODS=[{e:'😊',l:'Dobrze'},{e:'😐',l:'Średnio'},{e:'😔',l:'Źle'},{e:'😤',l:'Stres'},{e:'🤒',l:'Chory'},{e:'⚡',l:'Energia'}];
+const MOODS=[{e:'😊',k:'mood_good'},{e:'😐',k:'mood_avg'},{e:'😔',k:'mood_bad'},{e:'😤',k:'mood_stress'},{e:'🤒',k:'mood_sick'},{e:'⚡',k:'mood_energy'}];
 function initJournal(){
   const mr=document.getElementById('mood-row');
-  if(mr) mr.innerHTML=MOODS.map(m=>`<div class="mood-btn${S.mood===m.e?' on':''}" onclick="setMood('${m.e}',this)">${m.e} <span>${m.l}</span></div>`).join('');
+  if(mr) mr.innerHTML=MOODS.map(m=>`<div class="mood-btn${S.mood===m.e?' on':''}" onclick="setMood('${m.e}',this)">${m.e} <span>${t(m.k)}</span></div>`).join('');
   renderJEntries();
 }
 function setMood(e,el){S.mood=e;document.querySelectorAll('.mood-btn').forEach(b=>b.classList.remove('on'));el.classList.add('on');}
 function saveJournal(){
   const txt=document.getElementById('j-text')?.value.trim();
-  if(!txt){showToast('Napisz coś przed zapisaniem');return;}
+  if(!txt){showToast(t('jour_write_first'));return;}
   S.journal.unshift({date:new Date().toLocaleString('pl-PL'),mood:S.mood||'😐',text:txt,bioscore:S.bioscore||0});
   if(S.journal.length>50) S.journal=S.journal.slice(0,50);
   S.mood='';saveState();
   document.getElementById('j-text').value='';
-  initJournal();showToast('✅ Wpis zapisany!');
+  initJournal();showToast(t('jour_saved'));
 }
 function renderJEntries(){
   const el=document.getElementById('j-entries');if(!el) return;
@@ -1877,17 +2556,17 @@ function calcDose(){
 function renderAlerts(){
   const v=S.vitals,box=document.getElementById('alerts-box');if(!box) return;
   const alerts=[];
-  if(v.spo2>0&&v.spo2<93) alerts.push({cls:'bad',i:'🚨',t:'SpO2 krytycznie niskie: '+v.spo2+'%',d:'SpO2 <93% wymaga natychmiastowej oceny lekarskiej. Zadzwoń 112 lub jedź na izbę przyjęć.'});
-  else if(v.spo2>0&&v.spo2<95) alerts.push({cls:'warn',i:'💨',t:'SpO2 obniżone: '+v.spo2+'%',d:'Między 93–95%. Ćwiczenia oddechowe 4-7-8. Jeśli nie poprawi się w 1h — lekarz.'});
-  if(v.hr>0&&v.hr>100) alerts.push({cls:'bad',i:'❤️‍🔥',t:'Tachykardia: '+v.hr+' bpm',d:'Tętno >100bpm w spoczynku. Upewnij się że jesteś w spoczynku. Nawodnij się. Przy kołataniu — lekarz.'});
-  else if(v.hr>0&&v.hr>85) alerts.push({cls:'warn',i:'❤️',t:'Podwyższone tętno: '+v.hr+' bpm',d:'85–100 bpm może oznaczać stres, odwodnienie lub nadchodzącą infekcję.'});
-  if(v.hrv>0&&v.hrv<20) alerts.push({cls:'warn',i:'🧠',t:'HRV bardzo niskie: '+v.hrv+' ms',d:'Poważne przeciążenie układu nerwowego. Priorytet: 8h+ snu, ashwagandha, magnez, spokój.'});
-  else if(v.hrv>0&&v.hrv<30) alerts.push({cls:'warn',i:'🧠',t:'HRV niskie: '+v.hrv+' ms',d:'Układ nerwowy przeciążony. Ashwagandha, sen, nawodnienie, brak intensywnego wysiłku.'});
-  if(v.sleep>0&&v.sleep<5) alerts.push({cls:'warn',i:'😴',t:'Poważny niedobór snu: '+v.sleep+'h',d:'<5h to chroniczny niedobór. Melatonina 1mg, waleriana lub melisa wieczorem.'});
-  if(v.temp>0&&v.temp>38.5) alerts.push({cls:'warn',i:'🌡️',t:'Gorączka: '+v.temp+'°C',d:'>38.5°C. Czarny bez, czosnek, wit. C, cynk, dużo płynów. >39.5°C przez 3 dni → lekarz.'});
-  if(v.hrv>=50) alerts.push({cls:'ok',i:'🧠',t:'Świetne HRV: '+v.hrv+' ms',d:'HRV >50ms = doskonała regeneracja. Ciało w trybie odbudowy i odporności.'});
-  if(v.spo2>=98) alerts.push({cls:'ok',i:'💨',t:'Perfekcyjne SpO2: '+v.spo2+'%',d:'Nasycenie 98%+ jest doskonałe. Oddech i krążenie funkcjonują optymalnie.'});
-  if(!alerts.length) alerts.push({cls:'ok',i:'✅',t:'Wszystko w normie',d:'Brak sygnałów alarmowych. Kontynuuj nawyki i pamiętaj o regularnym monitorowaniu.'});
+  if(v.spo2>0&&v.spo2<93) alerts.push({cls:'bad',i:'🚨',t:t('al_spo2_crit',{v:v.spo2}),d:t('al_spo2_crit_d')});
+  else if(v.spo2>0&&v.spo2<95) alerts.push({cls:'warn',i:'💨',t:t('al_spo2_low',{v:v.spo2}),d:t('al_spo2_low_d')});
+  if(v.hr>0&&v.hr>100) alerts.push({cls:'bad',i:'❤️‍🔥',t:t('al_hr_high',{v:v.hr}),d:t('al_hr_high_d')});
+  else if(v.hr>0&&v.hr>85) alerts.push({cls:'warn',i:'❤️',t:t('al_hr_elevated',{v:v.hr}),d:t('al_hr_elevated_d')});
+  if(v.hrv>0&&v.hrv<20) alerts.push({cls:'warn',i:'🧠',t:t('al_hrv_very_low',{v:v.hrv}),d:t('al_hrv_very_low_d')});
+  else if(v.hrv>0&&v.hrv<30) alerts.push({cls:'warn',i:'🧠',t:t('al_hrv_low',{v:v.hrv}),d:t('al_hrv_low_d')});
+  if(v.sleep>0&&v.sleep<5) alerts.push({cls:'warn',i:'😴',t:t('al_sleep_low',{v:v.sleep}),d:t('al_sleep_low_d')});
+  if(v.temp>0&&v.temp>38.5) alerts.push({cls:'warn',i:'🌡️',t:t('al_temp_high',{v:v.temp}),d:t('al_temp_high_d')});
+  if(v.hrv>=50) alerts.push({cls:'ok',i:'🧠',t:t('al_hrv_great',{v:v.hrv}),d:t('al_hrv_great_d')});
+  if(v.spo2>=98) alerts.push({cls:'ok',i:'💨',t:t('al_spo2_great',{v:v.spo2}),d:t('al_spo2_great_d')});
+  if(!alerts.length) alerts.push({cls:'ok',i:'✅',t:t('al_all_ok'),d:t('al_all_ok_d')});
   const clsMap={ok:'background:var(--GRb);border-left:4px solid var(--GR)',warn:'background:var(--AMb);border-left:4px solid var(--AM)',bad:'background:var(--RDb);border-left:4px solid var(--RD)'};
   const tcMap={ok:'color:var(--GR)',warn:'color:var(--AM)',bad:'color:var(--RD)'};
   box.innerHTML=alerts.map(a=>`<div style="${clsMap[a.cls]};border-radius:var(--r2);padding:13px;margin-bottom:8px;display:flex;gap:12px;align-items:flex-start"><div style="font-size:24px;flex-shrink:0">${a.i}</div><div><div style="font-size:13px;font-weight:700;${tcMap[a.cls]};margin-bottom:3px">${a.t}</div><div style="font-size:12px;color:var(--MID);line-height:1.55">${a.d}</div></div></div>`).join('');
@@ -1938,7 +2617,7 @@ function saveNotif(){
   S.notif={water:g('nt-water')?.checked,herbs:g('nt-herbs')?.checked,checkin:g('nt-checkin')?.checked,sleep:g('nt-sleep')?.checked,alerts:g('nt-alerts')?.checked,journal:g('nt-journal')?.checked,morning:g('nt-morning')?.value||'07:30',evening:g('nt-evening')?.value||'21:30',waterInt:parseInt(g('nt-water-int')?.value||90)};
   saveState();
   if(Notification.permission==='granted') scheduleNotifs();
-  showToast('✅ Powiadomienia zapisane');
+  showToast(t('notif_saved'));
 }
 function renderNotifStatus(){
   const box=document.getElementById('notif-status-box');if(!box) return;
@@ -1955,7 +2634,7 @@ async function reqNotifPerm(){
   if(!('Notification' in window)) return showToast('⚠️ Brak wsparcia w tej przeglądarce');
   const r=await Notification.requestPermission();
   renderNotifStatus();
-  if(r==='granted'){scheduleNotifs();showToast('🔔 Powiadomienia włączone!');}
+  if(r==='granted'){scheduleNotifs();showToast(t('notif_enabled'));}
 }
 function sendNotif(title,body,tag='niq'){
   if(!('Notification' in window)||Notification.permission!=='granted') return false;
@@ -1973,7 +2652,7 @@ function sendTestNotif(){
   if(Notification.permission!=='granted'){reqNotifPerm().then(()=>{if(Notification.permission==='granted') sendTestNotif();});return;}
   const msgs=[{t:'💧 NaturaIQ — Nawodnienie',b:`Wypiłeś ${S.water||0}ml. Cel: ${S.waterGoal||2500}ml. Czas na szklankę wody!`},{t:'🌿 NaturaIQ — Zioła wieczorne',b:'Czas na protokół: Ashwagandha 300mg + Magnez 400mg + Melisa. Dobrej regeneracji!'},{t:'🧠 NaturaIQ — Check-in',b:'Wpisz parametry z zegarka aby obliczyć BioScore na dziś.'}];
   const m=msgs[Math.floor(Math.random()*msgs.length)];
-  sendNotif(m.t,m.b,'test');logNotif('🔔',m.t);showToast('✅ Testowe powiadomienie wysłane!');
+  sendNotif(m.t,m.b,'test');logNotif('🔔',m.t);showToast(t('notif_test_sent'));
 }
 function scheduleNotifs(){
   notifTimers.forEach(t=>clearTimeout(t));notifTimers=[];
@@ -2051,7 +2730,7 @@ function exportJournal(){
   const blob=new Blob([txt],{type:'text/plain;charset=utf-8'});
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a');a.href=url;a.download='NaturaIQ_'+new Date().toISOString().slice(0,10)+'.txt';a.click();URL.revokeObjectURL(url);
-  showToast('✅ Dziennik wyeksportowany!');
+  showToast(t('export_saved'));
 }
 function printSummary(){
   const v=S.vitals;
@@ -2094,8 +2773,8 @@ function showToast(msg){
 // ═══════════════════════════════════════════════════════
 let deferredPrompt=null;
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;setTimeout(()=>{const b=document.getElementById('pwa-banner');if(b&&!localStorage.getItem('pwa_dismissed')) b.style.display='flex';},3000);});
-window.addEventListener('appinstalled',()=>{deferredPrompt=null;const b=document.getElementById('pwa-banner');if(b) b.style.display='none';showToast('🎉 NaturaIQ zainstalowana!');});
-function installPWA(){if(!deferredPrompt){showToast('Użyj menu → "Dodaj do ekranu głównego"');return;}deferredPrompt.prompt();deferredPrompt.userChoice.then(r=>{if(r.outcome==='accepted') showToast('✅ Instalowanie...');deferredPrompt=null;const b=document.getElementById('pwa-banner');if(b) b.style.display='none';});}
+window.addEventListener('appinstalled',()=>{deferredPrompt=null;const b=document.getElementById('pwa-banner');if(b) b.style.display='none';showToast(t('pwa_install_toast'));});
+function installPWA(){if(!deferredPrompt){showToast(t('pwa_install_manual'));return;}deferredPrompt.prompt();deferredPrompt.userChoice.then(r=>{if(r.outcome==='accepted') showToast('✅ Instalowanie...');deferredPrompt=null;const b=document.getElementById('pwa-banner');if(b) b.style.display='none';});}
 
 // PWA - dismiss banner
 document.querySelector('.pwa-dismiss')?.addEventListener('click',()=>{localStorage.setItem('pwa_dismissed','1');document.getElementById('pwa-banner').style.display='none';});
@@ -2108,6 +2787,11 @@ if('serviceWorker' in navigator){window.addEventListener('load',async()=>{try{aw
 // ═══════════════════════════════════════════════════════
 function init(){
   loadState();
+  // Restore language
+  _lang = S.lang || localStorage.getItem('niq_lang') || 'pl';
+  localStorage.setItem('niq_lang', _lang);
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === _lang));
+  updateNavLabels();
   // Auth check: if setup done and not unlocked this session, show lock screen
   if(AUTH.setupDone && !AUTH.sessionUnlocked && (AUTH.pin||AUTH.password||AUTH.bioEnabled)){
     showLockScreen();
@@ -2212,9 +2896,9 @@ function switchLockMethod(method){
   document.getElementById('lock-bio-view').style.alignItems='center';
   const hint=document.getElementById('lock-hint');
   if(hint){
-    if(method==='pin') hint.textContent='Wprowadź 4-cyfrowy PIN';
-    if(method==='password') hint.textContent='Wprowadź hasło';
-    if(method==='bio') hint.textContent='Użyj Face ID / Touch ID / Odcisk palca';
+    if(method==='pin') hint.textContent=t('lock_hint_pin');
+    if(method==='password') hint.textContent=t('lock_hint_pw');
+    if(method==='bio') hint.textContent=t('lock_hint_bio');
   }
   clearLockError();
 }
@@ -2255,7 +2939,7 @@ async function checkPin(){
     updatePinDisplay('pin-display','pd');
     hideLockScreen();
   } else {
-    setLockError('Nieprawidłowy PIN');
+    setLockError(t('lock_wrong_pin'));
     pinEntry='';
     setTimeout(()=>updatePinDisplay('pin-display','pd'),350);
   }
@@ -2270,7 +2954,7 @@ async function checkPassword(){
     document.getElementById('lock-pw-input').value='';
     hideLockScreen();
   } else {
-    setLockError('Nieprawidłowe hasło');
+    setLockError(t('lock_wrong_pw'));
     document.getElementById('lock-pw-input').value='';
   }
 }
@@ -2283,7 +2967,7 @@ function togglePwVis(){
 async function tryBiometric(){
   if(!window.PublicKeyCredential){
     const bl=document.getElementById('bio-label');
-    if(bl) bl.textContent='Biometria niedostępna w tej przeglądarce';
+    if(bl) bl.textContent=t('lock_bio_unavailable');
     return;
   }
   try {
@@ -2291,7 +2975,7 @@ async function tryBiometric(){
     const available=await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();
     if(!available){
       const bl=document.getElementById('bio-label');
-      if(bl) bl.textContent='Brak biometrii na tym urządzeniu';
+      if(bl) bl.textContent=t('lock_no_bio_device');
       return;
     }
     // Try to authenticate with stored credential
@@ -2319,7 +3003,7 @@ async function tryBiometric(){
   } catch(e){
     if(e.name!=='NotAllowedError'){
       const bl=document.getElementById('bio-label');
-      if(bl) bl.textContent='Biometria nie powiodła się — użyj PIN';
+      if(bl) bl.textContent=t('lock_bio_failed');
     }
   }
 }
@@ -2344,7 +3028,7 @@ async function registerBiometric(){
       AUTH.bioEnabled=true;
       AUTH.setupDone=true;
       hideLockScreen();
-      showToast('✅ Biometria skonfigurowana!');
+      showToast(t('prof_bio_setup_done'));
       initSecurityPage();
     }
   } catch(e){
@@ -2364,8 +3048,8 @@ function showPinSetup(mode='setup'){
   if(modal) modal.style.display='flex';
   const title=document.getElementById('setup-pin-title');
   const sub=document.getElementById('setup-pin-sub');
-  if(title) title.textContent='Ustaw nowy PIN (4 cyfry)';
-  if(sub) sub.textContent='PIN zabezpiecza Twoje dane zdrowotne';
+  if(title) title.textContent=t('lock_setup_pin');
+  if(sub) sub.textContent=t('lock_setup_pin_sub');
   updateSetupPinDisplay();
 }
 
@@ -2380,21 +3064,21 @@ function setupPinKey(digit){
         setupPinEntry='';
         const title=document.getElementById('setup-pin-title');
         const sub=document.getElementById('setup-pin-sub');
-        if(title) title.textContent='Potwierdź PIN';
-        if(sub) sub.textContent='Wpisz ten sam PIN ponownie';
+        if(title) title.textContent=t('lock_confirm_pin');
+        if(sub) sub.textContent=t('lock_confirm_pin_sub');
       } else {
         if(setupPinEntry===setupPinFirst){
           AUTH.pin=await hashPin(setupPinEntry);
           AUTH.setupDone=true;
           document.getElementById('setup-pin-modal').style.display='none';
-          showToast('✅ PIN ustawiony!');
+          showToast(t('prof_pin_done'));
           initSecurityPage();
         } else {
           setupPinFirst='';setupPinEntry='';
           const title=document.getElementById('setup-pin-title');
           const sub=document.getElementById('setup-pin-sub');
-          if(title) title.textContent='PINy się nie zgadzają. Spróbuj ponownie.';
-          if(sub) sub.textContent='Wpisz 4-cyfrowy PIN od początku';
+          if(title) title.textContent=t('lock_pin_mismatch');
+          if(sub) sub.textContent=t('lock_setup_pin_sub');
         }
       }
       updateSetupPinDisplay();
@@ -2403,14 +3087,14 @@ function setupPinKey(digit){
 }
 function setupPinDel(){if(setupPinEntry.length>0) setupPinEntry=setupPinEntry.slice(0,-1);updateSetupPinDisplay();}
 function updateSetupPinDisplay(){for(let i=0;i<4;i++){const d=document.getElementById('spd'+i);if(d) d.classList.toggle('filled',i<setupPinEntry.length);}}
-function skipPinSetup(){AUTH.setupDone=true;document.getElementById('setup-pin-modal').style.display='none';showToast('Aplikacja bez zabezpieczenia PIN');}
+function skipPinSetup(){AUTH.setupDone=true;document.getElementById('setup-pin-modal').style.display='none';showToast(t('prof_no_pin'));}
 
 // ─── PASSWORD SETUP ───
 async function setupPassword(pw){
   if(!pw||pw.length<4){showToast('Hasło musi mieć min. 4 znaki');return;}
   AUTH.password=await hashPin(pw);
   AUTH.setupDone=true;
-  showToast('✅ Hasło ustawione!');
+  showToast(t('prof_pw_done'));
   initSecurityPage();
 }
 
@@ -2479,7 +3163,7 @@ function setupBiometric(){
   if(AUTH.bioEnabled){
     AUTH.bioEnabled=false;
     localStorage.removeItem('niq_cred_id');
-    showToast('Biometria wyłączona');
+    showToast(t('prof_bio_disabled'));
     initSecurityPage();
   } else {
     tryBiometric();
@@ -2487,18 +3171,1276 @@ function setupBiometric(){
 }
 
 function removeAuth(){
-  if(!confirm('Usunąć wszystkie zabezpieczenia? Aplikacja będzie otwarta bez PIN/hasła.')) return;
+  if(!confirm(t('prof_confirm_remove'))) return;
   AUTH.pin='';AUTH.password='';AUTH.bioEnabled=false;AUTH.setupDone=false;AUTH.sessionUnlocked=true;
   localStorage.removeItem('niq_cred_id');localStorage.removeItem('niq_pin_hash');localStorage.removeItem('niq_pw_hash');
-  showToast('Zabezpieczenie usunięte');
+  showToast(t('prof_removed'));
   initSecurityPage();
 }
 
 let _pwSetupModal=null;
 function showPwSetupModal(){
-  const pw=prompt('Nowe hasło (min. 4 znaki):');
+  const pw=prompt(t('prof_pw_prompt'));
   if(pw!==null&&pw.length>=4) setupPassword(pw);
-  else if(pw!==null) showToast('Hasło za krótkie — min. 4 znaki');
+  else if(pw!==null) showToast(t('prof_pw_too_short'));
+}
+
+
+
+// ═══════════════════════════════════════════════════════
+// I18N — INTERNATIONALIZATION SYSTEM
+// ═══════════════════════════════════════════════════════
+const LANG = {
+  pl: {
+    // NAV
+    nav_today:'Dziś', nav_profile:'Profil', nav_signals:'Sygnały', nav_remedies:'Apteczka',
+    nav_tracker:'Tracker', nav_journal:'Dziennik', nav_trends:'Trendy',
+    nav_alerts:'Alerty', nav_season:'Sezon', nav_notifications:'Powiadomienia',
+
+    // DASHBOARD
+    dash_greeting_night:'Dobranoc', dash_greeting_morning:'Dzień dobry',
+    dash_greeting_noon:'Dobre południe', dash_greeting_evening:'Dobry wieczór',
+    dash_forecast:'Prognoza dnia',
+    dash_update:'⌚ Zaktualizuj parametry →',
+    dash_no_data:'Wpisz parametry z zegarka, aby zobaczyć personalizowaną prognozę.',
+    dash_fill_profile:'uzupełnij profil →',
+    dash_notif_hint:'Włącz powiadomienia — woda, zioła, alerty',
+    dash_notif_enable:'Włącz →',
+    dash_water_goal:'Cel:',
+    dash_water_cups_left:'Pozostało ~{n} szklanek ({l}L).',
+    dash_water_done:'🎉 Cel nawodnienia osiągnięty!',
+    dash_habits_title:'Nawyki dziś',
+    dash_symptoms_title:'Jak się czujesz? Wybierz objawy',
+    dash_find_remedies:'🌿 Pokaż naturalne środki',
+
+    // VITALS
+    v_hr_high:'↑ wysoki', v_hr_low:'↓ niski', v_hr_ok:'✓ dobry',
+    v_hrv_low:'↓ niskie', v_hrv_ok:'↔ ok', v_hrv_good:'↑ dobre',
+    v_sleep_low:'↓ za mało', v_sleep_high:'↑ dużo', v_sleep_ok:'✓ dobry',
+    v_spo2_low:'⚠ niskie', v_spo2_good:'✓ dobre', v_spo2_ok:'↔ ok',
+
+    // INTERVIEW
+    int_title:'Wywiad zdrowotny', int_sub:'Twój profil zdrowotny — im więcej wiem, tym bezpieczniejsze rekomendacje.',
+    int_basic:'Dane podstawowe', int_name:'Imię', int_age:'Wiek', int_weight:'Masa (kg)',
+    int_height:'Wzrost (cm)', int_gender:'Płeć', int_gender_m:'Mężczyzna', int_gender_f:'Kobieta', int_gender_o:'Inna',
+    int_allergies:'🚨 Alergie i nietolerancje',
+    int_allergy_desc:'NaturaIQ oznaczy ⚠️ lub wykluczy środki zawierające te składniki.',
+    int_other_allergies:'Inne alergie', int_other_allergy_ph:'np. penicylina, pyłki brzozy...',
+    int_meds:'💊 Przyjmowane leki', int_meds_desc:'Niektóre zioła mogą wchodzić w interakcje z lekami.',
+    int_meds_ph:'np. warfaryna, metformina, losartan, SSRI...',
+    int_conditions:'🩺 Choroby przewlekłe', int_goals:'🎯 Moje priorytety zdrowotne',
+    int_device:'⌚ Urządzenie',
+    int_privacy:'⚕️ Twoje dane zdrowotne są przechowywane wyłącznie lokalnie na tym urządzeniu.',
+
+    // SIGNALS
+    sig_title:'Sygnały biometryczne', sig_sub:'Wpisz parametry z zegarka lub telefonu',
+    sig_manual:'📥 Wpisz parametry ręcznie',
+    sig_analyze:'🔍 Analizuj i oblicz BioScore',
+    sig_status:'Status parametrów',
+    sig_nil:'Brak danych', sig_athletic:'Sportowe', sig_optimal:'Optymalne',
+    sig_elevated:'Podwyższone', sig_high:'Wysokie', sig_excellent:'Świetny',
+    sig_good:'Dobry', sig_low:'Niski', sig_very_low:'Bardzo niski',
+    sig_optimal_s:'Optymalny', sig_insufficient:'Niewystarczający', sig_too_little:'Za mało',
+    sig_perfect:'Doskonałe', sig_reduced:'Obniżone', sig_low_s:'Niskie!',
+    sig_goal:'Cel!', sig_very_little:'Bardzo mało', sig_little:'Mało',
+    sig_normal:'Normalna', sig_subfebr:'Podgorączkowa', sig_fever:'Gorączka',
+
+    // REMEDIES
+    rem_title:'Naturalna Apteczka', rem_sub:'Wybierz objawy — zobaczysz środki dopasowane do Twojego profilu',
+    rem_choose:'Wybierz swój stan',
+    rem_search:'🔍 Szukaj środków',
+    rem_found:'Znaleziono {n} środków · kliknij aby rozwinąć szczegóły',
+    rem_no_results:'Brak wyników dla wybranych objawów',
+    rem_choose_symptom:'Wybierz przynajmniej jeden objaw',
+    rem_click_expand:'kliknij aby rozwinąć szczegóły',
+    rem_origin:'📍 Skąd pozyskać?',
+    rem_prep:'🍵 Jak przygotować?',
+    rem_dose_full:'⚖️ Dawkowanie — pełne wytyczne',
+    rem_mechanism:'🔬 Mechanizm działania',
+    rem_caution:'Ostrożność:',
+    rem_pharma:'💊 Odpowiedniki farmaceutyczne (gdy naturalne nie wystarczy)',
+    rem_pharma_note:'ℹ️ Wymienione leki wymagają recepty lub konsultacji. Stosować jako opcję ostateczną.',
+    rem_no_profile:'⚠️ Nie uzupełniłeś wywiadu zdrowotnego — rekomendacje mogą nie uwzględniać Twoich alergii i leków.',
+    rem_fill_now:'Uzupełnij →',
+    rem_edit_profile:'✏️ Edytuj profil',
+    rem_disclaimer:'⚕️ NaturaIQ nie jest urządzeniem medycznym. Przy przyjmowaniu leków zawsze konsultuj zmiany z lekarzem lub farmaceutą.',
+    rem_ev_high:'Wysoki poziom dowodów', rem_ev_good:'Dobry', rem_ev_mod:'Umiarkowany', rem_ev_trad:'Tradycyjny',
+    rem_consult:'⚕️ Konsultacja',
+
+    // SYMPTOMS
+    sym_fatigue:'Zmęczenie', sym_headache:'Ból głowy', sym_stress:'Stres/Lęk',
+    sym_cold:'Przeziębienie', sym_digestion:'Trawienie', sym_brain_fog:'Mgła mózgowa',
+    sym_sleep:'Zły sen', sym_inflammation:'Stan zapalny', sym_heart:'Serce/Ciśnienie',
+    sym_immunity:'Odporność', sym_fever:'Gorączka', sym_mood:'Nastrój',
+
+    // HABITS
+    hab_water:'Wypiłem 2L+ wody', hab_move:'Min. 20 min ruchu',
+    hab_sleep:'Planuję 7–9h snu', hab_herbs:'Ziołowe suplementy',
+    hab_veg:'5 porcji warzyw/owoców', hab_coffee:'Brak kawy po 16:00',
+    hab_breathe:'Ćwiczenia oddechowe', hab_nature:'Świeże powietrze',
+
+    // TRACKER
+    tr_title:'Twój Tracker', tr_sub:'Śledź codzienne nawyki i obserwuj postępy',
+    tr_week:'Ten tydzień', tr_good_habits:'Dni z dobrymi nawykami',
+    tr_today:'Nawyki dziś', tr_stats:'Statystyki',
+    tr_streak:'Dni z rzędu 🔥', tr_water:'ml wody dziś 💧',
+    tr_habits_done:'Nawyków 💚', tr_bioscore:'BioScore 📈',
+
+    // JOURNAL
+    jour_title:'Dziennik zdrowia', jour_sub:'Zapisuj samopoczucie i obserwuj wzorce w czasie',
+    jour_how:'Jak się czujesz?', jour_note:'Notatka',
+    jour_ph:'Opisz swoje samopoczucie, objawy, co jadłeś, jak spałeś...',
+    jour_save:'💾 Zapisz wpis', jour_history:'Historia',
+    jour_empty:'Brak wpisów — zacznij śledzić swoje zdrowie!',
+    jour_write_first:'Napisz coś przed zapisaniem',
+    jour_saved:'✅ Wpis zapisany!',
+    mood_good:'Dobrze', mood_avg:'Średnio', mood_bad:'Źle',
+    mood_stress:'Stres', mood_sick:'Chory', mood_energy:'Energia',
+
+    // TRENDS
+    tr2_title:'Twoje Trendy', tr2_sub:'Wykresy parametrów biometrycznych i kalkulator dawek',
+    tr2_no_data:'Brak danych — wpisz parametry',
+    tr2_export:'📄 Eksportuj dziennik (TXT)',
+    tr2_print:'🖨️ Raport dla lekarza',
+    dc_weight:'Waga', dc_age:'Wiek', dc_doses_for:'Dawki dla {w}kg / {a} lat:',
+
+    // ALERTS
+    al_title:'Centrum Alertów', al_sub:'Analiza Twoich parametrów biometrycznych',
+    al_spo2_crit:'SpO2 krytycznie niskie: {v}%',
+    al_spo2_crit_d:'SpO2 <93% wymaga natychmiastowej oceny lekarskiej. Zadzwoń 112 lub jedź na izbę przyjęć.',
+    al_spo2_low:'SpO2 obniżone: {v}%',
+    al_spo2_low_d:'Między 93–95%. Ćwiczenia oddechowe 4-7-8. Jeśli nie poprawi się w 1h — lekarz.',
+    al_hr_high:'Tachykardia: {v} bpm',
+    al_hr_high_d:'Tętno >100bpm w spoczynku. Upewnij się że jesteś w spoczynku. Nawodnij się.',
+    al_hr_elevated:'Podwyższone tętno: {v} bpm',
+    al_hr_elevated_d:'85–100 bpm może oznaczać stres, odwodnienie lub nadchodzącą infekcję.',
+    al_hrv_very_low:'HRV bardzo niskie: {v} ms',
+    al_hrv_very_low_d:'Poważne przeciążenie układu nerwowego. Priorytet: 8h+ snu, ashwagandha, magnez, spokój.',
+    al_hrv_low:'HRV niskie: {v} ms',
+    al_hrv_low_d:'Układ nerwowy przeciążony. Ashwagandha, sen, nawodnienie.',
+    al_sleep_low:'Poważny niedobór snu: {v}h',
+    al_sleep_low_d:'<5h to chroniczny niedobór. Melatonina 1mg, waleriana lub melisa wieczorem.',
+    al_temp_high:'Gorączka: {v}°C',
+    al_temp_high_d:'>38.5°C. Czarny bez, czosnek, wit. C, cynk. >39.5°C przez 3 dni → lekarz.',
+    al_hrv_great:'Świetne HRV: {v} ms',
+    al_hrv_great_d:'HRV >50ms = doskonała regeneracja. Ciało w trybie odbudowy.',
+    al_spo2_great:'Perfekcyjne SpO2: {v}%',
+    al_spo2_great_d:'Nasycenie 98%+ jest doskonałe. Oddech i krążenie funkcjonują optymalnie.',
+    al_all_ok:'Wszystko w normie',
+    al_all_ok_d:'Brak sygnałów alarmowych. Kontynuuj nawyki i pamiętaj o regularnym monitorowaniu.',
+    al_emergency:'🚨 Sygnały alarmowe',
+    al_call_112:'📞 ZADZWOŃ 112',
+
+    // SEASON
+    sea_title:'Protokoły Sezonowe', sea_sub:'Medycyna naturalna dostosowana do rytmu roku',
+
+    // NOTIFICATIONS
+    notif_title:'Powiadomienia', notif_sub:'Inteligentne przypomnienia o wodzie, ziołach, snie i alertach',
+    notif_water:'💧 Nawodnienie', notif_water_d:'Inteligentne przypomnienia o piciu wody',
+    notif_herbs:'🌿 Zioła i suplementy', notif_herbs_d:'Poranne i wieczorne protokoły',
+    notif_checkin:'🧠 Check-in parametrów', notif_checkin_d:'Poranne przypomnienie o wpisaniu danych',
+    notif_sleep:'💤 Rytuał snu', notif_sleep_d:'Wieczorny protokół przygotowania do snu',
+    notif_alerts:'⚠️ Alerty biometryczne', notif_alerts_d:'Gdy SpO2, HR lub HRV wychodzą poza normę',
+    notif_journal:'📓 Wieczorny dziennik', notif_journal_d:'Przypomnienie o zapisaniu samopoczucia',
+    notif_times:'Godziny', notif_morning:'☀️ Poranek', notif_evening:'🌙 Wieczór', notif_water_every:'💧 Woda co',
+    notif_test_send:'🔔 Wyślij testowe powiadomienie',
+    notif_test_sent:'✅ Testowe powiadomienie wysłane!',
+    notif_saved:'✅ Powiadomienia zapisane',
+    notif_enabled:'🔔 Powiadomienia włączone!',
+    notif_status_active:'Powiadomienia aktywne', notif_status_blocked:'Zablokowane', notif_status_default:'Włącz powiadomienia',
+    notif_status_active_d:'Aplikacja może wysyłać przypomnienia.',
+    notif_status_blocked_d:'Odblokuj w ustawieniach przeglądarki → Prywatność → Powiadomienia.',
+    notif_status_default_d:'Kliknij poniżej, aby umożliwić wysyłanie przypomnień.',
+    notif_enable_btn:'🔔 Włącz powiadomienia',
+    notif_history:'Test i historia', notif_no_history:'Brak historii',
+
+    // PROFILE
+    prof_title:'Profil i ustawienia', prof_fill:'Uzupełnij profil',
+    prof_interview_incomplete:'Wywiad zdrowotny nie ukończony',
+    prof_health_summary:'Szybki podgląd profilu zdrowotnego',
+    prof_notifications:'Powiadomienia', prof_manage_notif:'Zarządzaj powiadomieniami',
+    prof_notif_click:'Kliknij aby skonfigurować',
+    prof_disclaimer:'⚕️ NaturaIQ to aplikacja wellness — nie jest urządzeniem medycznym i nie zastępuje porady lekarskiej. Wszystkie dane są przechowywane lokalnie na Twoim urządzeniu.',
+    prof_security:'🔐 Zabezpieczenie aplikacji',
+    prof_pin:'🔢 PIN (4 cyfry)', prof_pin_set:'✅ Ustawiony', prof_pin_not_set:'Nie skonfigurowany',
+    prof_pw:'🔑 Hasło', prof_pw_set:'✅ Ustawione', prof_pw_not_set:'Nie skonfigurowane',
+    prof_bio:'👁️ Biometria (Face ID / Touch ID)', prof_bio_set:'✅ Aktywna', prof_bio_not_set:'Nie skonfigurowana',
+    prof_change:'Zmień', prof_set:'Ustaw', prof_disable:'Wyłącz', prof_enable_bio:'Włącz',
+    prof_remove_auth:'🗑️ Usuń zabezpieczenie', prof_remove_auth_d:'Aplikacja będzie dostępna bez logowania', prof_remove:'Usuń',
+    prof_lock_note:'🔒 Aplikacja automatycznie blokuje się po 5 minutach w tle.',
+    prof_confirm_remove:'Usunąć wszystkie zabezpieczenia? Aplikacja będzie otwarta bez PIN/hasła.',
+    prof_removed:'Zabezpieczenie usunięte',
+    prof_bio_disabled:t('prof_bio_disabled'),
+    prof_bio_setup_done:'✅ Biometria skonfigurowana!',
+    prof_pin_done:'✅ PIN ustawiony!',
+    prof_pw_done:'✅ Hasło ustawione!',
+    prof_pw_too_short:'Hasło musi mieć min. 4 znaki',
+    prof_pw_prompt:'Nowe hasło (min. 4 znaki):',
+    prof_skip_pin:'Pomiń — użyj bez zabezpieczenia', prof_no_pin:'Aplikacja bez zabezpieczenia PIN',
+    prof_allergies:'⚠️ Alergie', prof_meds:'💊 Leki', prof_conditions:'🩺 Schorzenia', prof_goals:'🎯 Priorytety',
+    prof_interview_empty:'Wywiad zdrowotny nie uzupełniony —',
+    prof_interview_fill:'uzupełnij teraz →',
+    prof_bioscore_saved:'✅ BioScore: {s}/100',
+
+    // LOCK
+    lock_tagline:'TWÓJ NATURALNY ASYSTENT ZDROWIA',
+    lock_hint_pin:'Wprowadź 4-cyfrowy PIN',
+    lock_hint_pw:'Wprowadź hasło',
+    lock_hint_bio:'Użyj Face ID / Touch ID / Odcisk palca',
+    lock_method_pin:'🔢 PIN', lock_method_pw:'🔑 Hasło', lock_method_bio:'👁️ Biometria',
+    lock_unlock:'Odblokuj →',
+    lock_use_pin:'Użyj PIN zamiast',
+    lock_wrong_pin:t('lock_wrong_pin'), lock_wrong_pw:t('lock_wrong_pw'),
+    lock_bio_unavailable:t('lock_bio_unavailable'),
+    lock_no_bio_device:t('lock_no_bio_device'),
+    lock_bio_failed:t('lock_bio_failed'),
+    lock_bio_registered:'Biometria skonfigurowana',
+    lock_setup_pin:'Ustaw nowy PIN (4 cyfry)',
+    lock_setup_pin_sub:'PIN zabezpiecza Twoje dane zdrowotne',
+    lock_confirm_pin:'Potwierdź PIN', lock_confirm_pin_sub:'Wpisz ten sam PIN ponownie',
+    lock_pin_mismatch:'PINy się nie zgadzają. Spróbuj ponownie.',
+    lock_skip_pin:'Pomiń — użyj bez zabezpieczenia',
+
+    // ONBOARDING
+    onb_welcome:'Witaj w NaturaIQ',
+    onb_welcome_sub:'Zanim zacznę doradzać, potrzebuję poznać Ciebie. Krótki wywiad (4 kroki) sprawi, że rekomendacje będą bezpieczne i dopasowane do Twojego organizmu.',
+    onb_allergies:'Alergie i nietolerancje',
+    onb_allergies_sub:'Wybierz wszystkie, które Cię dotyczą. NaturaIQ automatycznie oznaczy lub wykluczy środki, które mogą Ci zaszkodzić.',
+    onb_conditions:'Choroby przewlekłe',
+    onb_conditions_sub:'Niektóre zioła i suplementy mogą wchodzić w interakcje z chorobami. Zaznacz co dotyczy Ciebie.',
+    onb_meds_label:'Przyjmowane leki (wpisz)',
+    onb_meds_ph:'np. warfaryna, metformina, SSRI...',
+    onb_goals:'Twoje priorytety',
+    onb_goals_sub:'Co chcesz osiągnąć? NaturaIQ dopasuje protokoły do Twoich celów.',
+    onb_next:'Dalej →', onb_skip:'Pomiń ten krok', onb_finish:'✅ Zacznijmy!',
+    onb_enter_name:'Wpisz swoje imię',
+    onb_welcome_toast:'✅ Witaj, {name}! 🌿',
+
+    // WATER
+    water_title:'Nawodnienie', water_goal:'Cel:', water_add250:'+250ml', water_add500:'+500ml',
+
+    // GENERAL
+    btn_save:'Zapisz', btn_cancel:'Anuluj', btn_close:'Zamknij',
+    btn_call112:'📞 Zadzwoń 112', btn_find_doctor:'🏥 Znajdź lekarza',
+    proto_when:'Kiedy', proto_disclaimer:'ℹ️ NaturaIQ nie jest urządzeniem medycznym. Rekomendacje mają charakter informacyjny.',
+    proto_when_to_doctor:'Kiedy do lekarza?',
+    pwa_install_title:'Zainstaluj NaturaIQ', pwa_install_sub:'Działa offline · Ikona na ekranie', pwa_install_btn:'Instaluj',
+    pwa_install_toast:'🎉 NaturaIQ zainstalowana!', pwa_install_manual:'Użyj menu → "Dodaj do ekranu głównego"',
+
+    // EXPORT
+    export_journal_header:'NaturaIQ — Dziennik Zdrowia',
+    export_params:'PARAMETRY', export_diary:'DZIENNIK',
+    export_saved:'✅ Dziennik wyeksportowany!',
+    report_title:'NaturaIQ — Raport zdrowia', report_patient:'Pacjent:',
+    report_age:'Wiek:', report_date:'Data:', report_allergies:'⚠️ Alergie:',
+    report_meds:'💊 Leki:', report_conditions:'🩺 Schorzenia:', report_params:'Parametry biometryczne',
+    report_param:'Parametr', report_value:'Wartość', report_normal:'Norma',
+    report_note:'⚕️ NaturaIQ to aplikacja wellness — dane wprowadzone samodzielnie przez użytkownika. Nie stanowią dokumentacji medycznej.',
+  },
+
+  en: {
+    // NAV
+    nav_today:'Today', nav_profile:'Profile', nav_signals:'Signals', nav_remedies:'Remedies',
+    nav_tracker:'Tracker', nav_journal:'Journal', nav_trends:'Trends',
+    nav_alerts:'Alerts', nav_season:'Season', nav_notifications:'Notifications',
+
+    // DASHBOARD
+    dash_greeting_night:'Good night', dash_greeting_morning:'Good morning',
+    dash_greeting_noon:'Good afternoon', dash_greeting_evening:'Good evening',
+    dash_forecast:'Today\'s forecast',
+    dash_update:'⌚ Update parameters →',
+    dash_no_data:'Enter your watch data to see a personalized health forecast.',
+    dash_fill_profile:'complete profile →',
+    dash_notif_hint:'Enable notifications — water, herbs, alerts',
+    dash_notif_enable:'Enable →',
+    dash_water_goal:'Goal:',
+    dash_water_cups_left:'~{n} glasses left ({l}L).',
+    dash_water_done:'🎉 Hydration goal reached!',
+    dash_habits_title:'Today\'s habits',
+    dash_symptoms_title:'How do you feel? Select symptoms',
+    dash_find_remedies:'🌿 Show natural remedies',
+
+    // VITALS
+    v_hr_high:'↑ high', v_hr_low:'↓ low', v_hr_ok:'✓ good',
+    v_hrv_low:'↓ low', v_hrv_ok:'↔ ok', v_hrv_good:'↑ good',
+    v_sleep_low:'↓ too little', v_sleep_high:'↑ too much', v_sleep_ok:'✓ good',
+    v_spo2_low:'⚠ low', v_spo2_good:'✓ good', v_spo2_ok:'↔ ok',
+
+    // INTERVIEW
+    int_title:'Health Interview', int_sub:'Your health profile — the more I know, the safer the recommendations.',
+    int_basic:'Basic data', int_name:'Name', int_age:'Age', int_weight:'Weight (kg)',
+    int_height:'Height (cm)', int_gender:'Gender', int_gender_m:'Male', int_gender_f:'Female', int_gender_o:'Other',
+    int_allergies:'🚨 Allergies & intolerances',
+    int_allergy_desc:'NaturaIQ will warn ⚠️ or exclude remedies containing these ingredients.',
+    int_other_allergies:'Other allergies', int_other_allergy_ph:'e.g. penicillin, birch pollen...',
+    int_meds:'💊 Current medications', int_meds_desc:'Some herbs may interact with medications.',
+    int_meds_ph:'e.g. warfarin, metformin, losartan, SSRIs...',
+    int_conditions:'🩺 Chronic conditions', int_goals:'🎯 My health priorities',
+    int_device:'⌚ Device',
+    int_privacy:'⚕️ Your health data is stored only locally on this device.',
+
+    // SIGNALS
+    sig_title:'Biometric Signals', sig_sub:'Enter parameters from your watch or phone',
+    sig_manual:'📥 Enter parameters manually',
+    sig_analyze:'🔍 Analyze & calculate BioScore',
+    sig_status:'Parameter status',
+    sig_nil:'No data', sig_athletic:'Athletic', sig_optimal:'Optimal',
+    sig_elevated:'Elevated', sig_high:'High', sig_excellent:'Excellent',
+    sig_good:'Good', sig_low:'Low', sig_very_low:'Very low',
+    sig_optimal_s:'Optimal', sig_insufficient:'Insufficient', sig_too_little:'Too little',
+    sig_perfect:'Perfect', sig_reduced:'Reduced', sig_low_s:'Low!',
+    sig_goal:'Goal!', sig_very_little:'Very little', sig_little:'Little',
+    sig_normal:'Normal', sig_subfebr:'Subfebral', sig_fever:'Fever',
+
+    // REMEDIES
+    rem_title:'Natural Remedies', rem_sub:'Select symptoms — see remedies tailored to your health profile',
+    rem_choose:'Choose your condition',
+    rem_search:'🔍 Find remedies',
+    rem_found:'Found {n} remedies · click to expand details',
+    rem_no_results:'No results for selected symptoms',
+    rem_choose_symptom:'Select at least one symptom',
+    rem_click_expand:'click to expand details',
+    rem_origin:'📍 Where to get it?',
+    rem_prep:'🍵 How to prepare?',
+    rem_dose_full:'⚖️ Dosage — full guidelines',
+    rem_mechanism:'🔬 Mechanism of action',
+    rem_caution:'Caution:',
+    rem_pharma:'💊 Pharmaceutical equivalents (when natural isn\'t enough)',
+    rem_pharma_note:'ℹ️ Listed medications require prescription or consultation. Use as last resort.',
+    rem_no_profile:'⚠️ Complete your health interview — recommendations may not account for your allergies and medications.',
+    rem_fill_now:'Complete →',
+    rem_edit_profile:'✏️ Edit profile',
+    rem_disclaimer:'⚕️ NaturaIQ is not a medical device. Always consult your doctor before changing medications.',
+    rem_ev_high:'High evidence', rem_ev_good:'Good', rem_ev_mod:'Moderate', rem_ev_trad:'Traditional',
+    rem_consult:'⚕️ Consult doctor',
+
+    // SYMPTOMS
+    sym_fatigue:'Fatigue', sym_headache:'Headache', sym_stress:'Stress/Anxiety',
+    sym_cold:'Cold', sym_digestion:'Digestion', sym_brain_fog:'Brain fog',
+    sym_sleep:'Poor sleep', sym_inflammation:'Inflammation', sym_heart:'Heart/Blood pressure',
+    sym_immunity:'Immunity', sym_fever:'Fever', sym_mood:'Mood',
+
+    // HABITS
+    hab_water:'Drank 2L+ water', hab_move:'20+ min of movement',
+    hab_sleep:'Planning 7–9h sleep', hab_herbs:'Herbal supplements',
+    hab_veg:'5 servings of veg/fruit', hab_coffee:'No coffee after 4pm',
+    hab_breathe:'Breathing exercises', hab_nature:'Fresh air outside',
+
+    // TRACKER
+    tr_title:'Your Tracker', tr_sub:'Track daily habits and observe progress',
+    tr_week:'This week', tr_good_habits:'Days with good habits',
+    tr_today:'Today\'s habits', tr_stats:'Statistics',
+    tr_streak:'Day streak 🔥', tr_water:'ml water today 💧',
+    tr_habits_done:'Habits done 💚', tr_bioscore:'BioScore 📈',
+
+    // JOURNAL
+    jour_title:'Health Journal', jour_sub:'Track your wellbeing and observe patterns over time',
+    jour_how:'How do you feel?', jour_note:'Note',
+    jour_ph:'Describe your wellbeing, symptoms, what you ate, how you slept...',
+    jour_save:'💾 Save entry', jour_history:'History',
+    jour_empty:'No entries yet — start tracking your health!',
+    jour_write_first:'Write something before saving',
+    jour_saved:'✅ Entry saved!',
+    mood_good:'Good', mood_avg:'Average', mood_bad:'Bad',
+    mood_stress:'Stressed', mood_sick:'Sick', mood_energy:'Energetic',
+
+    // TRENDS
+    tr2_title:'Your Trends', tr2_sub:'Biometric charts and dose calculator',
+    tr2_no_data:'No data — enter parameters',
+    tr2_export:'📄 Export journal (TXT)',
+    tr2_print:'🖨️ Doctor\'s report',
+    dc_weight:'Weight', dc_age:'Age', dc_doses_for:'Doses for {w}kg / {a} years:',
+
+    // ALERTS
+    al_title:'Alert Center', al_sub:'Analysis of your biometric parameters',
+    al_spo2_crit:'Critical SpO2: {v}%',
+    al_spo2_crit_d:'SpO2 <93% requires immediate medical evaluation. Call 112 or go to ER.',
+    al_spo2_low:'Low SpO2: {v}%',
+    al_spo2_low_d:'Between 93–95%. Try 4-7-8 breathing. If no improvement in 1h — see doctor.',
+    al_hr_high:'Tachycardia: {v} bpm',
+    al_hr_high_d:'Resting HR >100bpm. Make sure you\'re at rest. Hydrate. If chest pain — call 112.',
+    al_hr_elevated:'Elevated heart rate: {v} bpm',
+    al_hr_elevated_d:'85–100 bpm may indicate stress, dehydration or oncoming infection.',
+    al_hrv_very_low:'Very low HRV: {v} ms',
+    al_hrv_very_low_d:'Serious nervous system overload. Priority: 8h+ sleep, ashwagandha, magnesium, calm.',
+    al_hrv_low:'Low HRV: {v} ms',
+    al_hrv_low_d:'Nervous system overloaded. Ashwagandha, sleep, hydration.',
+    al_sleep_low:'Severe sleep deficit: {v}h',
+    al_sleep_low_d:'<5h is chronic deprivation. Melatonin 1mg, valerian or lemon balm tonight.',
+    al_temp_high:'Fever: {v}°C',
+    al_temp_high_d:'>38.5°C. Elderberry, garlic, vit C, zinc. >39.5°C for 3 days → doctor.',
+    al_hrv_great:'Excellent HRV: {v} ms',
+    al_hrv_great_d:'HRV >50ms = excellent recovery. Body in rebuilding and immunity mode.',
+    al_spo2_great:'Perfect SpO2: {v}%',
+    al_spo2_great_d:'98%+ saturation is excellent. Breathing and circulation working optimally.',
+    al_all_ok:'All good',
+    al_all_ok_d:'No warning signals. Keep up your habits and monitor regularly.',
+    al_emergency:'🚨 Emergency signs',
+    al_call_112:'📞 Call 112',
+
+    // SEASON
+    sea_title:'Seasonal Protocols', sea_sub:'Natural medicine aligned with the rhythm of the year',
+
+    // NOTIFICATIONS
+    notif_title:'Notifications', notif_sub:'Smart reminders for water, herbs, sleep and biometric alerts',
+    notif_water:'💧 Hydration', notif_water_d:'Smart water reminders',
+    notif_herbs:'🌿 Herbs & supplements', notif_herbs_d:'Morning and evening protocols',
+    notif_checkin:'🧠 Parameter check-in', notif_checkin_d:'Morning reminder to log your data',
+    notif_sleep:'💤 Sleep ritual', notif_sleep_d:'Evening sleep preparation protocol',
+    notif_alerts:'⚠️ Biometric alerts', notif_alerts_d:'When SpO2, HR or HRV go out of range',
+    notif_journal:'📓 Evening journal', notif_journal_d:'Reminder to log your wellbeing',
+    notif_times:'Schedule', notif_morning:'☀️ Morning', notif_evening:'🌙 Evening', notif_water_every:'💧 Water every',
+    notif_test_send:'🔔 Send test notification',
+    notif_test_sent:'✅ Test notification sent!',
+    notif_saved:'✅ Notifications saved',
+    notif_enabled:'🔔 Notifications enabled!',
+    notif_status_active:'Notifications active', notif_status_blocked:'Blocked', notif_status_default:'Enable notifications',
+    notif_status_active_d:'App can send reminders.',
+    notif_status_blocked_d:'Unblock in browser settings → Privacy → Notifications.',
+    notif_status_default_d:'Click below to allow reminders.',
+    notif_enable_btn:'🔔 Enable notifications',
+    notif_history:'Test & history', notif_no_history:'No history',
+
+    // PROFILE
+    prof_title:'Profile & settings', prof_fill:'Complete profile',
+    prof_interview_incomplete:'Health interview not completed',
+    prof_health_summary:'Quick health profile overview',
+    prof_notifications:'Notifications', prof_manage_notif:'Manage notifications',
+    prof_notif_click:'Click to configure',
+    prof_disclaimer:'⚕️ NaturaIQ is a wellness app — not a medical device and does not replace medical advice. All data is stored locally on your device.',
+    prof_security:'🔐 App security',
+    prof_pin:'🔢 PIN (4 digits)', prof_pin_set:'✅ Set', prof_pin_not_set:'Not configured',
+    prof_pw:'🔑 Password', prof_pw_set:'✅ Set', prof_pw_not_set:'Not configured',
+    prof_bio:'👁️ Biometrics (Face ID / Touch ID)', prof_bio_set:'✅ Active', prof_bio_not_set:'Not configured',
+    prof_change:'Change', prof_set:'Set', prof_disable:'Disable', prof_enable_bio:'Enable',
+    prof_remove_auth:'🗑️ Remove security', prof_remove_auth_d:'App will open without PIN/password', prof_remove:'Remove',
+    prof_lock_note:'🔒 App automatically locks after 5 minutes in background.',
+    prof_confirm_remove:'Remove all security? App will open without PIN/password.',
+    prof_removed:'Security removed',
+    prof_bio_disabled:'Biometrics disabled',
+    prof_bio_setup_done:'✅ Biometrics configured!',
+    prof_pin_done:'✅ PIN set!',
+    prof_pw_done:'✅ Password set!',
+    prof_pw_too_short:'Password must be at least 4 characters',
+    prof_pw_prompt:'New password (min. 4 chars):',
+    prof_skip_pin:'Skip — use without security', prof_no_pin:'App without PIN security',
+    prof_allergies:'⚠️ Allergies', prof_meds:'💊 Medications', prof_conditions:'🩺 Conditions', prof_goals:'🎯 Goals',
+    prof_interview_empty:'Health interview not completed —',
+    prof_interview_fill:'complete now →',
+    prof_bioscore_saved:'✅ BioScore: {s}/100',
+
+    // LOCK
+    lock_tagline:'YOUR NATURAL HEALTH ASSISTANT',
+    lock_hint_pin:'Enter 4-digit PIN',
+    lock_hint_pw:'Enter password',
+    lock_hint_bio:'Use Face ID / Touch ID / Fingerprint',
+    lock_method_pin:'🔢 PIN', lock_method_pw:'🔑 Password', lock_method_bio:'👁️ Biometrics',
+    lock_unlock:'Unlock →',
+    lock_use_pin:'Use PIN instead',
+    lock_wrong_pin:'Incorrect PIN', lock_wrong_pw:'Incorrect password',
+    lock_bio_unavailable:'Biometrics not available in this browser',
+    lock_no_bio_device:'No biometrics on this device',
+    lock_bio_failed:'Biometrics failed — use PIN',
+    lock_bio_registered:'Biometrics configured',
+    lock_setup_pin:'Set new PIN (4 digits)',
+    lock_setup_pin_sub:'PIN protects your health data',
+    lock_confirm_pin:'Confirm PIN', lock_confirm_pin_sub:'Enter the same PIN again',
+    lock_pin_mismatch:'PINs don\'t match. Try again.',
+    lock_skip_pin:'Skip — use without security',
+
+    // ONBOARDING
+    onb_welcome:'Welcome to NaturaIQ',
+    onb_welcome_sub:'Before I advise, I need to know you. A quick interview (4 steps) ensures recommendations are safe and tailored to your body.',
+    onb_allergies:'Allergies & intolerances',
+    onb_allergies_sub:'Select all that apply. NaturaIQ will automatically flag or exclude remedies that may harm you.',
+    onb_conditions:'Chronic conditions',
+    onb_conditions_sub:'Some herbs and supplements may interact with conditions. Check what applies to you.',
+    onb_meds_label:'Current medications (type)',
+    onb_meds_ph:'e.g. warfarin, metformin, SSRIs...',
+    onb_goals:'Your priorities',
+    onb_goals_sub:'What do you want to achieve? NaturaIQ will tailor protocols to your goals.',
+    onb_next:'Next →', onb_skip:'Skip this step', onb_finish:'✅ Let\'s start!',
+    onb_enter_name:'Enter your name',
+    onb_welcome_toast:'✅ Welcome, {name}! 🌿',
+
+    // WATER
+    water_title:'Hydration', water_goal:'Goal:', water_add250:'+250ml', water_add500:'+500ml',
+
+    // GENERAL
+    btn_save:'Save', btn_cancel:'Cancel', btn_close:'Close',
+    btn_call112:'📞 Call 112', btn_find_doctor:'🏥 Find a doctor',
+    proto_when:'When', proto_disclaimer:'ℹ️ NaturaIQ is not a medical device. Recommendations are informational only.',
+    proto_when_to_doctor:'When to see a doctor?',
+    pwa_install_title:'Install NaturaIQ', pwa_install_sub:'Works offline · Home screen icon', pwa_install_btn:'Install',
+    pwa_install_toast:'🎉 NaturaIQ installed!', pwa_install_manual:'Use menu → "Add to home screen"',
+
+    // EXPORT
+    export_journal_header:'NaturaIQ — Health Journal',
+    export_params:'PARAMETERS', export_diary:'JOURNAL',
+    export_saved:'✅ Journal exported!',
+    report_title:'NaturaIQ — Health Report', report_patient:'Patient:',
+    report_age:'Age:', report_date:'Date:', report_allergies:'⚠️ Allergies:',
+    report_meds:'💊 Medications:', report_conditions:'🩺 Conditions:', report_params:'Biometric parameters',
+    report_param:'Parameter', report_value:'Value', report_normal:'Normal range',
+    report_note:'⚕️ NaturaIQ is a wellness app — data entered by the user. Not medical documentation.',
+  },
+};
+
+// Current language (reactive)
+let _lang = localStorage.getItem('niq_lang') || 'pl';
+
+// Translation function — t('key') or t('key', {n: 5})
+function t(key, vars) {
+  const str = (LANG[_lang]||LANG.pl)[key] || (LANG.pl)[key] || key;
+  if (!vars) return str;
+  return str.replace(/\{(\w+)\}/g, (_, k) => vars[k] !== undefined ? vars[k] : '{'+k+'}');
+}
+
+// Switch language and re-render current page
+function setLang(lang) {
+  _lang = lang;
+  localStorage.setItem('niq_lang', lang);
+  S.lang = lang;
+  saveState();
+  // Update lang toggle buttons
+  document.querySelectorAll('.lang-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.lang === lang);
+  });
+  // Update nav tab labels
+  updateNavLabels();
+  // Re-render active page
+  const activePage = document.querySelector('.page.active');
+  if (activePage) {
+    const pageId = activePage.id.replace('page-', '');
+    refreshPageStrings(pageId);
+    goPage(pageId);
+  }
+}
+
+function updateNavLabels() {
+  const navMap = {
+    dashboard: t('nav_today'), interview: t('nav_profile'),
+    signals: t('nav_signals'), remedies: t('nav_remedies'),
+    tracker: t('nav_tracker'), journal: t('nav_journal'),
+    trends: t('nav_trends'), alerts: t('nav_alerts'),
+    season: t('nav_season'), notifications: t('nav_notifications'),
+    profile: t('nav_profile'),
+    ai: 'AI',
+    recipes: _lang==='en'?'Recipes':'Przepisy',
+  };
+  document.querySelectorAll('.nav-tab').forEach(el => {
+    const page = el.dataset.page;
+    if (navMap[page]) el.title = navMap[page];
+  });
+  document.querySelectorAll('.bi').forEach(el => {
+    const page = el.dataset.page;
+    const lbl = el.querySelector('.bi-lbl');
+    if (lbl && navMap[page]) lbl.textContent = navMap[page];
+  });
+}
+
+function refreshPageStrings(pageId) {
+  // Update all data-i18n elements on the page
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    if (key) el.textContent = t(key);
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+    el.placeholder = t(el.dataset.i18nPh);
+  });
+}
+
+
+
+// ═══════════════════════════════════════════════════════
+// AI ASSISTANT — CLAUDE API INTEGRATION
+// ═══════════════════════════════════════════════════════
+
+const AI = {
+  get key() { return localStorage.getItem('niq_api_key') || ''; },
+  set key(v) { if(v) localStorage.setItem('niq_api_key', v); else localStorage.removeItem('niq_api_key'); },
+  get hasKey() { return !!this.key && this.key.startsWith('sk-ant-'); },
+};
+
+let chatHistory = []; // {role: 'user'|'assistant', content: string}
+let aiTyping = false;
+
+// ── Quick prompts (i18n ready) ──
+const QUICK_PROMPTS_PL = [
+  '💧 Dlaczego powinienem pić więcej wody?',
+  '😴 Co zrobić na zły sen dziś wieczór?',
+  '🌿 Jaki naturalny środek na stres?',
+  '❤️ Jak poprawić moje HRV naturalnie?',
+  '💊 Czy mogę łączyć ashwagandhę z moimi lekami?',
+  '🔥 Co jeść przy stanie zapalnym?',
+  '⚡ Dlaczego czuję się zmęczony mimo snu?',
+  '🌺 Co oznacza niskie SpO2?',
+];
+const QUICK_PROMPTS_EN = [
+  '💧 Why should I drink more water?',
+  '😴 What to do for poor sleep tonight?',
+  '🌿 Natural remedy for stress?',
+  '❤️ How to improve my HRV naturally?',
+  '💊 Can I combine ashwagandha with my medications?',
+  '🔥 What to eat for inflammation?',
+  '⚡ Why am I tired despite sleeping?',
+  '🌺 What does low SpO2 mean?',
+];
+
+function getQuickPrompts() {
+  return _lang === 'en' ? QUICK_PROMPTS_EN : QUICK_PROMPTS_PL;
+}
+
+// ── Build system prompt with user context ──
+function buildSystemPrompt() {
+  const v = S.vitals;
+  const lang = _lang === 'en' ? 'English' : 'Polish';
+  
+  let ctx = `You are NaturaIQ Assistant — a knowledgeable, warm, and evidence-based natural health advisor integrated into the NaturaIQ app. You specialize in natural medicine, herbal remedies, nutrition, and interpreting biometric data from smartwatches.
+
+ALWAYS respond in ${lang}.
+
+USER HEALTH PROFILE:
+- Name: ${S.name || 'unknown'}
+- Age: ${S.age || 'unknown'} years old
+- Weight: ${S.weight || 'unknown'} kg
+- Gender: ${S.gender === 'm' ? 'male' : S.gender === 'f' ? 'female' : 'unknown'}`;
+
+  if(S.allergies.length) ctx += `
+- ALLERGIES (CRITICAL): ${S.allergies.join(', ')} — NEVER recommend remedies containing these`;
+  if(S.meds) ctx += `
+- CURRENT MEDICATIONS: ${S.meds} — always check interactions before recommending`;
+  if(S.conditions.length) ctx += `
+- CHRONIC CONDITIONS: ${S.conditions.join(', ')}`;
+  if(S.goals.length) ctx += `
+- HEALTH GOALS: ${S.goals.join(', ')}`;
+  if(S.device) ctx += `
+- Smartwatch device: ${S.device}`;
+
+  if(v.hr || v.hrv || v.sleep || v.spo2) {
+    ctx += `
+
+TODAY'S BIOMETRIC DATA:`;
+    if(v.hr) ctx += `
+- Resting heart rate: ${v.hr} bpm ${v.hr>85?'(ELEVATED)':v.hr<55?'(athletic/low)':'(normal)'}`;
+    if(v.hrv) ctx += `
+- HRV: ${v.hrv} ms ${v.hrv<30?'(VERY LOW - overloaded)':v.hrv<45?'(low)':'(good)'}`;
+    if(v.sleep) ctx += `
+- Sleep: ${v.sleep}h ${v.sleep<6?'(INSUFFICIENT)':v.sleep<7?'(low)':'(adequate)'}`;
+    if(v.spo2) ctx += `
+- SpO2: ${v.spo2}% ${v.spo2<95?'(LOW - monitor!)':v.spo2>=97?'(excellent)':'(normal)'}`;
+    if(v.steps) ctx += `
+- Steps: ${v.steps}`;
+    if(v.temp) ctx += `
+- Temperature: ${v.temp}°C`;
+    if(S.bioscore) ctx += `
+- BioScore: ${S.bioscore}/100`;
+  }
+
+  if(S.water) ctx += `
+- Water intake today: ${S.water}ml (goal: ${S.waterGoal}ml)`;
+
+  const todayHabits = S.habits[new Date().toISOString().slice(0,10)] || {};
+  const doneHabits = Object.entries(todayHabits).filter(([,v])=>v).map(([k])=>k);
+  if(doneHabits.length) ctx += `
+- Completed habits today: ${doneHabits.join(', ')}`;
+
+  ctx += `
+
+GUIDELINES:
+1. Be warm, personalized, and evidence-based. Reference the user by name when natural.
+2. ALWAYS check allergies and medications before recommending any remedy.
+3. Suggest specific remedies with: dosage, timing, how to prepare, where to get.
+4. For serious symptoms (SpO2<93%, HR>120, severe chest pain), always recommend calling emergency services FIRST.
+5. Mention pharmaceutical equivalents when appropriate, but position natural approaches first.
+6. Base recommendations on clinical evidence (PubMed, WHO, EMA, Cochrane) when possible.
+7. Be honest about evidence quality — distinguish high-evidence from traditional use.
+8. Keep responses concise but complete — use bullet points for remedy protocols.
+9. Never diagnose diseases — always recommend consulting a doctor for medical decisions.
+10. Format key recommendations in bold for easy scanning.`;
+
+  return ctx;
+}
+
+// ── Init AI page ──
+function initAiPage() {
+  // Update context bar
+  const ctxBar = document.getElementById('ai-ctx-bar');
+  if(ctxBar) {
+    const parts = [];
+    if(S.name) parts.push(`👤 ${S.name}`);
+    if(S.bioscore) parts.push(`💚 BioScore: ${S.bioscore}`);
+    if(S.vitals.hrv) parts.push(`🧠 HRV: ${S.vitals.hrv}ms`);
+    if(S.vitals.sleep) parts.push(`💤 ${S.vitals.sleep}h`);
+    if(S.allergies.length) parts.push(`⚠️ ${S.allergies.length} alergii`);
+    if(S.meds) parts.push(`💊 leki`);
+    ctxBar.innerHTML = parts.length
+      ? parts.map(p=>`<span class="ai-ctx-badge">${p}</span>`).join('')
+      : ((_lang==='en')?'Complete your health profile for personalized advice':'Uzupełnij profil zdrowotny dla spersonalizowanych porad');
+  }
+
+  // Show setup or chat
+  const setup = document.getElementById('api-setup-section');
+  const chat = document.getElementById('ai-chat-section');
+  if(AI.hasKey) {
+    if(setup) setup.style.display = 'none';
+    if(chat) chat.style.display = 'block';
+    renderQuickPrompts();
+    if(chatHistory.length === 0) showWelcomeMessage();
+  } else {
+    if(setup) setup.style.display = 'block';
+    if(chat) chat.style.display = 'none';
+    // Pre-fill if user has partial key
+    const ki = document.getElementById('api-key-input');
+    if(ki && AI.key) ki.value = AI.key;
+  }
+}
+
+function renderQuickPrompts() {
+  const wrap = document.getElementById('quick-prompts');
+  if(!wrap) return;
+  const prompts = getQuickPrompts();
+  wrap.innerHTML = prompts.map(p =>
+    `<button class="qp-btn" onclick="useQuickPrompt(this)">${p}</button>`
+  ).join('');
+}
+
+function useQuickPrompt(btn) {
+  const inp = document.getElementById('ai-input');
+  if(inp) { inp.value = btn.textContent; autoGrowTextarea(inp); }
+  document.querySelectorAll('.qp-btn').forEach(b=>b.style.opacity='.6');
+  btn.style.opacity = '1';
+  setTimeout(sendAiMessage, 100);
+}
+
+// ── API Key management ──
+function toggleApiKeyVis() {
+  const inp = document.getElementById('api-key-input');
+  if(inp) inp.type = inp.type === 'password' ? 'text' : 'password';
+}
+
+function saveApiKey() {
+  const key = document.getElementById('api-key-input')?.value.trim();
+  if(!key) { showToast('⚠️ Wprowadź klucz API'); return; }
+  if(!key.startsWith('sk-ant-')) { showToast('⚠️ Nieprawidłowy format klucza (powinien zaczynać się od sk-ant-)'); return; }
+  AI.key = key;
+  showToast('✅ Klucz API zapisany!');
+  initAiPage();
+}
+
+function changeApiKey() {
+  const setup = document.getElementById('api-setup-section');
+  const chat = document.getElementById('ai-chat-section');
+  if(setup) setup.style.display = 'block';
+  if(chat) chat.style.display = 'none';
+  const ki = document.getElementById('api-key-input');
+  if(ki) { ki.value = AI.key; ki.type = 'text'; }
+}
+
+// ── Chat UI helpers ──
+function autoGrowTextarea(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+}
+
+function appendMessage(role, content, isTyping = false) {
+  const box = document.getElementById('chat-box');
+  if(!box) return null;
+
+  // Remove empty state
+  const empty = document.getElementById('chat-empty');
+  if(empty) empty.style.display = 'none';
+
+  const div = document.createElement('div');
+  div.className = `chat-msg ${role}`;
+  const avatarContent = role === 'user' ? (S.name ? S.name[0].toUpperCase() : '👤') : '🌿';
+  
+  if(isTyping) {
+    div.innerHTML = `
+      <div class="chat-avatar">${avatarContent}</div>
+      <div class="chat-typing" id="typing-indicator">
+        <span></span><span></span><span></span>
+      </div>`;
+  } else {
+    const html = markdownToHtml(content);
+    div.innerHTML = `
+      <div class="chat-avatar">${avatarContent}</div>
+      <div class="chat-bubble">${html}</div>`;
+  }
+
+  box.appendChild(div);
+  box.scrollTop = box.scrollHeight;
+  return div;
+}
+
+function markdownToHtml(text) {
+  return text
+    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*([^*]+)\*/g, '<em>$1</em>')
+    .replace(/`([^`]+)`/g, '<code>$1</code>')
+    .replace(/^### (.+)$/gm, '<div style="font-size:13px;font-weight:700;color:var(--F);margin:8px 0 4px">$1</div>')
+    .replace(/^## (.+)$/gm, '<div style="font-size:14px;font-weight:700;color:var(--F);margin:10px 0 5px">$1</div>')
+    .replace(/^- (.+)$/gm, '<li style="margin-bottom:3px">$1</li>')
+    .replace(/(<li[^>]*>.*<\/li>
+?)+/gs, '<ul style="padding-left:16px;margin:6px 0">$&</ul>')
+    .replace(/^\d+\. (.+)$/gm, '<li style="margin-bottom:3px">$1</li>')
+    .replace(/
+
+/g, '</p><p style="margin:6px 0">')
+    .replace(/
+/g, '<br>')
+    .replace(/^/, '<p style="margin:0">')
+    .replace(/$/, '</p>');
+}
+
+function showWelcomeMessage() {
+  const welcomePL = `Cześć${S.name ? ', **' + S.name + '**' : ''}! 👋 Jestem Twoim asystentem naturalnego zdrowia.
+
+Mam dostęp do Twojego profilu zdrowotnego${S.bioscore ? ` i widzę, że Twój BioScore wynosi dziś **${S.bioscore}/100**` : ''}. Mogę pomóc Ci:
+
+- 🌿 Dobrać naturalne środki do Twoich objawów
+- ⌚ Zinterpretować parametry z zegarka
+- 💊 Sprawdzić bezpieczne połączenia z Twoimi lekami
+- 🍽️ Zaproponować przepisy lecznicze i jadłospis
+- 📊 Wyjaśnić co oznaczają Twoje wyniki
+
+O co chcesz zapytać?`;
+
+  const welcomeEN = `Hi${S.name ? ', **' + S.name + '**' : ''}! 👋 I'm your natural health assistant.
+
+I have access to your health profile${S.bioscore ? ` and I can see your BioScore today is **${S.bioscore}/100**` : ''}. I can help you:
+
+- 🌿 Find natural remedies for your symptoms
+- ⌚ Interpret your smartwatch parameters
+- 💊 Check safe combinations with your medications
+- 🍽️ Suggest healing recipes and meal plans
+- 📊 Explain what your results mean
+
+What would you like to ask?`;
+
+  appendMessage('ai', _lang === 'en' ? welcomeEN : welcomePL);
+}
+
+// ── Send message to Claude ──
+async function sendAiMessage() {
+  if(aiTyping) return;
+  const inp = document.getElementById('ai-input');
+  const sendBtn = document.getElementById('ai-send-btn');
+  const userText = inp?.value.trim();
+  if(!userText) return;
+
+  if(!AI.hasKey) {
+    showToast('⚠️ Najpierw dodaj klucz API Claude');
+    return;
+  }
+
+  // Clear input
+  inp.value = '';
+  autoGrowTextarea(inp);
+  if(sendBtn) sendBtn.disabled = true;
+  aiTyping = true;
+
+  // Show user message
+  appendMessage('user', userText);
+  chatHistory.push({ role: 'user', content: userText });
+
+  // Show typing indicator
+  const typingEl = appendMessage('ai', '', true);
+
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': AI.key,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true',
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 1024,
+        system: buildSystemPrompt(),
+        messages: chatHistory.slice(-10), // Last 10 messages for context
+      }),
+    });
+
+    const data = await response.json();
+
+    // Remove typing indicator
+    if(typingEl) typingEl.remove();
+
+    if(!response.ok) {
+      const errMsg = data.error?.message || 'Błąd połączenia z AI';
+      appendMessage('ai', `⚠️ **Błąd:** ${errMsg}
+
+${data.error?.type === 'authentication_error' ? 'Sprawdź swój klucz API w ustawieniach.' : 'Spróbuj ponownie za chwilę.'}`);
+      chatHistory.pop(); // Remove last user message on error
+      return;
+    }
+
+    const aiText = data.content?.[0]?.text || (_lang === 'en' ? 'No response from AI.' : 'Brak odpowiedzi od AI.');
+    appendMessage('ai', aiText);
+    chatHistory.push({ role: 'assistant', content: aiText });
+
+    // Keep history max 20 messages
+    if(chatHistory.length > 20) chatHistory = chatHistory.slice(-20);
+
+    // Save last conversation
+    try {
+      localStorage.setItem('niq_chat', JSON.stringify(chatHistory.slice(-10)));
+    } catch(e) {}
+
+  } catch(err) {
+    if(typingEl) typingEl.remove();
+    const isNetErr = err.name === 'TypeError' || err.message.includes('fetch');
+    appendMessage('ai', isNetErr
+      ? `⚠️ **Błąd połączenia.** Sprawdź internet i spróbuj ponownie.`
+      : `⚠️ **Błąd:** ${err.message}`);
+    chatHistory.pop();
+  } finally {
+    aiTyping = false;
+    if(sendBtn) sendBtn.disabled = false;
+    inp?.focus();
+  }
+}
+
+// ── Clear chat ──
+function clearChat() {
+  chatHistory = [];
+  localStorage.removeItem('niq_chat');
+  const box = document.getElementById('chat-box');
+  if(box) {
+    box.innerHTML = `<div class="chat-empty" id="chat-empty">
+      <div class="chat-empty-icon">🌿</div>
+      <div class="chat-empty-title">${_lang === 'en' ? 'How can I help?' : 'Jak mogę pomóc?'}</div>
+      <div class="chat-empty-sub">${_lang === 'en' ? 'Ask about natural remedies, your biometrics, dosing, drug interactions, or what to do tonight.' : 'Zapytaj o naturalne środki, interpretację parametrów, dawkowanie, interakcje z lekami lub co zrobić dziś wieczorem.'}</div>
+    </div>`;
+  }
+  showWelcomeMessage();
+}
+
+// ── Restore last chat ──
+function restoreChat() {
+  try {
+    const saved = localStorage.getItem('niq_chat');
+    if(saved) {
+      chatHistory = JSON.parse(saved);
+      chatHistory.forEach(m => appendMessage(m.role, m.content));
+    }
+  } catch(e) {}
+}
+
+
+
+function renderRecipes(filter='all'){
+  const container = document.getElementById('recipes-container');
+  if(!container) return;
+  const filtered = filter === 'all' ? RECIPES : RECIPES.filter(r => r.tags.includes(filter));
+  if(!filtered.length){
+    container.innerHTML = '<div class="card" style="text-align:center;color:var(--SOFT);padding:24px">Brak przepis&#xF3;w dla tego filtra</div>';
+    return;
+  }
+  container.innerHTML = filtered.map((r, idx) => `
+    <div class="recipe-card" id="recipe-${idx}">
+      <div class="recipe-header" onclick="toggleRecipe(${idx})">
+        <div class="recipe-emoji">${r.e}</div>
+        <div class="recipe-info">
+          <div class="recipe-name">${r.name}</div>
+          <div class="recipe-time">&#x23F1;&#xFE0F; ${r.time}</div>
+          <div class="recipe-tags">${r.tags.map(t=>`<span class="recipe-tag${r.primary.includes(t)?' primary':''}">${t}</span>`).join('')}</div>
+        </div>
+        <div style="font-size:18px;color:var(--XS);transition:transform .25s" id="rec-toggle-${idx}">&#x25BC;</div>
+      </div>
+      <div class="recipe-body" id="rec-body-${idx}">
+        <div class="recipe-inner">
+          <div class="recipe-section">
+            <div class="recipe-section-title">&#x1F6D2; Sk&#x142;adniki</div>
+            <div class="recipe-ingredients">${r.ingredients.map(i=>`<div class="recipe-ingredient">${i}</div>`).join('')}</div>
+          </div>
+          <div class="recipe-section">
+            <div class="recipe-section-title">&#x1F468;&#x200D;&#x1F373; Przygotowanie</div>
+            <div class="recipe-steps">${r.steps.map((s,i)=>`<div class="recipe-step"><div class="recipe-step-num">${i+1}</div><div class="recipe-step-text">${s}</div></div>`).join('')}</div>
+          </div>
+          <div class="recipe-benefit">&#x1F52C; <strong>Dzia&#x142;anie:</strong> ${r.science}</div>
+          <div class="recipe-tip">${r.tip}</div>
+          <div style="display:flex;justify-content:flex-end;margin-top:10px">
+            <button onclick="shareRemedy('${r.name}','${r.time}')" style="background:none;border:none;font-size:18px;cursor:pointer;padding:4px">&#x1F4E4;</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleRecipe(idx){
+  const body = document.getElementById('rec-body-'+idx);
+  const toggle = document.getElementById('rec-toggle-'+idx);
+  if(!body||!toggle) return;
+  const open = body.classList.toggle('open');
+  toggle.style.transform = open ? 'rotate(180deg)' : '';
+}
+
+function initRecipesFilter(){
+  const row = document.getElementById('recipe-filter-row');
+  if(!row) return;
+  const filters = [
+    {k:'all',l:'Wszystkie'},
+    {k:'odpornosc',l:'&#x1F6E1;&#xFE0F; Odporno&#x15B;&#x107;'},
+    {k:'sen',l:'&#x1F4A4; Sen'},
+    {k:'zmeczenie',l:'&#x26A1; Energia'},
+    {k:'stan zapalny',l:'&#x1F525; Zapalenie'},
+    {k:'cisnienie',l:'&#x2764;&#xFE0F; Ci&#x15B;nienie'},
+    {k:'trawienie',l:'&#x1FAD4; Trawienie'},
+    {k:'glowa',l:'&#x1F9E0; M&#xF3;zg'},
+    {k:'stres',l:'&#x1F9D8; Stres'},
+  ];
+  row.innerHTML = filters.map(f=>`<button class="recipe-filter-btn${f.k==='all'?' active':''}" onclick="filterRecipes('${f.k}',this)">${f.l}</button>`).join('');
+}
+
+function filterRecipes(filter, btn){
+  document.querySelectorAll('.recipe-filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  // Map filter keys to recipe tags
+  const tagMap = {
+    'odpornosc':'odpornosc','sen':'sen','zmeczenie':'zmeczenie',
+    'stan zapalny':'stan zapalny','cisnienie':'cisnienie',
+    'trawienie':'trawienie','glowa':'glowa','stres':'stres'
+  };
+  renderRecipes(tagMap[filter]||filter);
+}
+
+
+// ═══════════════════════════════════════════════════════
+// DARK MODE
+// ═══════════════════════════════════════════════════════
+function toggleDark(){
+  const isDark = document.body.classList.toggle('dark');
+  localStorage.setItem('niq_dark', isDark ? '1' : '0');
+  const btn = document.getElementById('dark-toggle');
+  if(btn) btn.textContent = isDark ? '\u2600\uFE0F' : '\uD83C\uDF19';
+}
+function initDarkMode(){
+  const saved = localStorage.getItem('niq_dark');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  if(saved === '1' || (saved === null && prefersDark)){
+    document.body.classList.add('dark');
+    const btn = document.getElementById('dark-toggle');
+    if(btn) btn.textContent = '\u2600\uFE0F';
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+// BIOSCORE HEATMAP
+// ═══════════════════════════════════════════════════════
+let heatmapYear = new Date().getFullYear();
+let heatmapMonth = new Date().getMonth();
+
+function renderHeatmap(){
+  const el = document.getElementById('heatmap-container');
+  if(!el) return;
+  const hist = JSON.parse(localStorage.getItem('niq5_hist')||'{}');
+  if(S.bioscore>0) hist[new Date().toISOString().slice(0,10)] = {bioscore:S.bioscore};
+  const year = heatmapYear, month = heatmapMonth;
+  const mPL=['Stycze\u0144','Luty','Marzec','Kwiecie\u0144','Maj','Czerwiec','Lipiec','Sierpie\u0144','Wrzesie\u0144','Pa\u017AdziernikA','Listopad','Grudzie\u0144'];
+  const mEN=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const dPL=['Pn','Wt','\u015Ar','Cz','Pt','Sb','Nd'];
+  const dEN=['Mo','Tu','We','Th','Fr','Sa','Su'];
+  const mN = _lang==='en'?mEN:mPL;
+  const dN = _lang==='en'?dEN:dPL;
+  const firstDay = new Date(year, month, 1);
+  const daysInMonth = new Date(year, month+1, 0).getDate();
+  const startDow = (firstDay.getDay()+6)%7;
+  const todayStr = new Date().toISOString().slice(0,10);
+  const col = s => !s||s<=0?'hmap-no-data':s>=80?'hmap-great':s>=65?'hmap-good':s>=50?'hmap-ok':s>=35?'hmap-mid':'hmap-low';
+  let cells = dN.map(d=>`<div style="font-size:9px;font-weight:600;color:var(--XS);text-align:center;padding:2px 0;text-transform:uppercase">${d}</div>`).join('');
+  for(let i=0;i<startDow;i++) cells += '<div></div>';
+  for(let d=1;d<=daysInMonth;d++){
+    const ds=`${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const sc=hist[ds]?.bioscore||0;
+    const isT=ds===todayStr;
+    cells+=`<div class="hmap-cell ${col(sc)}${isT?' hmap-today':''}" title="${ds}${sc?': '+sc:''}" style="aspect-ratio:1;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:600;cursor:default">${sc||''}</div>`;
+  }
+  el.innerHTML=`<div style="background:var(--WH);border-radius:var(--r3);padding:16px;box-shadow:var(--sh);margin-bottom:10px">
+    <div style="font-size:13px;font-weight:600;color:var(--INK);margin-bottom:12px;display:flex;align-items:center;justify-content:space-between">
+      <span>\uD83D\uDCC5 BioScore \u2014 ${mN[month]} ${year}</span>
+      <div style="display:flex;align-items:center;gap:8px">
+        <button onclick="changeHeatmapMonth(-1)" style="background:var(--BG);border:none;border-radius:var(--r1);padding:5px 10px;font-size:13px;cursor:pointer;color:var(--MID)">\u2039</button>
+        <span style="font-size:12px;font-weight:600;color:var(--INK)">${mN[month]}</span>
+        <button onclick="changeHeatmapMonth(1)" style="background:var(--BG);border:none;border-radius:var(--r1);padding:5px 10px;font-size:13px;cursor:pointer;color:var(--MID)">\u203A</button>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px">${cells}</div>
+    <div style="display:flex;align-items:center;gap:6px;margin-top:10px;justify-content:flex-end;flex-wrap:wrap">
+      <span style="font-size:9px;color:var(--SOFT);display:flex;align-items:center;gap:3px"><span style="width:10px;height:10px;border-radius:2px;background:#FDECEA;display:inline-block"></span>&lt;50</span>
+      <span style="font-size:9px;color:var(--SOFT);display:flex;align-items:center;gap:3px"><span style="width:10px;height:10px;border-radius:2px;background:#FEF3E2;display:inline-block"></span>50\u201364</span>
+      <span style="font-size:9px;color:var(--SOFT);display:flex;align-items:center;gap:3px"><span style="width:10px;height:10px;border-radius:2px;background:#E8F8EF;display:inline-block"></span>65\u201379</span>
+      <span style="font-size:9px;color:var(--SOFT);display:flex;align-items:center;gap:3px"><span style="width:10px;height:10px;border-radius:2px;background:#1A3D2B;display:inline-block"></span>80+</span>
+    </div>
+  </div>`;
+}
+function changeHeatmapMonth(dir){
+  heatmapMonth+=dir;
+  if(heatmapMonth<0){heatmapMonth=11;heatmapYear--;}
+  if(heatmapMonth>11){heatmapMonth=0;heatmapYear++;}
+  renderHeatmap();
+}
+
+// ═══════════════════════════════════════════════════════
+// WEB SHARE API
+// ═══════════════════════════════════════════════════════
+async function shareProtocol(title, text){
+  const d={title:'NaturaIQ \u2014 '+(title||'Protok\xF3\u0142'),text:text||'Sp\u0119d\u017A m\xF3j protok\xF3\u0142 naturalnego zdrowia!',url:window.location.href};
+  try{
+    if(navigator.share&&navigator.canShare&&navigator.canShare(d)){await navigator.share(d);showToast('\u2705 Udost\u0119pniono!');}
+    else{await navigator.clipboard.writeText(d.title+'\n'+d.text+'\n'+d.url);showToast('\uD83D\uDCCB Skopiowano do schowka!');}
+  }catch(e){if(e.name!=='AbortError'){try{await navigator.clipboard.writeText(d.url);showToast('\uD83D\uDCCB Link skopiowany!');}catch(e2){showToast('\u26A0\uFE0F Udost\u0119pnianie niedost\u0119pne');}}}
+}
+function shareCurrentProtocol(){
+  const title=document.querySelector('.proto-title')?.textContent||'M\xF3j protok\xF3\u0142';
+  const steps=[...document.querySelectorAll('.ps-name')].map(el=>'\u2022 '+el.textContent).join('\n');
+  shareProtocol(title,title+'\n\n'+steps+'\n\nNaturaIQ \u2014 naturalny asystent zdrowia');
+}
+function shareRemedy(name,dose){
+  shareProtocol(name,name+'\n\nDawkowanie: '+dose+'\n\nNaturaIQ \u2014 naturalny asystent zdrowia');
+}
+
+// ═══════════════════════════════════════════════════════
+// VOICE INPUT
+// ═══════════════════════════════════════════════════════
+let recognition=null,isRecording=false;
+function toggleVoice(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){showToast(_lang==='en'?'\u26A0\uFE0F Voice not supported':'\u26A0\uFE0F G\u0142os niedost\u0119pny w tej przegl\u0105darce');return;}
+  if(!recognition){
+    recognition=new SR();recognition.continuous=false;recognition.interimResults=true;
+    recognition.onstart=()=>{isRecording=true;const b=document.getElementById('mic-btn');if(b)b.classList.add('recording');showToast(_lang==='en'?'\uD83C\uDF99\uFE0F Listening...':'\uD83C\uDF99\uFE0F S\u0142ucham...');};
+    recognition.onresult=e=>{const t=Array.from(e.results).map(r=>r[0].transcript).join('');const i=document.getElementById('ai-input');if(i){i.value=t;autoGrowTextarea(i);}};
+    recognition.onend=()=>{isRecording=false;const b=document.getElementById('mic-btn');if(b)b.classList.remove('recording');const i=document.getElementById('ai-input');if(i&&i.value.trim())setTimeout(sendAiMessage,300);};
+    recognition.onerror=e=>{isRecording=false;const b=document.getElementById('mic-btn');if(b)b.classList.remove('recording');if(e.error!=='aborted')showToast('\u26A0\uFE0F '+e.error);};
+  }
+  if(isRecording){recognition.stop();return;}
+  recognition.lang=_lang==='en'?'en-US':'pl-PL';
+  try{recognition.start();}catch(ex){recognition=null;toggleVoice();}
+}
+
+// ═══════════════════════════════════════════════════════
+// HEALING RECIPES DATABASE
+// ═══════════════════════════════════════════════════════
+const RECIPES=[
+  {e:'\uD83C\uDF3F',name:'Z\u0142ote mleko (Golden Milk)',time:'5 min',tags:['stan zapalny','stres','sen'],primary:['stan zapalny'],
+   ingredients:['250ml mleka ro\u015Blinnego (owsiane, migda\u0142owe lub kokosowe)','1 \u0142y\u017Ceczka kurkumy','1/4 \u0142y\u017Ceczki imbiru mielonego','Szczypta czarnego pieprzu (kluczowa!)','1/2 \u0142y\u017Ceczki cynamonu cejlo\u0144skiego','1 \u0142y\u017Ceczka miodu','Szczypta kardamonu'],
+   steps:['Wla\u0107 sk\u0142adniki (bez miodu) do garnka','Podgrzewa\u0107 na ma\u0142ym ogniu 3\u20134 min \u2014 nie wrzenie','Przece\u017Adi\u0107','Ostudzi\u0107 do 50\u00B0C, doda\u0107 mi\xF3d','Pi\u0107 wieczorem 30\u201360 min przed snem'],
+   tip:'\uD83D\uDCA1 Pieprz czarny jest KLUCZOWY \u2014 piperyna zwi\u0119ksza biodost\u0119pno\u015B\u0107 kurkuminy o 2000%.',
+   science:'Kurkumina: hamuje NF-\u03BAB. Piperyna: 20\u00D7 \u2191 biodost\u0119pno\u015B\u0107. Imbir: hamuje COX-2.'},
+  {e:'\uD83D\uDCA7',name:'Elektrolit domowy (Izotonik naturalny)',time:'3 min',tags:['zmeczenie','serce'],primary:['zmeczenie'],
+   ingredients:['500ml wody','Sok z 1 cytryny','1/4 \u0142y\u017Ceczki soli morskiej','1 \u0142y\u017Cka miodu lub cukru trzcinowego','Szczypta magnezu w proszku (opcjonalnie)','Kilka list\u0107\xF3w mięty'],
+   steps:['Wyci\u015Bn\u0105\u0107 sok z cytryny','Doda\u0107 s\xF3l i mi\xF3d','Dola\u0107 wod\u0119 i wymiesza\u0107','Doda\u0107 magnez je\u015Bli u\u017Cywasz','Podawa\u0107 z lodem i mi\u0119t\u0105'],
+   tip:'\uD83D\uDCA1 WHO oral rehydration formula: proporcje s\xF3d:glukoza s\u0105 kluczowe. Idealna przy \u0142agodnym odwodnieniu.',
+   science:'Potas z cytryny + s\xF3d z soli = r\xF3wnowaga elektrolitowa. Glukoza aktywuje transport sodowy \u2192 szybsza rehydracja.'},
+  {e:'\uD83E\uDDC4',name:'Syrop czosnkowo-imbirowy (Shot antywirusowy)',time:'15 min',tags:['przeziebienie','odpornosc'],primary:['przeziebienie'],
+   ingredients:['6 z\u0105bk\xF3w czosnku (rozgnie\u015B\u0107 10 min przed u\u017Cyciem!)','4cm \u015Bwie\u017Cego imbiru','Sok z 1 cytryny','2 \u0142y\u017Cki surowego miodu','Szczypta cayenne','200ml ciep\u0142ej wody (max 40\u00B0C!)'],
+   steps:['Rozgnie\u015B\u0107 czosnek 10 min przed przygotowaniem (aktywacja allicyny)','Zetrze\u0107/wyci\u015Bn\u0105\u0107 imbir','Wymiesza\u0107 czosnek + imbir + cytryna + mi\xF3d + cayenne','Rozcie\u0144czy\u0107 ciep\u0142\u0105 wod\u0105 (nie gorz\u0105c\u0105!)','Pi\u0107 2\u20133\u00D7 dziennie przy objawach'],
+   tip:'\u26A0\uFE0F Nie gotowa\u0107 \u2014 allicyna rozk\u0142ada si\u0119 w wysokiej temperaturze!',
+   science:'Allicyna: blokuje enzymy replikacji wirus\xF3w. Gingerole: inhibitory COX. Wit. C + miod Manuka: synergia.'},
+  {e:'\uD83C\uDF75',name:'Herbata na sen (Nocny rytua\u0142)',time:'10 min',tags:['sen','stres'],primary:['sen'],
+   ingredients:['1g suszonej melisy','1g suszonego kwiatostanu rumianku','0.5g suszonych list\xF3w waleriany','1g suszonych kwiat\xF3w lipy','250ml wrzatku','1 \u0142y\u017Ceczka miodu','Plasterek cytryny'],
+   steps:['Wsypa\u0107 zio\u0142a do zaparzaczki','Zala\u0107 wrzatkiem (90\u201395\u00B0C)','PRZYKRY\u0106 i parzy\u0107 7\u201310 minut','Przece\u017Adi\u0107','Pi\u0107 ciep\u0142\u0105, 45\u201360 min przed snem'],
+   tip:'\uD83D\uDCA1 Przykry\u0107 podczas parzenia \u2014 olejki eteryczne odpowiadaj\u0105 za dzia\u0142anie i uciekaj\u0105 z par\u0105.',
+   science:'Melisa: \u2191 GABA (hamuje GABA-transaminaz\u0119). Rumianek: apigenina wi\u0105\u017Ce receptory BZD. Waleriana: GABA-A. Lipa: flawonoidy sedatywne.'},
+  {e:'\uD83C\uDF4B',name:'Shot cytrynowo-imbirowy (Poranny Immunobooster)',time:'5 min',tags:['odpornosc','zmeczenie'],primary:['odpornosc'],
+   ingredients:['Sok z 1/2 cytryny','2cm \u015Bwie\u017Cego imbiru','1/4 \u0142y\u017Ceczki kurkumy','Szczypta czarnego pieprzu','1 \u0142y\u017Ceczka surowego miodu','100ml letniej wody'],
+   steps:['Wyci\u015Bn\u0105\u0107 sok z cytryny do kieliszka','Zetrze\u0107/wyci\u015Bn\u0105\u0107 imbir','Doda\u0107 kurkum\u0119, pieprz i mi\xF3d','Rozcie\u0144czy\u0107 letni\u0105 wod\u0105','Pi\u0107 na c\u0142zczo, 15\u201330 min przed \u015Bniadaniem'],
+   tip:'\uD83D\uDCA1 Pi\u0107 przez s\u0142omk\u0119 \u2014 kwas cytrynowy mo\u017Ce niszczy\u0107 szklivo. Odczekaj 30 min przed myciem z\u0119b\xF3w.',
+   science:'Wit. C: kofaktor odporno\u015Bci. Gingerole: \u2191 metabolizm. Kurkumina+pieprz: \u2193 CRP.'},
+  {e:'\uD83E\uDED0',name:'Smoothie m\xF3zgowe (Brain Boost)',time:'5 min',tags:['glowa','stres'],primary:['glowa'],
+   ingredients:['150g mro\u017Conych bor\xF3wek','30g orzech\xF3w w\u0142oskich','1 \u0142y\u017Cka surowego kakao','200ml mleka owsianego','1 dojrza\u0142y banan','1 \u0142y\u017Cka siemi\u0119nia lnianego mielonego'],
+   steps:['Bor\xF3wki mro\u017Cone wyj\u0105\u0107 5 min wcze\u015Bniej','Wszystkie sk\u0142adniki do blendera','Blendowa\u0107 60 sekund','Przelewa\u0107 do szklanki','Pi\u0107 od razu \u2014 antocyjany degraduj\u0105 w powietrzu'],
+   tip:'\uD83D\uDCA1 Mro\u017Cone bor\xF3wki zachowuj\u0105 85\u201395% antocyjan\xF3w. Cz\u0119sto wi\u0119cej ni\u017C \u015Bwie\u017Ce po 3 dniach.',
+   science:'Antocyjany: \u2191 BDNF, \u2191 neuroplastyczno\u015B\u0107. Kakao: \u2191 przep\u0142yw m\xF3zgowy. Tryptofan z banana: \u2192 serotonina.'},
+  {e:'\uD83C\uDF3A',name:'Napar z hibiskusa (\u2193 Ci\u015Bnienie)',time:'5 min',tags:['cisnienie','serce'],primary:['cisnienie'],
+   ingredients:['2 \u0142y\u017Ceczki suszonych kwiat\xF3w hibiskusa','250ml gor\u0105cej wody (90\u00B0C)','1 \u0142y\u017Cka miodu (opcjonalnie)','Plasterek pomarańczy','Kilka list\u0107\xF3w mięty','L\xF3d do wersji zimnej'],
+   steps:['Zala\u0107 kwiaty hibiskusa wod\u0105 90\u00B0C','Parzy\u0107 5\u20137 minut pod przykryciem','Przece\u017Adi\u0107','Wersja zimna: ostudzi\u0107, przelewa\u0107 do szklanki z lodem','Doda\u0107 mi\xF3d gdy ostygnie','Pi\u0107 2\u20133 szklanki dziennie przez min. 4\u20136 tygodni'],
+   tip:'\u26A0\uFE0F Przy lekach hipotensyjnych monitorowa\u0107 ci\u015Bnienie \u2014 hibiskus mo\u017Ce nasila\u0107 ich dzia\u0142anie.',
+   science:'Antocyjany hibiskusa: inhibicja ACE + blokada kana\u0142\xF3w wapniowych. Meta-analiza: \u2193 SBP 7.58 mmHg.'},
+  {e:'\uD83C\uDF4C',name:'Koktajl na sen (Nocny tryptofan)',time:'5 min',tags:['sen','stres'],primary:['sen'],
+   ingredients:['1 dojrza\u0142y banan','200ml ciep\u0142ego mleka owsianego','1 \u0142y\u017Cka mas\u0142a migda\u0142owego','Szczypta ga\u0142ki muszkatołowej','1/2 \u0142y\u017Ceczki cynamonu','1 \u0142y\u017Ceczka miodu'],
+   steps:['Banan i mleko do blendera','Doda\u0107 mas\u0142o migda\u0142owe, ga\u0142k\u0119 i cynamon','Blendowa\u0107 30 sekund','Przelewa\u0107 do kubka','Pi\u0107 powoli 60 min przed snem'],
+   tip:'\uD83D\uDCA1 Tryptofan + glukoza = lepsze wnikanie do m\xF3zgu. Banan + mi\xF3d = optymalna kombinacja.',
+   science:'Tryptofan \u2192 serotonina \u2192 melatonina. Magnez z migda\u0142\xF3w: aktywuje GABA. Ga\u0142ka: myrystycyna (agonista 5-HT).'},
+  {e:'\u26A1',name:'Energetyczny start dnia (Pre-workout naturalny)',time:'10 min',tags:['zmeczenie'],primary:['zmeczenie'],
+   ingredients:['150ml zielonej herbaty sencha (kofeina + L-teanina)','100ml soku z buraka','Sok z 1/4 cytryny','1/4 \u0142y\u017Ceczki ashwagandhy w proszku','1/2 \u0142y\u017Ceczki miodu','Szczypta soli morskiej','Kostki lodu'],
+   steps:['Zaparzy\u0107 zielon\u0105 herbat\u0119 (70\u00B0C, 2 min) i ostudzi\u0107','Wymiesza\u0107 herbat\u0119 + sok z buraka + cytryna','Doda\u0107 ashwagandh\u0119, mi\xF3d i s\xF3l','Wymiesza\u0107 dobrze','Podawa\u0107 z lodem, pi\u0107 30\u201360 min przed wysi\u0142kiem'],
+   tip:'\uD83D\uDCA1 Kofeina:L-teanina w zielonej herbacie \u2248 1:2 \u2014 naturalny "smart drug" bez nerwowo\u015Bci kawy.',
+   science:'Kofeina+L-teanina: \u2191 alfa fale, \u2191 skupienie. Azotany z burak\xF3w: NO \u2192 \u2191 VO2max. Ashwagandha: \u2193 kortyzol porannego.'},
+  {e:'\uD83E\uDD63',name:'Ros\xF3\u0142 leczniczy (Healing Bone Broth)',time:'4\u20138 h',tags:['trawienie','odpornosc','stan zapalny'],primary:['trawienie'],
+   ingredients:['1\u20131.5kg ko\u015Bci wo\u0142owych','2 marchewki','2 \u0142odygi selera naciowego','1 cebula ze sk\xF3rk\u0105','1 g\u0142\xF3wka czosnku','2cm imbiru','2 \u0142y\u017Cki octu jab\u0142kowego (wyci\u0105ga minera\u0142y!)','Zio\u0142a: tymianek, li\u015B\u0107 laurowy, natka','2L wody'],
+   steps:['Ko\u015Bci podpiec w piekarniku 200\u00B0C \u2014 30 min','Prze\u0142o\u017Cy\u0107 do garnka, doda\u0107 ocet i wod\u0119, odczeka\u0107 30 min','Doda\u0107 warzywa i zio\u0142a','Zagotowa\u0107, zebra\u0107 szumowiny','Gotowa\u0107 na ma\u0142ym ogniu 4\u20138 h','Przece\u017Adi\u0107, pi\u0107 250ml dziennie'],
+   tip:'\uD83D\uDCA1 Po sch\u0142odzeniu ros\xF3\u0142 powinien st\u0119\u017Ce\u0107 jak galareta \u2014 znak du\u017Cej ilo\u015Bci kolagenu.',
+   science:'Kolagen \u2192 glicyna+prolina: regeneruj\u0105 \u015Bluz\xF3wk\u0119 jelit. Glukozamina: lubrikacja staw\xF3w. Glicyna: inhibitor NMDA \u2192 uspokajaj\u0105co.'},
+];
+
+function renderRecipes(filter){
+  filter = filter||'all';
+  const container=document.getElementById('recipes-container');
+  if(!container) return;
+  const filtered=filter==='all'?RECIPES:RECIPES.filter(r=>r.tags.includes(filter));
+  if(!filtered.length){container.innerHTML='<div class="card" style="text-align:center;color:var(--SOFT);padding:24px">Brak przepis\xF3w</div>';return;}
+  container.innerHTML=filtered.map((r,idx)=>`
+    <div class="recipe-card" id="recipe-${idx}" style="background:var(--WH);border-radius:var(--r3);overflow:hidden;box-shadow:var(--sh);margin-bottom:12px">
+      <div style="padding:14px 16px;display:flex;gap:12px;align-items:flex-start;cursor:pointer;border-bottom:.5px solid var(--BG)" onclick="toggleRecipe(${idx})">
+        <div style="font-size:28px;flex-shrink:0">${r.e}</div>
+        <div style="flex:1">
+          <div style="font-size:14px;font-weight:600;color:var(--INK);margin-bottom:2px">${r.name}</div>
+          <div style="font-size:11px;color:var(--SOFT)">\u23F1\uFE0F ${r.time}</div>
+          <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:5px">${r.tags.map(t=>`<span style="font-size:10px;padding:2px 7px;border-radius:99px;background:${r.primary.includes(t)?'var(--F)':'var(--BG)'};color:${r.primary.includes(t)?'#fff':'var(--MID)'}">${t}</span>`).join('')}</div>
+        </div>
+        <div id="rec-toggle-${idx}" style="font-size:18px;color:var(--XS);transition:transform .25s">\u25BC</div>
+      </div>
+      <div id="rec-body-${idx}" style="max-height:0;overflow:hidden;transition:max-height .35s ease">
+        <div style="padding:14px 16px">
+          <div style="margin-bottom:12px">
+            <div style="font-size:10px;font-weight:700;color:var(--GO);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px">\uD83D\uDED2 Sk\u0142adniki</div>
+            ${r.ingredients.map(i=>`<div style="display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--MID);margin-bottom:4px"><span style="color:var(--F);font-weight:700;flex-shrink:0">\u2022</span>${i}</div>`).join('')}
+          </div>
+          <div style="margin-bottom:12px">
+            <div style="font-size:10px;font-weight:700;color:var(--GO);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px">\uD83D\uDC68\u200D\uD83C\uDF73 Przygotowanie</div>
+            ${r.steps.map((s,i)=>`<div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:7px"><div style="width:22px;height:22px;border-radius:50%;background:var(--F);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">${i+1}</div><div style="font-size:12px;color:var(--MID);line-height:1.55;flex:1">${s}</div></div>`).join('')}
+          </div>
+          <div style="background:var(--Fxl);border-radius:var(--r2);padding:10px 12px;font-size:11px;color:var(--F);line-height:1.6;margin-bottom:8px">\uD83D\uDD2C <strong>Dzia\u0142anie:</strong> ${r.science}</div>
+          <div style="background:var(--GOp);border-radius:var(--r2);padding:10px 12px;font-size:11px;color:var(--AM);line-height:1.6">${r.tip}</div>
+          <div style="display:flex;justify-content:flex-end;margin-top:10px">
+            <button onclick="shareRemedy('${r.name}','${r.time}')" style="background:none;border:none;font-size:18px;cursor:pointer;padding:4px">\uD83D\uDCE4</button>
+          </div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function toggleRecipe(idx){
+  const b=document.getElementById('rec-body-'+idx);
+  const t=document.getElementById('rec-toggle-'+idx);
+  if(!b||!t) return;
+  const open=b.classList.toggle('open');
+  b.style.maxHeight=open?'1200px':'0';
+  t.style.transform=open?'rotate(180deg)':'';
+}
+
+function initRecipesFilter(){
+  const row=document.getElementById('recipe-filter-row');
+  if(!row) return;
+  const filters=[
+    {k:'all',l:'Wszystkie'},{k:'odpornosc',l:'\uD83D\uDEE1\uFE0F Odporno\u015B\u0107'},
+    {k:'sen',l:'\uD83D\uDCA4 Sen'},{k:'zmeczenie',l:'\u26A1 Energia'},
+    {k:'stan zapalny',l:'\uD83D\uDD25 Zapalenie'},{k:'cisnienie',l:'\u2764\uFE0F Ci\u015Bnienie'},
+    {k:'trawienie',l:'\uD83FAD4 Trawienie'},{k:'glowa',l:'\uD83E\uDDE0 M\xF3zg'},
+    {k:'stres',l:'\uD83E\uDDD8 Stres'},
+  ];
+  row.innerHTML=filters.map(f=>`<button style="font-size:11px;font-weight:500;padding:6px 13px;border-radius:99px;border:1.5px solid ${f.k==='all'?'var(--F)':'rgba(0,0,0,.12)'};background:${f.k==='all'?'var(--F)':'var(--WH)'};color:${f.k==='all'?'#fff':'var(--SOFT)'};cursor:pointer;white-space:nowrap;flex-shrink:0;font-family:inherit" onclick="filterRecipes('${f.k}',this)">${f.l}</button>`).join('');
+}
+function filterRecipes(filter,btn){
+  document.querySelectorAll('#recipe-filter-row button').forEach(b=>{b.style.background='var(--WH)';b.style.color='var(--SOFT)';b.style.borderColor='rgba(0,0,0,.12)';});
+  btn.style.background='var(--F)';btn.style.color='#fff';btn.style.borderColor='var(--F)';
+  renderRecipes(filter);
 }
 
 </script>

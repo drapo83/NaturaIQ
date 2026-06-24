@@ -1,21 +1,33 @@
-# 🌿 NaturaIQ v5.1 — Naturalny Asystent Zdrowia
+# 🌿 NaturaIQ v5.4 — Naturalny Asystent Zdrowia
 
-## 🆕 Co nowego w v5.1
+[![PWA](https://img.shields.io/badge/PWA-Ready-1A3D2B)](.) [![AI](https://img.shields.io/badge/AI-Claude-C4873A)](.) [![Lang](https://img.shields.io/badge/PL%20%7C%20EN-i18n-185FA5)](.) [![Dark](https://img.shields.io/badge/Dark%20Mode-✓-48484A)](.)
 
-- **🔐 System logowania** — PIN (4 cyfry), hasło lub biometria (Face ID / Touch ID / odcisk palca przez WebAuthn)
-- **⏱️ Auto-blokada** — aplikacja blokuje się po 5 minutach w tle. Po powrocie wymaga uwierzytelnienia
-- **✅ Toast naprawiony** — znika po 2.2s, nie przykrywa dolnej nawigacji
-- **🩺 Wywiad zdrowotny** — alergie, leki, choroby — aplikacja ostrzega przed niebezpiecznymi kombinacjami
-- **🌿 Rozwijane karty środków** — skąd pozyskać, jak przygotować, pełne dawkowanie, odpowiedniki farmaceutyczne
+## 🆕 v5.4
 
-## 🔐 System logowania
+| Feature | Opis |
+|---------|------|
+| 🌙 **Dark Mode** | Przełącznik w nav, zapamiętywany, respektuje system |
+| 📅 **BioScore Heatmap** | Kalendarz miesięczny z kolorami w zakładce Trendy |
+| 📤 **Web Share** | Udostępnij protokół / przepis przez systemowy share sheet |
+| 🎤 **Voice Input AI** | Mówisz zamiast pisać — mikrofon w asystencie AI |
+| 🍵 **Przepisy lecznicze** | 10 przepisów z instrukcjami i podstawą naukową |
 
-1. Przy pierwszym uruchomieniu → kreator onboardingu (bez blokady)
-2. W Profil → Zabezpieczenie → ustaw PIN, hasło lub biometrię
-3. Przy kolejnym otwarciu po 5+ minutach → ekran blokady
-4. Obsługuje: PIN 4-cyfrowy, hasło tekstowe, Face ID/Touch ID (WebAuthn)
+## Kompletne funkcje
 
-## 📱 Instalacja na Android
+**12 stron:** Dashboard · Wywiad · Sygnały · Apteczka · Tracker · Dziennik · Trendy · Alerty · Sezon · Powiadomienia · AI · Przepisy
 
-Otwórz w Chrome: `https://TWOJA-NAZWA.github.io/naturaiq`
-Menu (⋮) → **Dodaj do ekranu głównego**
+**32 środki naturalne** z pełnymi kartami (skąd, jak, dawka, mechanizm, pharma)
+
+**System bezpieczeństwa:** alergie + leki + choroby → automatyczne ostrzeżenia
+
+**AI Asystent:** Claude API, zna Twój profil, głosowe wejście
+
+**Logowanie:** PIN / Hasło / WebAuthn (Face ID / Touch ID)
+
+**i18n:** PL/EN runtime switch
+
+## Instalacja Android
+
+```
+Chrome → menu ⋮ → Dodaj do ekranu głównego
+```
