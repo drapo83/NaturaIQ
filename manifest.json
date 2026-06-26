@@ -1,17 +1,18 @@
 {
-  "name": "NaturaIQ — Naturalny Asystent Zdrowia v5",
+  "name": "NaturaIQ — Naturalny Asystent Zdrowia",
   "short_name": "NaturaIQ",
-  "description": "Twój personalny asystent zdrowia oparty na medycynie naturalnej i danych biometrycznych",
-  "start_url": "/",
+  "description": "Personalizowany asystent zdrowia naturalnego. BioScore, zioła, AI, wywiad zdrowotny, PL/EN.",
+  "start_url": "/?source=pwa",
   "scope": "/",
   "display": "standalone",
-  "orientation": "portrait",
+  "orientation": "portrait-primary",
   "background_color": "#1A3D2B",
   "theme_color": "#1A3D2B",
   "categories": [
     "health",
     "medical",
-    "lifestyle"
+    "lifestyle",
+    "fitness"
   ],
   "lang": "pl",
   "icons": [
@@ -19,25 +20,25 @@
       "src": "icons/icon-72.png",
       "sizes": "72x72",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
       "src": "icons/icon-96.png",
       "sizes": "96x96",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
       "src": "icons/icon-128.png",
       "sizes": "128x128",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
       "src": "icons/icon-144.png",
       "sizes": "144x144",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
       "src": "icons/icon-192.png",
@@ -54,18 +55,17 @@
   ],
   "screenshots": [
     {
-      "src": "screenshots/dashboard.png",
-      "sizes": "390x844",
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
       "type": "image/png",
       "form_factor": "narrow",
-      "label": "Dashboard NaturaIQ"
+      "label": "NaturaIQ Dashboard"
     }
   ],
   "shortcuts": [
     {
       "name": "Wywiad zdrowotny",
       "short_name": "Profil",
-      "description": "Uzupełnij alergie i leki",
       "url": "/?page=interview",
       "icons": [
         {
@@ -75,9 +75,8 @@
       ]
     },
     {
-      "name": "Sygnały z zegarka",
+      "name": "Sygnały biometryczne",
       "short_name": "Sygnały",
-      "description": "Wpisz parametry biometryczne",
       "url": "/?page=signals",
       "icons": [
         {
@@ -87,9 +86,8 @@
       ]
     },
     {
-      "name": "Naturalna Apteczka",
+      "name": "Apteczka naturalna",
       "short_name": "Apteczka",
-      "description": "Znajdź środek na swój stan",
       "url": "/?page=remedies",
       "icons": [
         {
@@ -97,6 +95,51 @@
           "sizes": "96x96"
         }
       ]
+    },
+    {
+      "name": "AI Asystent",
+      "short_name": "AI",
+      "url": "/?page=ai",
+      "icons": [
+        {
+          "src": "icons/icon-96.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ],
+  "display_override": [
+    "window-controls-overlay",
+    "standalone",
+    "minimal-ui"
+  ],
+  "dir": "ltr",
+  "prefer_related_applications": false,
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  "handle_links": "preferred",
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  },
+  "related_applications": [],
+  "protocol_handlers": [],
+  "file_handlers": [
+    {
+      "action": "/",
+      "accept": {
+        "application/json": [
+          ".json"
+        ]
+      },
+      "icons": [
+        {
+          "src": "icons/icon-96.png",
+          "sizes": "96x96"
+        }
+      ],
+      "launch_type": "single-client",
+      "name": "Plik backup NaturaIQ"
     }
   ]
 }

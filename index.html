@@ -672,6 +672,14 @@ body.dark .onb-chip{background:#2C2C2E;border-color:#3C3C3E;color:#AEAEB2}body.d
 body.dark .device-opt{background:#1C1C1E;border-color:#2C2C2E}body.dark .device-opt.on{background:rgba(45,96,64,.25)}
 body.dark .hero{background:linear-gradient(135deg,#1A3D2B,#2A5C40)}
 body.dark .water-card{background:linear-gradient(135deg,#1A2A3A,#1E3248)}
+
+body.dark .hmap-no-data{background:#2C2C2E;color:#48484A}
+body.dark .hmap-low{background:rgba(255,69,58,.2);color:#FF453A}
+body.dark .hmap-mid{background:rgba(255,159,10,.2);color:#FF9F0A}
+body.dark .hmap-ok{background:rgba(212,151,62,.2);color:#D4973E}
+body.dark .hmap-good{background:rgba(48,209,88,.2);color:#30D158}
+body.dark .hmap-great{background:#2A6040;color:#fff}
+body.dark .hmap-today{box-shadow:0 0 0 2px #4D9A6A}
 body,body *{transition:background-color .2s ease,border-color .2s ease,color .15s ease}
 
 </style>
@@ -696,6 +704,7 @@ body,body *{transition:background-color .2s ease,border-color .2s ease,color .15
       <button class="nav-tab" data-page="profile">⚙️</button>
       <button class="nav-tab" data-page="ai">🤖</button>
       <button class="nav-tab" data-page="recipes">🍵</button>
+      <button class="nav-tab" data-page="achievements">🏆</button>
     </div>
     <div class="lang-toggle">
       <button class="lang-btn active" data-lang="pl" onclick="setLang('pl')">PL</button>
@@ -1251,6 +1260,9 @@ body,body *{transition:background-color .2s ease,border-color .2s ease,color .15
   <div class="ai-header">
     <div class="ai-title">🤖 <em>NaturaIQ</em> Assistant</div>
     <div class="ai-subtitle">Spersonalizowany asystent zdrowia naturalnego — pyta, analizuje, doradza. Powered by Claude AI.</div>
+    <div style="display:flex;gap:8px;margin-top:8px">
+      <button onclick="clearChat()" style="background:rgba(255,255,255,.1);border:none;border-radius:99px;padding:5px 12px;font-size:11px;color:rgba(255,255,255,.6);cursor:pointer;font-family:inherit">🗑️ Wyczyść rozmowę</button>
+    </div>
     <div class="ai-context-bar" id="ai-ctx-bar">
       ℹ️ Ładowanie Twojego profilu zdrowotnego...
     </div>
@@ -1312,6 +1324,32 @@ body,body *{transition:background-color .2s ease,border-color .2s ease,color .15
   <div class="pg-sub">Sprawdzone przepisy z naturalnych składników — działanie potwierdzone naukowo</div>
   <div class="recipe-filter-row" id="recipe-filter-row"></div>
   <div id="recipes-container"></div>
+</div>
+</div>
+
+
+<!-- ═══ ACHIEVEMENTS PAGE ═══ -->
+<div class="page" id="page-achievements">
+<div class="mw">
+  <div class="pg-title">🏆 Moje <em>Postępy</em></div>
+  <div class="pg-sub">Osiągnięcia, wyzwania tygodniowe i historia zdrowia</div>
+
+  <!-- Weekly Challenge -->
+  <div class="sec-lbl">Wyzwanie tygodniowe</div>
+  <div id="weekly-challenge-box"></div>
+
+  <!-- Badges -->
+  <div class="sec-lbl">Odznaki</div>
+  <div id="badges-box"></div>
+
+  <!-- BioScore history mini chart -->
+  <div class="sec-lbl">Historia BioScore (30 dni)</div>
+  <div id="progress-chart-box"></div>
+
+  <!-- Stats summary -->
+  <div class="sec-lbl">Podsumowanie</div>
+  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px" id="progress-stats"></div>
+
 </div>
 </div>
 
@@ -1377,6 +1415,7 @@ function goPage(id){
   if(id==='notifications') initNotif();
   if(id==='interview') syncInterviewPage();
   if(id==='recipes'){ initRecipesFilter(); renderRecipes(); }
+  if(id==='achievements') initAchievementsPage();
   if(id==='ai'){ initAiPage(); if(AI.hasKey&&chatHistory.length===0) restoreChat(); }
 }
 
@@ -3727,6 +3766,7 @@ function updateNavLabels() {
     profile: t('nav_profile'),
     ai: 'AI',
     recipes: _lang==='en'?'Recipes':'Przepisy',
+    achievements: _lang==='en'?'Progress':'Postępy',
   };
   document.querySelectorAll('.nav-tab').forEach(el => {
     const page = el.dataset.page;
@@ -4125,7 +4165,18 @@ function restoreChat() {
     const saved = localStorage.getItem('niq_chat');
     if(saved) {
       chatHistory = JSON.parse(saved);
+      // Remove empty state
+      const empty = document.getElementById('chat-empty');
+      if(empty && chatHistory.length > 0) empty.style.display = 'none';
       chatHistory.forEach(m => appendMessage(m.role, m.content));
+      // Add "restored" divider
+      const box = document.getElementById('chat-box');
+      if(box && chatHistory.length > 0) {
+        const div = document.createElement('div');
+        div.style.cssText = 'text-align:center;font-size:10px;color:var(--XS);padding:4px 0;border-top:.5px solid var(--BG);margin:4px 0';
+        div.textContent = _lang==='en' ? '— previous conversation —' : '— poprzednia rozmowa —';
+        box.insertBefore(div, box.firstChild);
+      }
     }
   } catch(e) {}
 }
@@ -4381,16 +4432,27 @@ const RECIPES=[
 
 function renderRecipes(filter){
   filter = filter||'all';
+  // Check user allergies
+  const userAllergies = S.allergies || [];
   const container=document.getElementById('recipes-container');
   if(!container) return;
-  const filtered=filter==='all'?RECIPES:RECIPES.filter(r=>r.tags.includes(filter));
+  // Add allergy warnings to recipes
+  const processedRecipes = RECIPES.map(r => {
+    const warns = [];
+    if(userAllergies.includes('orzechy') && r.ingredients.some(i => /orzech|migdał|pistacj/i.test(i))) warns.push('orzechy');
+    if(userAllergies.includes('gluten') && r.ingredients.some(i => /owsiane|jęczm|pszenic|żyto|glüten/i.test(i))) warns.push('gluten');
+    if(userAllergies.includes('laktozy') && r.ingredients.some(i => /mleko|nabiał|jogurt|kefir|ser/i.test(i))) warns.push('laktoza');
+    if(userAllergies.includes('ryby') && r.ingredients.some(i => /ryba|sardynk|makrela|tuńczyk/i.test(i))) warns.push('ryby');
+    return {...r, allergyWarn: warns.length > 0, allergyWarns: warns};
+  });
+  const filtered=filter==='all'?processedRecipes:processedRecipes.filter(r=>r.tags.includes(filter));
   if(!filtered.length){container.innerHTML='<div class="card" style="text-align:center;color:var(--SOFT);padding:24px">Brak przepis\xF3w</div>';return;}
   container.innerHTML=filtered.map((r,idx)=>`
     <div class="recipe-card" id="recipe-${idx}" style="background:var(--WH);border-radius:var(--r3);overflow:hidden;box-shadow:var(--sh);margin-bottom:12px">
       <div style="padding:14px 16px;display:flex;gap:12px;align-items:flex-start;cursor:pointer;border-bottom:.5px solid var(--BG)" onclick="toggleRecipe(${idx})">
         <div style="font-size:28px;flex-shrink:0">${r.e}</div>
         <div style="flex:1">
-          <div style="font-size:14px;font-weight:600;color:var(--INK);margin-bottom:2px">${r.name}</div>
+          <div style="font-size:14px;font-weight:600;color:var(--INK);margin-bottom:2px">${r.name}${r.allergyWarn?'&nbsp;⚠️':''}</div>
           <div style="font-size:11px;color:var(--SOFT)">\u23F1\uFE0F ${r.time}</div>
           <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:5px">${r.tags.map(t=>`<span style="font-size:10px;padding:2px 7px;border-radius:99px;background:${r.primary.includes(t)?'var(--F)':'var(--BG)'};color:${r.primary.includes(t)?'#fff':'var(--MID)'}">${t}</span>`).join('')}</div>
         </div>
@@ -4435,12 +4497,625 @@ function initRecipesFilter(){
     {k:'trawienie',l:'\uD83FAD4 Trawienie'},{k:'glowa',l:'\uD83E\uDDE0 M\xF3zg'},
     {k:'stres',l:'\uD83E\uDDD8 Stres'},
   ];
-  row.innerHTML=filters.map(f=>`<button style="font-size:11px;font-weight:500;padding:6px 13px;border-radius:99px;border:1.5px solid ${f.k==='all'?'var(--F)':'rgba(0,0,0,.12)'};background:${f.k==='all'?'var(--F)':'var(--WH)'};color:${f.k==='all'?'#fff':'var(--SOFT)'};cursor:pointer;white-space:nowrap;flex-shrink:0;font-family:inherit" onclick="filterRecipes('${f.k}',this)">${f.l}</button>`).join('');
+  const allergyCount = (S.allergies||[]).length;
+  const allergyBtn = allergyCount > 0 ? `<button style="font-size:11px;font-weight:500;padding:6px 13px;border-radius:99px;border:1.5px solid var(--RD);background:var(--RDb);color:var(--RD);cursor:pointer;white-space:nowrap;flex-shrink:0;font-family:inherit" onclick="toggleAllergyFilter(this)" id="allergy-filter-btn">⚠️ Ukryj moje alergeny (${allergyCount})</button>` : '';
+  row.innerHTML=filters.map(f=>`<button style="font-size:11px;font-weight:500;padding:6px 13px;border-radius:99px;border:1.5px solid ${f.k==='all'?'var(--F)':'rgba(0,0,0,.12)'};background:${f.k==='all'?'var(--F)':'var(--WH)'};color:${f.k==='all'?'#fff':'var(--SOFT)'};cursor:pointer;white-space:nowrap;flex-shrink:0;font-family:inherit" onclick="filterRecipes('${f.k}',this)">${f.l}</button>`).join('')+allergyBtn;
 }
 function filterRecipes(filter,btn){
   document.querySelectorAll('#recipe-filter-row button').forEach(b=>{b.style.background='var(--WH)';b.style.color='var(--SOFT)';b.style.borderColor='rgba(0,0,0,.12)';});
   btn.style.background='var(--F)';btn.style.color='#fff';btn.style.borderColor='var(--F)';
   renderRecipes(filter);
+}
+
+
+// ═══════════════════════════════════════════════════════
+// MOOD HEATMAP — mood vs BioScore correlation calendar
+// ═══════════════════════════════════════════════════════
+function renderMoodHeatmap() {
+  const el = document.getElementById('mood-heatmap-container');
+  if (!el) return;
+  const moodColors = {
+    '😊': '#27AE60', '⚡': '#E4A856', '😐': '#7A7A7A',
+    '😔': '#1A5A8E', '😤': '#E67E22', '🤒': '#C0392B', '': '#EDE7DC'
+  };
+  const entries = S.journal || [];
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = today.getMonth();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const firstDow = (new Date(year, month, 1).getDay() + 6) % 7;
+  const mPL = ['Sty','Lut','Mar','Kwi','Maj','Cze','Lip','Sie','Wrz','Paź','Lis','Gru'];
+
+  // Build day → mood map
+  const dayMood = {};
+  entries.forEach(e => {
+    try {
+      const d = new Date(e.date);
+      const k = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+      dayMood[k] = e.mood || '';
+    } catch(_) {}
+  });
+
+  const hist = JSON.parse(localStorage.getItem('niq5_hist') || '{}');
+  let cells = ['Pn','Wt','Śr','Cz','Pt','Sb','Nd'].map(d =>
+    `<div style="font-size:9px;font-weight:600;color:var(--XS);text-align:center;padding:2px 0">${d}</div>`
+  ).join('');
+  for (let i = 0; i < firstDow; i++) cells += '<div></div>';
+  for (let d = 1; d <= daysInMonth; d++) {
+    const ds = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const mood = dayMood[ds] || '';
+    const bio = hist[ds]?.bioscore || 0;
+    const col = moodColors[mood] || '#EDE7DC';
+    const isToday = ds === new Date().toISOString().slice(0,10);
+    cells += `<div style="aspect-ratio:1;border-radius:4px;background:${col}22;border:1.5px solid ${col};display:flex;align-items:center;justify-content:center;font-size:11px;cursor:default${isToday?';box-shadow:0 0 0 2px var(--F)':''}" title="${ds}${mood?' · '+mood:''}${bio?' · BioScore '+bio:''}">${mood}</div>`;
+  }
+
+  // Correlation score
+  const corr = entries.filter(e => {
+    try { const d=new Date(e.date); const k=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; return hist[k]?.bioscore > 0; } catch(_){return false;}
+  });
+  const corrMsg = corr.length >= 3
+    ? `${corr.length} dni z danymi — wzorce widoczne`
+    : 'Zapisz więcej wpisów aby zobaczyć korelacje';
+
+  el.innerHTML = `
+    <div style="background:var(--WH);border-radius:var(--r3);padding:16px;box-shadow:var(--sh);margin-bottom:10px">
+      <div style="font-size:13px;font-weight:600;color:var(--INK);margin-bottom:10px">😊 Nastrój — ${mPL[month]} ${year}</div>
+      <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:10px">${cells}</div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px">
+        ${Object.entries(moodColors).filter(([k])=>k).map(([e,c])=>`<span style="font-size:11px;display:flex;align-items:center;gap:3px"><span style="width:10px;height:10px;border-radius:2px;background:${c}22;border:1.5px solid ${c};display:inline-block"></span>${e}</span>`).join('')}
+      </div>
+      <div style="font-size:11px;color:var(--SOFT)">${corrMsg}</div>
+    </div>`;
+}
+
+// ═══════════════════════════════════════════════════════
+// WEEKLY CHALLENGE / GAMIFICATION
+// ═══════════════════════════════════════════════════════
+const WEEKLY_CHALLENGES = [
+  { id: 'water7', title: '💧 Nawodnienie 7 dni', desc: 'Pij 2L+ wody przez 7 dni z rzędu', target: 7, unit: 'dni', icon: '💧', reward: '🥇 Mistrz Nawodnienia' },
+  { id: 'sleep7', title: '💤 Tydzień dobrego snu', desc: 'Zaznacz "Planuję 7–9h snu" przez 7 dni', target: 7, unit: 'dni', icon: '💤', reward: '🌙 Śpiący Mistrz' },
+  { id: 'bio70', title: '📈 BioScore 70+', desc: 'Utrzymaj BioScore powyżej 70 przez 5 dni', target: 5, unit: 'dni', icon: '📈', reward: '⭐ Biooptymista' },
+  { id: 'habits5', title: '✅ 5 nawyków dziennie', desc: 'Zaznacz 5+ nawyków przez 5 dni z rzędu', target: 5, unit: 'dni', icon: '✅', reward: '🎯 Nawykowy Mistrz' },
+  { id: 'journal5', title: '📓 Dziennik 5 dni', desc: 'Zapisz wpis w dzienniku przez 5 dni', target: 5, unit: 'dni', icon: '📓', reward: '✍️ Kronikarz Zdrowia' },
+];
+
+function getChallengeProgress() {
+  const hist = JSON.parse(localStorage.getItem('niq5_hist') || '{}');
+  const progress = {};
+  const days7 = [];
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(); d.setDate(d.getDate() - i);
+    days7.push(d.toISOString().slice(0,10));
+  }
+
+  // water7: water habit checked
+  progress.water7 = days7.filter(k => S.habits[k]?.water).length;
+  // sleep7: sleep habit
+  progress.sleep7 = days7.filter(k => S.habits[k]?.sleep).length;
+  // bio70: bioscore > 70
+  progress.bio70 = days7.filter(k => hist[k]?.bioscore >= 70).length;
+  // habits5: 5+ habits in day
+  progress.habits5 = days7.filter(k => Object.values(S.habits[k]||{}).filter(Boolean).length >= 5).length;
+  // journal5: has journal entry
+  const journalDays = new Set((S.journal||[]).map(e => {
+    try { const d=new Date(e.date); return d.toISOString().slice(0,10); } catch(_){return '';}
+  }));
+  progress.journal5 = days7.filter(k => journalDays.has(k)).length;
+
+  return progress;
+}
+
+function renderChallenges() {
+  const el = document.getElementById('challenges-container');
+  if (!el) return;
+  const progress = getChallengeProgress();
+  const completed = JSON.parse(localStorage.getItem('niq_completed_challenges') || '[]');
+
+  el.innerHTML = WEEKLY_CHALLENGES.map(ch => {
+    const p = progress[ch.id] || 0;
+    const pct = Math.min(100, Math.round(p / ch.target * 100));
+    const done = p >= ch.target;
+    const wasDone = completed.includes(ch.id);
+    if (done && !wasDone) {
+      const newCompleted = [...completed, ch.id];
+      localStorage.setItem('niq_completed_challenges', JSON.stringify(newCompleted));
+      setTimeout(() => showToast(`🎉 ${ch.reward} odblokowane!`), 300);
+    }
+    return `
+      <div style="background:var(--WH);border-radius:var(--r2);padding:14px;box-shadow:var(--sh);margin-bottom:8px;${done?'border-left:4px solid var(--GO)':'border-left:4px solid var(--CRd)'}">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+          <div style="font-size:13px;font-weight:600;color:var(--INK)">${ch.title}</div>
+          <div style="font-size:20px">${done ? '🏆' : ch.icon}</div>
+        </div>
+        <div style="font-size:11px;color:var(--SOFT);margin-bottom:8px">${ch.desc}</div>
+        <div style="background:var(--BG);border-radius:99px;height:6px;overflow:hidden;margin-bottom:5px">
+          <div style="height:100%;border-radius:99px;background:${done?'var(--GO)':'var(--F)'};width:${pct}%;transition:width .5s ease"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--SOFT)">
+          <span>${p}/${ch.target} ${ch.unit}</span>
+          ${done ? `<span style="color:var(--GO);font-weight:700">${ch.reward}</span>` : `<span>${pct}%</span>`}
+        </div>
+      </div>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════════════════════
+// HEALTH CONNECT (Android) + HEALTHKIT (iOS) INTEGRATION
+// ═══════════════════════════════════════════════════════
+async function tryHealthConnect() {
+  // Android Health Connect via Web API (Chrome 125+)
+  if ('health' in navigator) {
+    try {
+      const perms = await navigator.health.requestPermission([
+        { name: 'HeartRate', accessType: 'read' },
+        { name: 'HeartRateVariabilityRmssd', accessType: 'read' },
+        { name: 'SleepSession', accessType: 'read' },
+        { name: 'OxygenSaturation', accessType: 'read' },
+        { name: 'Steps', accessType: 'read' },
+        { name: 'BodyTemperature', accessType: 'read' },
+      ]);
+
+      if (perms.granted?.length > 0) {
+        const now = new Date();
+        const yesterday = new Date(now - 86400000);
+        const timeRange = { startTime: yesterday.toISOString(), endTime: now.toISOString() };
+
+        const [hr, hrv, sleep, spo2, steps, temp] = await Promise.allSettled([
+          navigator.health.readRecords('HeartRate', { timeRangeFilter: timeRange }),
+          navigator.health.readRecords('HeartRateVariabilityRmssd', { timeRangeFilter: timeRange }),
+          navigator.health.readRecords('SleepSession', { timeRangeFilter: timeRange }),
+          navigator.health.readRecords('OxygenSaturation', { timeRangeFilter: timeRange }),
+          navigator.health.readRecords('Steps', { timeRangeFilter: timeRange }),
+          navigator.health.readRecords('BodyTemperature', { timeRangeFilter: timeRange }),
+        ]);
+
+        const avg = (records, field) => {
+          const vals = (records.value?.records || []).map(r => r[field]).filter(v => v > 0);
+          return vals.length ? Math.round(vals.reduce((a,b) => a+b, 0) / vals.length * 10) / 10 : 0;
+        };
+        const sum = (records, field) => (records.value?.records || []).reduce((a,r) => a + (r[field]||0), 0);
+        const totalSleep = (records) => {
+          const sessions = records.value?.records || [];
+          const total = sessions.reduce((a,r) => {
+            const dur = (new Date(r.endTime) - new Date(r.startTime)) / 3600000;
+            return a + dur;
+          }, 0);
+          return Math.round(total * 10) / 10;
+        };
+
+        const newVitals = {
+          hr: avg(hr, 'beatsPerMinute') || S.vitals.hr,
+          hrv: avg(hrv, 'heartRateVariabilityMillis') || S.vitals.hrv,
+          sleep: totalSleep(sleep) || S.vitals.sleep,
+          spo2: avg(spo2, 'percentage') || S.vitals.spo2,
+          steps: sum(steps, 'count') || S.vitals.steps,
+          temp: avg(temp, 'temperature') || S.vitals.temp,
+        };
+
+        S.vitals = newVitals;
+        S.bioscore = calcBioScore(newVitals);
+        saveState();
+        saveHistory();
+
+        // Update inputs
+        ['hr','hrv','sleep','spo2','steps','temp'].forEach(k => {
+          const el = document.getElementById('i-'+k);
+          if (el && newVitals[k]) el.value = newVitals[k];
+        });
+
+        renderSigCards();
+        renderProto();
+        initDash();
+        showToast('✅ Dane z Health Connect zsynchronizowane!');
+        return true;
+      }
+    } catch(e) {
+      console.warn('Health Connect error:', e.message);
+    }
+  }
+
+  // Fallback: show manual sync instructions
+  showHealthSyncModal();
+  return false;
+}
+
+function showHealthSyncModal() {
+  const device = S.device || 'phone';
+  const instructions = {
+    apple: {
+      title: 'Apple Health / HealthKit',
+      steps: [
+        '1. Otwórz aplikację Skróty (Shortcuts) na iPhone',
+        '2. Utwórz skrót: Zdrowie → Pobierz dane → Kopiuj do schowka',
+        '3. Wklej dane tutaj lub wpisz ręcznie poniżej',
+        '💡 Alternatywa: użyj aplikacji Health Auto Export'
+      ]
+    },
+    samsung: {
+      title: 'Samsung Health / Health Connect',
+      steps: [
+        '1. Otwórz Samsung Health na telefonie',
+        '2. Sprawdź dane z dziś: tętno, HRV, sen',
+        '3. Wpisz ręcznie poniżej (Sygnały → Wpisz parametry)',
+        '💡 Health Connect API dostępne w Chrome 125+ na Androidzie'
+      ]
+    },
+    huawei: {
+      title: 'Huawei Health',
+      steps: [
+        '1. Otwórz Huawei Health',
+        '2. Sprawdź kartę "Dziś" — tętno, sen, SpO2',
+        '3. Wpisz ręcznie w zakładce Sygnały',
+        '💡 API Huawei HMS wymaga natywnej aplikacji'
+      ]
+    },
+    garmin: {
+      title: 'Garmin Connect / Oura / Fitbit',
+      steps: [
+        '1. Otwórz Garmin Connect / Oura App',
+        '2. Sprawdź dzienny raport: HRV, SpO2, sen',
+        '3. Wpisz w zakładce Sygnały',
+        '💡 Garmin Connect IQ pozwala na eksport CSV'
+      ]
+    },
+    phone: {
+      title: 'Dane z telefonu',
+      steps: [
+        '1. Sprawdź kroki w Google Fit / Samsung Health',
+        '2. Temperaturę zmierz termometrem',
+        '3. Tętno: aplikacja aparatu (PPG)',
+        '4. Wpisz co masz w zakładce Sygnały'
+      ]
+    }
+  };
+
+  const info = instructions[device] || instructions.phone;
+  const modal = document.createElement('div');
+  modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:900;display:flex;align-items:flex-end;justify-content:center';
+  modal.innerHTML = `
+    <div style="background:var(--WH);border-radius:24px 24px 0 0;width:100%;max-width:520px;padding:24px 20px 40px">
+      <div style="font-family:Fraunces,serif;font-size:20px;font-weight:400;color:var(--F);margin-bottom:4px">${info.title}</div>
+      <div style="font-size:12px;color:var(--SOFT);margin-bottom:16px">Jak pobrać dane ze swojego urządzenia</div>
+      ${info.steps.map(s => `<div style="font-size:13px;color:var(--MID);padding:8px 0;border-bottom:.5px solid var(--BG);line-height:1.5">${s}</div>`).join('')}
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px">
+        <button onclick="this.closest('div[style*=fixed]').remove();goPage('signals')" style="background:var(--F);color:#fff;border:none;border-radius:var(--r2);padding:12px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit">⌚ Wpisz ręcznie</button>
+        <button onclick="this.closest('div[style*=fixed]').remove()" style="background:var(--BG);color:var(--MID);border:none;border-radius:var(--r2);padding:12px;font-size:13px;cursor:pointer;font-family:inherit">Zamknij</button>
+      </div>
+    </div>`;
+  document.body.appendChild(modal);
+}
+
+// ═══════════════════════════════════════════════════════
+// GOOGLE DRIVE BACKUP (manual export/import)
+// ═══════════════════════════════════════════════════════
+function exportToFile() {
+  const data = {
+    version: '5.4',
+    exported: new Date().toISOString(),
+    profile: { name: S.name, age: S.age, gender: S.gender, weight: S.weight, height: S.height, allergies: S.allergies, conditions: S.conditions, meds: S.meds, goals: S.goals, device: S.device },
+    vitals: S.vitals,
+    bioscore: S.bioscore,
+    habits: S.habits,
+    journal: S.journal,
+    history: JSON.parse(localStorage.getItem('niq5_hist') || '{}'),
+    notif: S.notif,
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `NaturaIQ_backup_${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('✅ Backup zapisany!');
+}
+
+function importFromFile() {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.json';
+  input.onchange = async e => {
+    try {
+      const text = await e.target.files[0].text();
+      const data = JSON.parse(text);
+      if (!data.version || !data.profile) { showToast('⚠️ Nieprawidłowy plik backup'); return; }
+      if (!confirm(`Przywrócić dane z ${data.exported?.slice(0,10)}? Obecne dane zostaną zastąpione.`)) return;
+      Object.assign(S, data.profile);
+      S.vitals = data.vitals || S.vitals;
+      S.bioscore = data.bioscore || 0;
+      S.habits = data.habits || {};
+      S.journal = data.journal || [];
+      S.notif = data.notif || S.notif;
+      if (data.history) localStorage.setItem('niq5_hist', JSON.stringify(data.history));
+      saveState();
+      initDash();
+      showToast('✅ Dane przywrócone!');
+    } catch(ex) {
+      showToast('⚠️ Błąd wczytywania pliku: ' + ex.message);
+    }
+  };
+  input.click();
+}
+
+// ═══════════════════════════════════════════════════════
+// SYNC BUTTON on signals page
+// ═══════════════════════════════════════════════════════
+function addSyncButtonToSignals() {
+  const form = document.querySelector('.vitals-form .btn-primary');  // analyze button
+  if (!form || document.getElementById('sync-btn')) return;
+  const btn = document.createElement('button');
+  btn.id = 'sync-btn';
+  btn.className = 'btn-primary';
+  btn.style.cssText = 'background:var(--BL);margin-bottom:8px';
+  btn.innerHTML = '⌚ Synchronizuj z zegarkiem';
+  btn.onclick = tryHealthConnect;
+  form.parentNode.insertBefore(btn, form);
+}
+
+// ═══════════════════════════════════════════════════════
+// PROFILE PAGE — add backup/restore buttons
+// ═══════════════════════════════════════════════════════
+function addBackupToProfile() {
+  const box = document.getElementById('security-settings-box');
+  if (!box || document.getElementById('backup-section')) return;
+  const div = document.createElement('div');
+  div.id = 'backup-section';
+  div.innerHTML = `
+    <div class="sec-lbl" style="margin-top:0">☁️ Backup i przywracanie danych</div>
+    <div style="background:var(--WH);border-radius:var(--r2);padding:14px;box-shadow:var(--sh);margin-bottom:7px">
+      <div style="font-size:13px;font-weight:600;color:var(--INK);margin-bottom:4px">Eksport / Import danych</div>
+      <div style="font-size:11px;color:var(--SOFT);margin-bottom:12px;line-height:1.5">Zapisz wszystkie dane lokalne do pliku JSON. Możesz wgrać na Google Drive, Dropbox lub po prostu zachować jako kopię.</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <button onclick="exportToFile()" style="background:var(--F);color:#fff;border:none;border-radius:var(--r2);padding:10px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit">⬇ Eksportuj JSON</button>
+        <button onclick="importFromFile()" style="background:var(--BG);color:var(--MID);border:.5px solid var(--CRd);border-radius:var(--r2);padding:10px;font-size:12px;cursor:pointer;font-family:inherit">⬆ Importuj JSON</button>
+      </div>
+    </div>`;
+  box.parentNode.insertBefore(div, box);
+}
+
+// ═══════════════════════════════════════════════════════
+// CHALLENGES in Tracker page
+// ═══════════════════════════════════════════════════════
+function addChallengesToTracker() {
+  const mw = document.querySelector('#page-tracker .mw');
+  if (!mw || document.getElementById('challenges-container')) return;
+  const div = document.createElement('div');
+  div.innerHTML = '<div class="sec-lbl">🏆 Wyzwania tygodniowe</div><div id="challenges-container"></div>';
+  mw.appendChild(div);
+  renderChallenges();
+}
+
+// ═══════════════════════════════════════════════════════
+// MOOD HEATMAP in Journal page
+// ═══════════════════════════════════════════════════════
+function addMoodHeatmapToJournal() {
+  const mw = document.querySelector('#page-journal .mw');
+  if (!mw || document.getElementById('mood-heatmap-container')) return;
+  const div = document.createElement('div');
+  div.innerHTML = '<div class="sec-lbl">📅 Kalendarz nastroju</div><div id="mood-heatmap-container"></div>';
+  mw.appendChild(div);
+  renderMoodHeatmap();
+}
+
+// ═══════════════════════════════════════════════════════
+// HOOK into page navigation to add dynamic content
+// ═══════════════════════════════════════════════════════
+(function() {
+  const origGoPage = window.goPage;
+  window.goPage = function(id) {
+    origGoPage(id);
+    if (id === 'signals') setTimeout(addSyncButtonToSignals, 50);
+    if (id === 'profile') setTimeout(addBackupToProfile, 50);
+    if (id === 'tracker') setTimeout(addChallengesToTracker, 50);
+    if (id === 'journal') setTimeout(addMoodHeatmapToJournal, 50);
+  };
+})();
+
+// ═══════════════════════════════════════════════════════
+// INIT HOOK — call on app load
+// ═══════════════════════════════════════════════════════
+window.addEventListener('load', function() {
+  setTimeout(() => {
+    addSyncButtonToSignals();
+    addBackupToProfile();
+    addChallengesToTracker();
+    addMoodHeatmapToJournal();
+  }, 800);
+});
+
+
+let _hideAllergyRecipes = false;
+function toggleAllergyFilter(btn){
+  _hideAllergyRecipes = !_hideAllergyRecipes;
+  btn.textContent = _hideAllergyRecipes ? '✅ Pokaż wszystkie przepisy' : '⚠️ Ukryj moje alergeny ('+(S.allergies||[]).length+')';
+  btn.style.background = _hideAllergyRecipes ? 'var(--GRb)' : 'var(--RDb)';
+  btn.style.color = _hideAllergyRecipes ? 'var(--GR)' : 'var(--RD)';
+  btn.style.borderColor = _hideAllergyRecipes ? 'var(--GR)' : 'var(--RD)';
+  // Re-render with filter
+  const activeBtn = document.querySelector('#recipe-filter-row button[style*="var(--F)"]');
+  const currentFilter = activeBtn ? 'all' : 'all';
+  renderRecipesFiltered(_hideAllergyRecipes);
+}
+function renderRecipesFiltered(hideAllergy){
+  const container = document.getElementById('recipes-container');
+  if(!container) return;
+  const userAllergies = S.allergies || [];
+  let recipes = RECIPES.map(r => {
+    const warns = [];
+    if(userAllergies.includes('orzechy') && r.ingredients.some(i => /orzech|migdał|pistacj/i.test(i))) warns.push('orzechy');
+    if(userAllergies.includes('gluten') && r.ingredients.some(i => /owsiane|jęczm|pszenic/i.test(i))) warns.push('gluten');
+    if(userAllergies.includes('laktozy') && r.ingredients.some(i => /mleko|jogurt/i.test(i))) warns.push('laktoza');
+    return {...r, allergyWarn: warns.length > 0, allergyWarns: warns};
+  });
+  if(hideAllergy) recipes = recipes.filter(r => !r.allergyWarn);
+  // render
+  renderRecipes('all');
+}
+
+
+// ═══════════════════════════════════════════════════════
+// GAMIFICATION — CHALLENGES, BADGES, PROGRESS
+// ═══════════════════════════════════════════════════════
+
+const BADGES_DEF = [
+  {id:'first_day',    icon:'🌱', name:'Pierwszy krok',    desc:'Uzupełnij profil zdrowotny',     check:()=>S.onboardingDone},
+  {id:'bioscore_70',  icon:'💚', name:'Zdrowy start',     desc:'Osiągnij BioScore ≥70',           check:()=>S.bioscore>=70},
+  {id:'bioscore_85',  icon:'🌟', name:'Szczyt formy',     desc:'Osiągnij BioScore ≥85',           check:()=>S.bioscore>=85},
+  {id:'water_goal',   icon:'💧', name:'Nawodniony',       desc:'Osiągnij dzienny cel nawodnienia', check:()=>(S.water||0)>=(S.waterGoal||2500)},
+  {id:'streak_3',     icon:'🔥', name:'3 dni z rzędu',   desc:'3 dni z ≥4 nawykami',             check:()=>calcStreak()>=3},
+  {id:'streak_7',     icon:'⚡', name:'Tydzień nawyków', desc:'7 dni z rzędu z ≥4 nawykami',    check:()=>calcStreak()>=7},
+  {id:'streak_30',    icon:'🏆', name:'Mistrzowstwo',     desc:'30 dni z rzędu!',                 check:()=>calcStreak()>=30},
+  {id:'all_habits',   icon:'✅', name:'Pełna moc',        desc:'Zrób wszystkie 8 nawyków w dzień',check:()=>Object.values(S.habits[new Date().toISOString().slice(0,10)]||{}).filter(Boolean).length>=8},
+  {id:'hrv_good',     icon:'🧠', name:'Zbalansowany',     desc:'HRV ≥45ms',                       check:()=>(S.vitals.hrv||0)>=45},
+  {id:'sleep_good',   icon:'💤', name:'Dobry sen',        desc:'Sen 7–9h (dane z zegarka)',        check:()=>{const sl=S.vitals.sleep||0;return sl>=7&&sl<=9;}},
+  {id:'journal_5',    icon:'📓', name:'Obserwator',       desc:'Napisz 5 wpisów w dzienniku',     check:()=>(S.journal||[]).length>=5},
+  {id:'ai_chat',      icon:'🤖', name:'AI Explorer',      desc:'Porozmawiaj z asystentem AI',     check:()=>chatHistory.length>0},
+  {id:'remedy_found', icon:'🌿', name:'Zielarz',          desc:'Znajdź naturalne środki w apteczce',check:()=>S.sym_rem&&S.sym_rem.length>0},
+  {id:'signal_entry', icon:'⌚', name:'Dane z zegarka',   desc:'Wpisz parametry biometryczne',    check:()=>S.bioscore>0},
+];
+
+const WEEKLY_CHALLENGES = [
+  {id:'wc_water',   icon:'💧', name:'Tydzień nawodnienia',    desc:'Osiągaj cel nawodnienia przez 5 dni',          target:5, unit:'dni',    check:()=>countDaysWithWaterGoal(7)},
+  {id:'wc_habits',  icon:'✅', name:'Tydzień nawyków',        desc:'Zrób ≥6 nawyków przez 5 dni w tygodniu',       target:5, unit:'dni',    check:()=>countDaysWithHabits(6,7)},
+  {id:'wc_sleep',   icon:'💤', name:'Tydzień dobrego snu',    desc:'Wpisz sen 7h+ przez 5 dni',                    target:5, unit:'nocy',   check:()=>countDaysWithSleep(7,7)},
+  {id:'wc_journal', icon:'📓', name:'Tydzień refleksji',      desc:'Napisz 5 wpisów w dzienniku w tym tygodniu',   target:5, unit:'wpisów', check:()=>countJournalThisWeek()},
+  {id:'wc_bioscore',icon:'💚', name:'Tydzień BioScore',       desc:'Utrzymaj BioScore ≥65 przez 5 dni',             target:5, unit:'dni',    check:()=>countDaysWithBioScore(65,7)},
+];
+
+function calcStreak(){
+  let streak=0;
+  for(let i=0;i<30;i++){
+    const d=new Date();d.setDate(d.getDate()-i);
+    const k=d.toISOString().slice(0,10);
+    const h=S.habits[k]||{};
+    if(Object.values(h).filter(Boolean).length>=4) streak++;
+    else if(i>0) break;
+  }
+  return streak;
+}
+
+function countDaysWithWaterGoal(days){
+  // Approximate: check if water tracked today
+  return (S.water||0)>=(S.waterGoal||2500) ? 1 : 0;
+}
+function countDaysWithHabits(minHabits, days){
+  let count=0;
+  for(let i=0;i<days;i++){const d=new Date();d.setDate(d.getDate()-i);const k=d.toISOString().slice(0,10);if(Object.values(S.habits[k]||{}).filter(Boolean).length>=minHabits)count++;}
+  return count;
+}
+function countDaysWithSleep(minH, days){
+  const hist=JSON.parse(localStorage.getItem('niq5_hist')||'{}');
+  let count=0;
+  for(let i=0;i<days;i++){const d=new Date();d.setDate(d.getDate()-i);const k=d.toISOString().slice(0,10);if((hist[k]?.sleep||0)>=minH)count++;}
+  return count;
+}
+function countJournalThisWeek(){
+  const weekAgo=new Date();weekAgo.setDate(weekAgo.getDate()-7);
+  return (S.journal||[]).filter(e=>{try{return new Date(e.date)>=weekAgo;}catch(ex){return false;}}).length;
+}
+function countDaysWithBioScore(minScore, days){
+  const hist=JSON.parse(localStorage.getItem('niq5_hist')||'{}');
+  let count=0;
+  for(let i=0;i<days;i++){const d=new Date();d.setDate(d.getDate()-i);const k=d.toISOString().slice(0,10);if((hist[k]?.bioscore||0)>=minScore)count++;}
+  return count;
+}
+
+function getEarnedBadges(){
+  const earned=JSON.parse(localStorage.getItem('niq_badges')||'[]');
+  // Check new badges
+  BADGES_DEF.forEach(b=>{
+    if(!earned.includes(b.id) && b.check()){
+      earned.push(b.id);
+      showToast('🏆 Odznaka: '+b.name+'!');
+    }
+  });
+  localStorage.setItem('niq_badges',JSON.stringify(earned));
+  return earned;
+}
+
+// Pick challenge of the week (rotate by week number)
+function getCurrentChallenge(){
+  const weekNum = Math.floor(Date.now()/(7*24*3600*1000));
+  return WEEKLY_CHALLENGES[weekNum % WEEKLY_CHALLENGES.length];
+}
+
+function initAchievementsPage(){
+  const earned = getEarnedBadges();
+  const streak = calcStreak();
+
+  // Weekly challenge
+  const wc = getCurrentChallenge();
+  const progress = wc.check();
+  const pct = Math.round(Math.min(progress/wc.target*100, 100));
+  const wc_box = document.getElementById('weekly-challenge-box');
+  if(wc_box) wc_box.innerHTML = `
+    <div style="background:linear-gradient(135deg,var(--F),var(--Fm));border-radius:var(--r3);padding:20px;margin-bottom:4px">
+      <div style="font-size:28px;margin-bottom:8px">${wc.icon}</div>
+      <div style="font-family:'Fraunces',serif;font-size:18px;font-weight:300;color:#fff;margin-bottom:4px">${wc.name}</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.6);margin-bottom:14px">${wc.desc}</div>
+      <div style="background:rgba(255,255,255,.15);border-radius:99px;height:8px;overflow:hidden;margin-bottom:6px">
+        <div style="height:100%;background:var(--GOl);border-radius:99px;width:${pct}%;transition:width .8s ease"></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,.6)">
+        <span>${progress} / ${wc.target} ${wc.unit}</span>
+        <span>${pct}%${pct>=100?' ✅':''}</span>
+      </div>
+    </div>`;
+
+  // Badges
+  const badges_box = document.getElementById('badges-box');
+  if(badges_box) badges_box.innerHTML = `
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
+      ${BADGES_DEF.map(b=>{
+        const has = earned.includes(b.id);
+        return `<div style="background:var(--WH);border-radius:var(--r2);padding:12px 8px;text-align:center;box-shadow:var(--sh);opacity:${has?1:.35};transition:opacity .2s" title="${b.name}: ${b.desc}">
+          <div style="font-size:24px;margin-bottom:4px">${has?b.icon:'⬜'}</div>
+          <div style="font-size:9px;font-weight:${has?600:400};color:${has?'var(--INK)':'var(--XS)'};line-height:1.3">${b.name}</div>
+        </div>`;
+      }).join('')}
+    </div>
+    <div style="font-size:11px;color:var(--SOFT);margin-top:8px;text-align:center">${earned.length}/${BADGES_DEF.length} odznak zdobytych</div>`;
+
+  // BioScore mini chart
+  const hist = JSON.parse(localStorage.getItem('niq5_hist')||'{}');
+  if(S.bioscore>0) hist[new Date().toISOString().slice(0,10)]={bioscore:S.bioscore};
+  const keys = Object.keys(hist).sort().slice(-30);
+  const pchart_box = document.getElementById('progress-chart-box');
+  if(pchart_box) {
+    const vals = keys.map(k=>hist[k].bioscore||0).filter(v=>v>0);
+    const avg = vals.length ? Math.round(vals.reduce((a,b)=>a+b,0)/vals.length) : 0;
+    const best = vals.length ? Math.max(...vals) : 0;
+    const trend = vals.length>=2 ? vals[vals.length-1]-vals[0] : 0;
+    pchart_box.innerHTML = `
+      <div style="background:var(--WH);border-radius:var(--r3);padding:16px;box-shadow:var(--sh)">
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px">
+          <div style="text-align:center"><div style="font-family:'Fraunces',serif;font-size:28px;font-weight:300;color:var(--F)">${avg||'—'}</div><div style="font-size:9px;color:var(--XS);text-transform:uppercase;letter-spacing:.05em">Średnia</div></div>
+          <div style="text-align:center"><div style="font-family:'Fraunces',serif;font-size:28px;font-weight:300;color:var(--GO)">${best||'—'}</div><div style="font-size:9px;color:var(--XS);text-transform:uppercase;letter-spacing:.05em">Najlepszy</div></div>
+          <div style="text-align:center"><div style="font-family:'Fraunces',serif;font-size:28px;font-weight:300;color:${trend>0?'var(--GR)':trend<0?'var(--RD)':'var(--SOFT)'}">${trend>0?'+':''}${trend||'—'}</div><div style="font-size:9px;color:var(--XS);text-transform:uppercase;letter-spacing:.05em">Trend</div></div>
+        </div>
+        <svg width="100%" height="60" viewBox="0 0 300 60" preserveAspectRatio="none" id="progress-spark"></svg>
+      </div>`;
+    // Draw sparkline
+    if(vals.length>=2){
+      const mn=Math.min(...vals)*0.9, mx=Math.max(...vals)*1.1;
+      const pts=vals.map((v,i)=>`${i===0?'M':'L'}${Math.round(i*(300/(vals.length-1)))},${Math.round((1-(v-mn)/(mx-mn||1))*55+2)}`).join(' ');
+      const spark=document.getElementById('progress-spark');
+      if(spark) spark.innerHTML=`<path d="${pts}" fill="none" stroke="var(--F)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="${pts} L300,60 L0,60 Z" fill="var(--F)" opacity="0.1"/>`;
+    }
+  }
+
+  // Stats
+  const stats_box = document.getElementById('progress-stats');
+  if(stats_box) stats_box.innerHTML = [
+    ['🔥', 'Streak', streak+' dni'],
+    ['🏆', 'Odznaki', earned.length+'/'+BADGES_DEF.length],
+    ['📓', 'Wpisy', (S.journal||[]).length],
+    ['⌚', 'Pomiary', keys.filter(k=>hist[k].bioscore>0).length],
+  ].map(([icon,lbl,val])=>`<div style="background:var(--WH);border-radius:var(--r2);padding:12px;text-align:center;box-shadow:var(--sh)"><div style="font-size:24px">${icon}</div><div style="font-family:'Fraunces',serif;font-size:22px;font-weight:300;color:var(--F);margin:2px 0">${val}</div><div style="font-size:9px;color:var(--XS);text-transform:uppercase;letter-spacing:.05em">${lbl}</div></div>`).join('');
+
+  // Check badges on page open
+  getEarnedBadges();
 }
 
 </script>

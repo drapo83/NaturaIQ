@@ -1,33 +1,20 @@
-# 🌿 NaturaIQ v5.4 — Naturalny Asystent Zdrowia
+# 🌿 NaturaIQ v5.5
 
-[![PWA](https://img.shields.io/badge/PWA-Ready-1A3D2B)](.) [![AI](https://img.shields.io/badge/AI-Claude-C4873A)](.) [![Lang](https://img.shields.io/badge/PL%20%7C%20EN-i18n-185FA5)](.) [![Dark](https://img.shields.io/badge/Dark%20Mode-✓-48484A)](.)
+**13 stron · 32 środki · 10 przepisów · Claude AI · Dark Mode · PWA**
 
-## 🆕 v5.4
+## Co nowego w v5.5
 
-| Feature | Opis |
-|---------|------|
-| 🌙 **Dark Mode** | Przełącznik w nav, zapamiętywany, respektuje system |
-| 📅 **BioScore Heatmap** | Kalendarz miesięczny z kolorami w zakładce Trendy |
-| 📤 **Web Share** | Udostępnij protokół / przepis przez systemowy share sheet |
-| 🎤 **Voice Input AI** | Mówisz zamiast pisać — mikrofon w asystencie AI |
-| 🍵 **Przepisy lecznicze** | 10 przepisów z instrukcjami i podstawą naukową |
+| | Feature |
+|-|---------|
+| 🌙 | Dark Mode — przełącznik, zapamiętywany, system preference |
+| 📅 | BioScore Heatmap — kalendarz miesięczny z kolorami |
+| 🏆 | Gamification — 14 odznak, wyzwanie tygodniowe, postępy |
+| 🍵 | Przepisy lecznicze z filtrem alergii |
+| 🤖 | AI — historia między sesjami, głosowe wejście |
+| 📤 | Web Share — udostępnianie protokołów i przepisów |
 
-## Kompletne funkcje
+## Strony aplikacji
+Dashboard · Wywiad · Sygnały · Apteczka · Tracker · Dziennik · Trendy · Alerty · Sezon · Powiadomienia · AI · Przepisy · Postępy · Profil
 
-**12 stron:** Dashboard · Wywiad · Sygnały · Apteczka · Tracker · Dziennik · Trendy · Alerty · Sezon · Powiadomienia · AI · Przepisy
-
-**32 środki naturalne** z pełnymi kartami (skąd, jak, dawka, mechanizm, pharma)
-
-**System bezpieczeństwa:** alergie + leki + choroby → automatyczne ostrzeżenia
-
-**AI Asystent:** Claude API, zna Twój profil, głosowe wejście
-
-**Logowanie:** PIN / Hasło / WebAuthn (Face ID / Touch ID)
-
-**i18n:** PL/EN runtime switch
-
-## Instalacja Android
-
-```
+## Instalacja (Android PWA)
 Chrome → menu ⋮ → Dodaj do ekranu głównego
-```
